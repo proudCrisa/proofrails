@@ -1,0 +1,231 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# harness-check — verify harness integrity and print actionable next steps
+#
+# Usage:
+#   harness-check              Validate this source repository (default)
+#   harness-check --source     Same as default
+#   harness-check --target <path>  Validate an installed harness target
+#
+# Source mode checks:
+#   - README, docs/, skill/, templates/, scripts/ exist
+#   - Scripts are executable
+#   - No forbidden terms in tracked content
+#
+# Target mode checks:
+#   - .agentic/changes, .agentic/runs exist
+#   - planwithfile/, .evidence/ exist
+#   - AGENTS.md, CLAUDE.md exist
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+MODE="source"
+TARGET=""
+
+FORBIDDEN_TERMS=(
+  "京东"
+  "JD"
+  "dongboot"
+  "JoySpace"
+  "shendeng"
+  "sd.jd.com"
+  "sso.jd.com"
+  "OMC"
+  "omc"
+  "oh-my-claudecode"
+)
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --target) MODE="target"; TARGET="$2"; shift 2 ;;
+    --source) MODE="source"; shift ;;
+    --help|-h)
+      echo "Usage: harness-check [--target <path>] [--source]"
+      echo ""
+      echo "Options:"
+      echo "  --target <path>  Validate an installed harness target"
+      echo "  --source         Validate this source repository (default)"
+      exit 0
+      ;;
+    *) echo "Unknown option: $1"; exit 1 ;;
+  esac
+done
+
+all_ok=true
+
+if [ "$MODE" = "target" ]; then
+  # --- Target mode: validate installed harness ---
+  if [ -z "$TARGET" ]; then
+    echo "[harness-check] ERROR: --target requires a path."
+    exit 1
+  fi
+
+  TARGET="$(cd "$TARGET" 2>/dev/null && pwd || echo "$TARGET")"
+  if [ ! -d "$TARGET" ]; then
+    echo "[harness-check] ERROR: Target directory does not exist: $TARGET"
+    exit 1
+  fi
+
+  echo "[harness-check] Verifying installed harness..."
+  echo "[harness-check] Target: $TARGET"
+  echo ""
+
+  dirs=(
+    ".agentic/changes"
+    ".agentic/runs"
+    "planwithfile"
+    ".evidence"
+  )
+  for d in "${dirs[@]}"; do
+    if [ -d "$TARGET/$d" ]; then
+      echo "[harness-check]   $d/: OK"
+    else
+      echo "[harness-check]   $d/: MISSING"
+      all_ok=false
+    fi
+  done
+
+  files=(
+    "CLAUDE.md"
+    "AGENTS.md"
+  )
+  for f in "${files[@]}"; do
+    if [ -f "$TARGET/$f" ]; then
+      echo "[harness-check]   $f: OK"
+    else
+      echo "[harness-check]   $f: MISSING"
+      all_ok=false
+    fi
+  done
+
+  echo ""
+
+  if $all_ok; then
+    echo "[harness-check] All target checks passed."
+  else
+    echo "[harness-check] Some target checks failed."
+    echo ""
+    echo "Next steps:"
+    echo "  1. Run ./scripts/bootstrap-harness <target> to create missing files."
+    echo "  2. Re-run ./scripts/harness-check --target <target> to verify."
+    exit 1
+  fi
+
+else
+  # --- Source mode: validate this repository ---
+  echo "[harness-check] Verifying source repository..."
+  echo "[harness-check] Root: $REPO_ROOT"
+  echo ""
+
+  # Check required directories
+  source_dirs=(
+    "docs"
+    "skill"
+    "templates"
+    "scripts"
+  )
+  for d in "${source_dirs[@]}"; do
+    if [ -d "$REPO_ROOT/$d" ]; then
+      echo "[harness-check]   $d/: OK"
+    else
+      echo "[harness-check]   $d/: MISSING"
+      all_ok=false
+    fi
+  done
+
+  # Check required files
+  source_files=(
+    "README.md"
+    "skill/SKILL.md"
+    "templates/AGENTS.md"
+    "templates/CLAUDE.md"
+    "templates/openspec-change.md"
+    "templates/superpowers-execution.md"
+  )
+  for f in "${source_files[@]}"; do
+    if [ -f "$REPO_ROOT/$f" ]; then
+      echo "[harness-check]   $f: OK"
+    else
+      echo "[harness-check]   $f: MISSING"
+      all_ok=false
+    fi
+  done
+
+  # Check scripts are executable
+  script_files=(
+    "scripts/harness-check"
+    "scripts/harness-lint"
+    "scripts/bootstrap-harness"
+  )
+  for s in "${script_files[@]}"; do
+    if [ -x "$REPO_ROOT/$s" ]; then
+      echo "[harness-check]   $s: OK (executable)"
+    elif [ -f "$REPO_ROOT/$s" ]; then
+      echo "[harness-check]   $s: NOT EXECUTABLE"
+      all_ok=false
+    else
+      echo "[harness-check]   $s: MISSING"
+      all_ok=false
+    fi
+  done
+
+  # Scan for forbidden terms in tracked content
+  echo ""
+  echo "[harness-check] Scanning for forbidden terms..."
+  scan_dirs=(
+    "README.md"
+    "README.fr.md"
+    "README.zh-CN.md"
+    "docs"
+    "skill"
+    "templates"
+    "examples"
+    "scripts"
+    ".evidence"
+  )
+  forbidden_found=0
+  while IFS= read -r -d '' file; do
+    while IFS=: read -r linenum line; do
+      for term in "${FORBIDDEN_TERMS[@]}"; do
+        if echo "$line" | grep -qF "$term" 2>/dev/null; then
+          rel="${file#$REPO_ROOT/}"
+          echo "[harness-check] FORBIDDEN: found \"$term\" in $rel:$linenum"
+          forbidden_found=$((forbidden_found + 1))
+        fi
+      done
+    done < <(cat -n "$file" 2>/dev/null || true)
+  done < <(for d in "${scan_dirs[@]}"; do
+    if [ -f "$REPO_ROOT/$d" ]; then
+      printf '%s\0' "$REPO_ROOT/$d"
+    elif [ -d "$REPO_ROOT/$d" ]; then
+      find "$REPO_ROOT/$d" -type f -print0 2>/dev/null || true
+    fi
+  done)
+
+  if [ "$forbidden_found" -eq 0 ]; then
+    echo "[harness-check]   No forbidden terms found."
+  else
+    echo "[harness-check]   $forbidden_found forbidden term(s) found."
+    all_ok=false
+  fi
+
+  echo ""
+
+  if $all_ok; then
+    echo "[harness-check] All source checks passed."
+    echo ""
+    echo "Next steps:"
+    echo "  1. Run ./scripts/harness-lint for detailed lint analysis."
+    echo "  2. Run ./scripts/bootstrap-harness [--dry-run] [target-dir] to install the harness."
+    echo "  3. Run ./scripts/harness-check --target <path> to verify an installation."
+  else
+    echo "[harness-check] Some source checks failed."
+    echo ""
+    echo "Next steps:"
+    echo "  1. Review missing files/directories above."
+    echo "  2. Run ./scripts/harness-lint for detailed lint analysis."
+    exit 1
+  fi
+fi
