@@ -8,14 +8,14 @@
 
 ## Gate design
 
-- **Approval gate.** The harness must present scope, risks, and a plan before any source-code edit. This is the single most important safety mechanism.
+- **Approval gate.** ProofRails must present scope, risks, and a plan before any source-code edit. This is the single most important safety mechanism.
 - **Evidence gate.** Every verification step requires build output, test results, or user-accepted exceptions. Claims without evidence are rejected.
 - **Archive gate.** After archiving a change, it is terminal. Never modify archived changes in place — start a new change instead.
 
 ## File conventions
 
-- `.agentic/changes/` holds change proposals and design documents (OpenSpec-compatible format).
-- `.agentic/runs/` holds review reports, run evidence, and verification artifacts.
+- `.proofrails/changes/` holds change proposals and design documents (OpenSpec-compatible format).
+- `.proofrails/runs/` holds review reports, run evidence, and verification artifacts.
 - `planwithfile/` is the working directory for the active change.
 - `.evidence/` holds verification evidence for the open-source package.
 
@@ -39,7 +39,7 @@
 
 ### 2026-05-23: Open-source package verification
 
-- **Installed contract alignment.** README variants, docs, examples, templates, and SKILL.md consistently reference `.agentic/changes`, `.agentic/runs`, `planwithfile`, `.evidence`, `AGENTS.md`, and `CLAUDE.md` as the installed ProofRails contract.
+- **Installed contract alignment.** README variants, docs, examples, templates, and SKILL.md consistently reference `.proofrails/changes`, `.proofrails/runs`, `planwithfile`, `.evidence`, `AGENTS.md`, and `CLAUDE.md` as the installed ProofRails contract.
 - **Forbidden-term scanner.** `proofrails-lint` and `proofrails-check` use direct `grep -nF` scanning against the configured forbidden pattern set.
 - **Documented features only.** Troubleshooting docs avoid undocumented ignore-file behavior.
 - **License.** The package includes an MIT LICENSE file.

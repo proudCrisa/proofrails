@@ -20,7 +20,7 @@ ProofRails vous donne cette infrastructure en une seule commande. Ce n'est pas u
 your-project/
 ├── CLAUDE.md                    # Instructions pour l'agent IA
 ├── AGENTS.md                    # Règles de collaboration multi-agents
-├── .agentic/
+├── .proofrails/
 │   ├── changes/                 # Propositions de changement et documents de conception
 │   └── runs/                    # Rapports de revue et preuves
 ├── planwithfile/                # Répertoire de travail pour les changements actifs
@@ -113,7 +113,7 @@ ProofRails fonctionne avec tout outil de codage IA capable de lire des fichiers 
 
 | Intégration | Rôle | Sans elle |
 |---|---|---|
-| [OpenSpec](https://github.com/anthropics/openspec) | CLI de cycle de vie des specs | Repli sur `.agentic/changes/` |
+| [OpenSpec](https://github.com/anthropics/openspec) | CLI de cycle de vie des specs | Repli sur `.proofrails/changes/` |
 | [gstack](https://github.com/gstack) | Compétences de planification/review/QA | Les portes intégrées fonctionnent seules |
 | Superpowers | Discipline TDD et exécution | Les règles de base sont émulées dans ProofRails |
 | GitNexus | Graphe de code et analyse d'impact | Repli sur grep/find |

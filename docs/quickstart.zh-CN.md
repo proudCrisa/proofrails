@@ -54,8 +54,8 @@ cp proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
 
 ```
 [proofrails] Target: /path/to/your-project
-[proofrails] 已创建 .agentic/changes/
-[proofrails] 已创建 .agentic/runs/
+[proofrails] 已创建 .proofrails/changes/
+[proofrails] 已创建 .proofrails/runs/
 [proofrails] 已创建 planwithfile/
 [proofrails] 已创建 .evidence/
 [proofrails] 已写入 AGENTS.md（来自模板）
@@ -75,8 +75,8 @@ cp proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
 [proofrails-check] 验证已安装的 ProofRails...
 [proofrails-check] 目标: /path/to/your-project
 
-[proofrails-check]   .agentic/changes/: 正常
-[proofrails-check]   .agentic/runs/: 正常
+[proofrails-check]   .proofrails/changes/: 正常
+[proofrails-check]   .proofrails/runs/: 正常
 [proofrails-check]   planwithfile/: 正常
 [proofrails-check]   .evidence/: 正常
 [proofrails-check]   CLAUDE.md: 正常

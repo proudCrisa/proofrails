@@ -1,6 +1,6 @@
 # OpenSpec Change Template
 
-Use this template for `.openspec/changes/<change-id>/` or `.agentic/changes/<change-id>/`.
+Use this template for `.openspec/changes/<change-id>/` or `.proofrails/changes/<change-id>/`.
 
 ## Directory structure
 

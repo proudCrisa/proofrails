@@ -20,7 +20,7 @@ proofrails/
 your-project/
 ├── CLAUDE.md          # AI agent 项目指令（真相来源）
 ├── AGENTS.md          # 多 agent 协作规则
-├── .agentic/          # ProofRails 工作空间目录
+├── .proofrails/          # ProofRails 工作空间目录
 │   ├── changes/       # 变更提案：proposal、design、tasks、specs
 │   └── runs/          # 评审报告和验证证据
 ├── planwithfile/      # 活动变更的工作目录
@@ -51,9 +51,9 @@ ProofRails 将 AI 辅助开发建模为 12 阶段状态机：
 | 质疑 | `planwithfile/<id>/decisions.md` | 是，需说明理由 |
 | 批准 | （用户确认，无文件） | 否 — 门禁已过 |
 | 实施 | `planwithfile/<id>/progress.md`、`evidence.md` | 是，通过 git revert |
-| 评审 | `.agentic/runs/<id>/review-report.md` | 是，重新评审 |
+| 评审 | `.proofrails/runs/<id>/review-report.md` | 是，重新评审 |
 | 验证 | `evidence.md`（更新） | 否 — 证据不可变 |
-| 归档 | `.openspec/` 或 `.agentic/changes/<id>/` | 否 — 终态 |
+| 归档 | `.openspec/` 或 `.proofrails/changes/<id>/` | 否 — 终态 |
 
 ## 模式
 
@@ -87,7 +87,7 @@ Bug 修复、重构、性能优化、迁移、遗留系统现代化。ProofRails
 设置 ProofRails。创建：
 
 - 项目指令文件（CLAUDE.md、AGENTS.md）。
-- 目录结构（.agentic、planwithfile、.evidence）。
+- 目录结构（.proofrails、planwithfile、.evidence）。
 - 不触碰业务代码。
 
 ## 工具和回退方案
@@ -98,7 +98,7 @@ ProofRails 检测可用工具并适配：
 |---|---|---|
 | git | 版本控制、diff、log | 必需 — 无回退 |
 | gstack | 规划/评审/QA/质疑技能 | 内置工作流门禁 |
-| OpenSpec CLI | 规范生命周期管理 | `.agentic/changes/` 目录 |
+| OpenSpec CLI | 规范生命周期管理 | `.proofrails/changes/` 目录 |
 | Superpowers | TDD 和执行纪律 | ProofRails 中模拟的规则 |
 | GitNexus | 代码图谱查询 | `grep -r` / `find` |
 | gbrain | 持久记忆 | 无需也能正常工作 |

@@ -54,8 +54,8 @@ Sortie attendue :
 
 ```
 [proofrails] Target: /chemin/vers/votre-projet
-[proofrails] Créé .agentic/changes/
-[proofrails] Créé .agentic/runs/
+[proofrails] Créé .proofrails/changes/
+[proofrails] Créé .proofrails/runs/
 [proofrails] Créé planwithfile/
 [proofrails] Créé .evidence/
 [proofrails] Écrit AGENTS.md (depuis le modèle)
@@ -75,8 +75,8 @@ Sortie attendue :
 [proofrails-check] Vérification de ProofRails installé...
 [proofrails-check] Cible: /chemin/vers/votre-projet
 
-[proofrails-check]   .agentic/changes/: OK
-[proofrails-check]   .agentic/runs/: OK
+[proofrails-check]   .proofrails/changes/: OK
+[proofrails-check]   .proofrails/runs/: OK
 [proofrails-check]   planwithfile/: OK
 [proofrails-check]   .evidence/: OK
 [proofrails-check]   CLAUDE.md: OK

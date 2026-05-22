@@ -10,7 +10,7 @@ set -euo pipefail
 #
 # With no flags, proofrails-check auto-detects:
 #   - If the current directory looks like an installed ProofRails target
-#     (has .agentic/ and planwithfile/), validates in target mode.
+#     (has .proofrails/ and planwithfile/), validates in target mode.
 #   - Otherwise validates in source repository mode.
 #
 # Source mode checks:
@@ -19,7 +19,7 @@ set -euo pipefail
 #   - No forbidden terms in tracked content
 #
 # Target mode checks:
-#   - .agentic/changes, .agentic/runs exist
+#   - .proofrails/changes, .proofrails/runs exist
 #   - planwithfile/, .evidence/ exist
 #   - AGENTS.md, CLAUDE.md exist
 
@@ -64,8 +64,8 @@ all_ok=true
 
 looks_like_target() {
   probe="$1"
-  [ -d "$probe/.agentic/changes" ] && \
-    [ -d "$probe/.agentic/runs" ] && \
+  [ -d "$probe/.proofrails/changes" ] && \
+    [ -d "$probe/.proofrails/runs" ] && \
     [ -d "$probe/planwithfile" ] && \
     [ -f "$probe/AGENTS.md" ] && \
     [ -f "$probe/CLAUDE.md" ]
@@ -98,8 +98,8 @@ if [ "$MODE" = "target" ]; then
   echo ""
 
   dirs=(
-    ".agentic/changes"
-    ".agentic/runs"
+    ".proofrails/changes"
+    ".proofrails/runs"
     "planwithfile"
     ".evidence"
   )

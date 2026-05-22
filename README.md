@@ -20,7 +20,7 @@ ProofRails gives you that infrastructure in one command. It is not a framework, 
 your-project/
 ├── CLAUDE.md                    # AI agent project instructions
 ├── AGENTS.md                    # Multi-agent collaboration rules
-├── .agentic/
+├── .proofrails/
 │   ├── changes/                 # Change proposals and design docs
 │   └── runs/                    # Review reports and evidence
 ├── planwithfile/                # Working directory for active changes
@@ -113,7 +113,7 @@ ProofRails works with any AI coding tool that can read Markdown skill files. It 
 
 | Integration | Purpose | Without it |
 |---|---|---|
-| [OpenSpec](https://github.com/anthropics/openspec) | Spec lifecycle CLI | Falls back to `.agentic/changes/` |
+| [OpenSpec](https://github.com/anthropics/openspec) | Spec lifecycle CLI | Falls back to `.proofrails/changes/` |
 | [gstack](https://github.com/gstack) | Planning/review/QA skills | Built-in workflow gates work standalone |
 | Superpowers | TDD and execution discipline | Core rules are emulated in ProofRails |
 | GitNexus | Code graph and impact analysis | grep/find fallback |

@@ -46,7 +46,7 @@ ProofRails drives the intake interview:
 
 ## Step 3: Spec draft
 
-ProofRails creates `.agentic/changes/new-notification-service/`:
+ProofRails creates `.proofrails/changes/new-notification-service/`:
 
 **proposal.md:**
 ```markdown

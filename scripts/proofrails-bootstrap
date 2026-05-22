@@ -10,8 +10,8 @@ set -euo pipefail
 #   --force     Overwrite existing CLAUDE.md and AGENTS.md
 #
 # Creates:
-#   .agentic/changes/   Change proposals and design docs
-#   .agentic/runs/      Review reports and run evidence
+#   .proofrails/changes/   Change proposals and design docs
+#   .proofrails/runs/      Review reports and run evidence
 #   planwithfile/       Active change working directory
 #   .evidence/          Immutable evidence records
 #   AGENTS.md           Multi-agent collaboration rules (from template)
@@ -132,7 +132,7 @@ Unassigned -> Assigned -> In Progress -> Review -> Done
 ## Communication
 
 - Agents communicate through the task list and artifact files on disk.
-- The lead agent reads review reports and test results from `.agentic/runs/`.
+- The lead agent reads review reports and test results from `.proofrails/runs/`.
 - The lead agent is the only agent that communicates with the user.
 AGENTSEOF
       log "Wrote $name (fallback)"
@@ -219,14 +219,14 @@ log "Target: $TARGET"
 $DRY_RUN && log "Mode: dry-run (no changes will be made)"
 $FORCE && log "Mode: force (existing files will be overwritten)"
 
-create_dir "$TARGET/.agentic/changes"
-create_dir "$TARGET/.agentic/runs"
+create_dir "$TARGET/.proofrails/changes"
+create_dir "$TARGET/.proofrails/runs"
 create_dir "$TARGET/planwithfile"
 create_dir "$TARGET/.evidence"
 
 # Touch .gitkeep files for empty dirs in non-dry-run mode
 if ! $DRY_RUN; then
-  for d in ".agentic/changes" ".agentic/runs"; do
+  for d in ".proofrails/changes" ".proofrails/runs"; do
     touch "$TARGET/$d/.gitkeep" 2>/dev/null || true
   done
 fi

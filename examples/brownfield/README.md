@@ -31,7 +31,7 @@ Findings:
 
 ## Step 3: Spec draft
 
-ProofRails creates `.agentic/changes/fix-expired-discount/`:
+ProofRails creates `.proofrails/changes/fix-expired-discount/`:
 
 **proposal.md:**
 ```markdown
@@ -127,7 +127,7 @@ Evidence recorded in `.evidence/fix-expired-discount.md`.
 
 ## Step 9: Archive
 
-Change archived to `.agentic/changes/fix-expired-discount/`. Evidence preserved.
+Change archived to `.proofrails/changes/fix-expired-discount/`. Evidence preserved.
 
 ## Key takeaways
 

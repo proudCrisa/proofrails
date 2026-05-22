@@ -54,8 +54,8 @@ Expected output:
 
 ```
 [proofrails] Target: /path/to/your-project
-[proofrails] Created .agentic/changes/
-[proofrails] Created .agentic/runs/
+[proofrails] Created .proofrails/changes/
+[proofrails] Created .proofrails/runs/
 [proofrails] Created planwithfile/
 [proofrails] Created .evidence/
 [proofrails] Wrote AGENTS.md (from template)
@@ -75,8 +75,8 @@ Expected output:
 [proofrails-check] Verifying installed ProofRails...
 [proofrails-check] Target: /path/to/your-project
 
-[proofrails-check]   .agentic/changes/: OK
-[proofrails-check]   .agentic/runs/: OK
+[proofrails-check]   .proofrails/changes/: OK
+[proofrails-check]   .proofrails/runs/: OK
 [proofrails-check]   planwithfile/: OK
 [proofrails-check]   .evidence/: OK
 [proofrails-check]   CLAUDE.md: OK

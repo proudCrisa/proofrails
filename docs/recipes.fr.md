@@ -102,7 +102,7 @@ Critères de succès : proofrails-check passe, proofrails-lint propre.
 3. Découvre les commandes build/test/lint existantes depuis package.json, Makefile, etc.
 4. Crée ou met à jour CLAUDE.md avec des instructions spécifiques au projet.
 5. Crée AGENTS.md pour les règles multi-agents.
-6. Crée les répertoires .agentic/ et planwithfile/.
+6. Crée les répertoires .proofrails/ et planwithfile/.
 7. Exécute proofrails-check et proofrails-lint pour valider.
 8. Enregistre les preuves.
 
@@ -118,7 +118,7 @@ Quand les outils optionnels (gstack, OpenSpec CLI, Superpowers, GitNexus, gbrain
 | Outil manquant | Comportement dégradé |
 |---|---|
 | gstack | Ignorer les compétences de challenge spécifiques à gstack. Utiliser le challenge intégré à quatre perspectives. |
-| OpenSpec CLI | Écrire les specs dans `.agentic/changes/` au lieu de `.openspec/`. Même format. |
+| OpenSpec CLI | Écrire les specs dans `.proofrails/changes/` au lieu de `.openspec/`. Même format. |
 | Superpowers | Émuler manuellement TDD, débogage systématique, petites tâches. |
 | GitNexus | Utiliser `grep -r` et `find` pour la recherche de code. |
 | gbrain | Ignorer la synchro mémoire. Les artefacts sur disque sont la mémoire. |

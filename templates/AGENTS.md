@@ -15,7 +15,7 @@ This file defines how multiple AI agents should collaborate on this project usin
 - Independent diff review against the spec.
 - Flags spec drift, unrelated changes, missing tests.
 - Does not implement or edit source code.
-- Output: `.agentic/runs/<change-id>/review-report.md`.
+- Output: `.proofrails/runs/<change-id>/review-report.md`.
 
 ### Tester agent
 - Writes characterization tests before brownfield changes.
@@ -41,5 +41,5 @@ Unassigned -> Assigned -> In Progress -> Review -> Done
 ## Communication
 
 - Agents communicate through the task list and artifact files on disk.
-- The lead agent reads review reports and test results from `.agentic/runs/`.
+- The lead agent reads review reports and test results from `.proofrails/runs/`.
 - The lead agent is the only agent that communicates with the user.

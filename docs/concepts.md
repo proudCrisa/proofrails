@@ -20,7 +20,7 @@ proofrails/
 your-project/
 ├── CLAUDE.md          # AI agent project instructions (source of truth)
 ├── AGENTS.md          # Multi-agent collaboration rules
-├── .agentic/          # ProofRails workspace directory
+├── .proofrails/          # ProofRails workspace directory
 │   ├── changes/       # Change proposals: proposal, design, tasks, specs
 │   └── runs/          # Review reports and verification evidence
 ├── planwithfile/      # Working directory for active changes
@@ -51,9 +51,9 @@ Each stage produces artifacts on disk. No stage is skipped. Stages can loop back
 | Challenge | `planwithfile/<id>/decisions.md` | Yes, with reasoning |
 | Approval | (user confirmation, no file) | No — gate is passed |
 | Apply | `planwithfile/<id>/progress.md`, `evidence.md` | Yes, via git revert |
-| Review | `.agentic/runs/<id>/review-report.md` | Yes, re-review |
+| Review | `.proofrails/runs/<id>/review-report.md` | Yes, re-review |
 | Verify | `evidence.md` (updated) | No — evidence is immutable |
-| Archive | `.openspec/` or `.agentic/changes/<id>/` | No — terminal state |
+| Archive | `.openspec/` or `.proofrails/changes/<id>/` | No — terminal state |
 
 ## Modes
 
@@ -87,7 +87,7 @@ New subsystem inside an existing project. Combines:
 Setting up ProofRails itself. Creates:
 
 - Project instruction files (CLAUDE.md, AGENTS.md).
-- Directory structure (.agentic, planwithfile, .evidence).
+- Directory structure (.proofrails, planwithfile, .evidence).
 - No business code is touched.
 
 ## Tools and fallbacks
@@ -98,7 +98,7 @@ ProofRails detects available tools and adapts:
 |---|---|---|
 | git | Version control, diff, log | Required — no fallback |
 | gstack | Planning/review/QA/challenge skills | Built-in workflow gates |
-| OpenSpec CLI | Spec lifecycle management | `.agentic/changes/` directory |
+| OpenSpec CLI | Spec lifecycle management | `.proofrails/changes/` directory |
 | Superpowers | TDD and execution discipline | Emulated rules in ProofRails |
 | GitNexus | Code graph queries | `grep -r` / `find` |
 | gbrain | Persistent memory | Works fine without it |

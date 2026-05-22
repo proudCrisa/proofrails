@@ -52,7 +52,7 @@
 
 **症状：**
 
-ProofRails 创建了 `.agentic/`，但你的团队使用 OpenSpec。
+ProofRails 创建了 `.proofrails/`，但你的团队使用 OpenSpec。
 
 **修复：**
 
@@ -62,9 +62,9 @@ ProofRails 会检测 `.openspec/` 并在存在时使用它。如果你偏好 Ope
 openspec init
 ```
 
-ProofRails 可以使用 `.openspec/changes/` 存放变更草案，同时保留 `.agentic/runs/` 用于评审报告和运行证据。请保留 `.agentic/runs/`，这样 `proofrails-check` 才能验证已安装的 ProofRails。
+ProofRails 可以使用 `.openspec/changes/` 存放变更草案，同时保留 `.proofrails/runs/` 用于评审报告和运行证据。请保留 `.proofrails/runs/`，这样 `proofrails-check` 才能验证已安装的 ProofRails。
 
-如果你的团队统一使用 OpenSpec，请把 AI 工具配置为将变更草案写入 `.openspec/changes/`，但不要删除整个 `.agentic/` 目录。它仍然是ProofRails 的本地运行/证据目录。
+如果你的团队统一使用 OpenSpec，请把 AI 工具配置为将变更草案写入 `.openspec/changes/`，但不要删除整个 `.proofrails/` 目录。它仍然是ProofRails 的本地运行/证据目录。
 
 ## AI 工具无法识别技能
 

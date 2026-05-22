@@ -52,7 +52,7 @@ By default, bootstrap does **not** overwrite existing files. Only `--force` does
 
 **Symptom:**
 
-ProofRails created `.agentic/` but your team uses OpenSpec.
+ProofRails created `.proofrails/` but your team uses OpenSpec.
 
 **Fix:**
 
@@ -62,9 +62,9 @@ ProofRails detects `.openspec/` and uses it if present. If you prefer OpenSpec:
 openspec init
 ```
 
-ProofRails can use `.openspec/changes/` for change proposals while keeping `.agentic/runs/` for review reports and run evidence. Keep `.agentic/runs/` in place so `proofrails-check` can validate the installed ProofRails.
+ProofRails can use `.openspec/changes/` for change proposals while keeping `.proofrails/runs/` for review reports and run evidence. Keep `.proofrails/runs/` in place so `proofrails-check` can validate the installed ProofRails.
 
-If your team standardizes on OpenSpec, configure your AI tool to write change drafts to `.openspec/changes/`, but do not delete the whole `.agentic/` directory. It remains the local run/evidence home for ProofRails.
+If your team standardizes on OpenSpec, configure your AI tool to write change drafts to `.openspec/changes/`, but do not delete the whole `.proofrails/` directory. It remains the local run/evidence home for ProofRails.
 
 ## Skill is not recognized by my AI tool
 

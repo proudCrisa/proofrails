@@ -20,7 +20,7 @@ proofrails/
 your-project/
 ├── CLAUDE.md          # Instructions pour l'agent IA (source de vérité)
 ├── AGENTS.md          # Règles de collaboration multi-agents
-├── .agentic/          # Répertoire de travail de ProofRails
+├── .proofrails/          # Répertoire de travail de ProofRails
 │   ├── changes/       # Propositions de changement : proposal, design, tasks, specs
 │   └── runs/          # Rapports de revue et preuves de vérification
 ├── planwithfile/      # Répertoire de travail pour les changements actifs
@@ -51,9 +51,9 @@ Chaque étape produit des artefacts sur le disque. Aucune étape n'est sautée. 
 | Challenge | `planwithfile/<id>/decisions.md` | Oui, avec justification |
 | Approbation | (confirmation utilisateur, pas de fichier) | Non — porte franchie |
 | Application | `planwithfile/<id>/progress.md`, `evidence.md` | Oui, via git revert |
-| Revue | `.agentic/runs/<id>/review-report.md` | Oui, re-revue |
+| Revue | `.proofrails/runs/<id>/review-report.md` | Oui, re-revue |
 | Vérification | `evidence.md` (mis à jour) | Non — les preuves sont immuables |
-| Archive | `.openspec/` ou `.agentic/changes/<id>/` | Non — état terminal |
+| Archive | `.openspec/` ou `.proofrails/changes/<id>/` | Non — état terminal |
 
 ## Modes
 
@@ -87,7 +87,7 @@ Nouveau sous-système dans un projet existant. Combine :
 Mise en place de ProofRails lui-même. Crée :
 
 - Fichiers d'instructions du projet (CLAUDE.md, AGENTS.md).
-- Structure de répertoires (.agentic, planwithfile, .evidence).
+- Structure de répertoires (.proofrails, planwithfile, .evidence).
 - Aucun code métier n'est touché.
 
 ## Outils et solutions de secours
@@ -98,7 +98,7 @@ ProofRails détecte les outils disponibles et s'adapte :
 |---|---|---|
 | git | Contrôle de version, diff, log | Requis — pas de secours |
 | gstack | Compétences de planification/review/QA | Portes de workflow intégrées |
-| OpenSpec CLI | Gestion du cycle de vie des specs | Répertoire `.agentic/changes/` |
+| OpenSpec CLI | Gestion du cycle de vie des specs | Répertoire `.proofrails/changes/` |
 | Superpowers | Discipline TDD et exécution | Règles émulées dans ProofRails |
 | GitNexus | Requêtes sur le graphe de code | `grep -r` / `find` |
 | gbrain | Mémoire persistante | Fonctionne très bien sans |

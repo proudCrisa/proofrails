@@ -52,7 +52,7 @@ Par défaut, le bootstrap n'écrase **pas** les fichiers existants. Seul `--forc
 
 **Symptôme :**
 
-ProofRails a créé `.agentic/` mais votre équipe utilise OpenSpec.
+ProofRails a créé `.proofrails/` mais votre équipe utilise OpenSpec.
 
 **Solution :**
 
@@ -62,9 +62,9 @@ ProofRails détecte `.openspec/` et l'utilise s'il est présent. Si vous préfé
 openspec init
 ```
 
-ProofRails peut utiliser `.openspec/changes/` pour les propositions de changement tout en conservant `.agentic/runs/` pour les rapports de revue et les preuves d'exécution. Gardez `.agentic/runs/` en place afin que `proofrails-check` puisse valider ProofRails installé.
+ProofRails peut utiliser `.openspec/changes/` pour les propositions de changement tout en conservant `.proofrails/runs/` pour les rapports de revue et les preuves d'exécution. Gardez `.proofrails/runs/` en place afin que `proofrails-check` puisse valider ProofRails installé.
 
-Si votre équipe standardise OpenSpec, configurez votre outil IA pour écrire les brouillons de changement dans `.openspec/changes/`, mais ne supprimez pas tout le répertoire `.agentic/`. Il reste l'espace local d'exécution et de preuves de ce ProofRails.
+Si votre équipe standardise OpenSpec, configurez votre outil IA pour écrire les brouillons de changement dans `.openspec/changes/`, mais ne supprimez pas tout le répertoire `.proofrails/`. Il reste l'espace local d'exécution et de preuves de ce ProofRails.
 
 ## La compétence n'est pas reconnue par mon outil IA
 

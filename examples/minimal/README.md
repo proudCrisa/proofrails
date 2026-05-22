@@ -54,7 +54,7 @@ make lint
 my-project/
 ├── CLAUDE.md
 ├── AGENTS.md
-├── .agentic/
+├── .proofrails/
 │   ├── changes/
 │   └── runs/
 ├── planwithfile/

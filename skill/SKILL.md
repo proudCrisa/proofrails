@@ -53,7 +53,7 @@ Complete examples:
 ```
 
 ```text
-/proofrails in the current project generate a ProofRails environment. Create AI development workflow files only, no business code changes. Produce CLAUDE/AGENTS rules, planwithfile structure, .agentic changes fallback, and ProofRails scripts. Confirm target directory before writing.
+/proofrails in the current project generate a ProofRails environment. Create AI development workflow files only, no business code changes. Produce CLAUDE/AGENTS rules, planwithfile structure, .proofrails changes fallback, and ProofRails scripts. Confirm target directory before writing.
 ```
 
 ```text
@@ -111,7 +111,7 @@ Classify tools:
 | Tool | Purpose | If missing |
 |---|---|---|
 | gstack skills | planning, challenge, review, QA, ship | Continue with built-in workflow gates |
-| OpenSpec CLI | spec lifecycle | Use `.agentic/changes` fallback directory |
+| OpenSpec CLI | spec lifecycle | Use `.proofrails/changes` fallback directory |
 | Superpowers | execution discipline | Emulate core discipline in this skill |
 | GitNexus | code graph and impact | Use grep/find fallback |
 | gbrain | persistent memory | Continue without memory sync |
@@ -316,10 +316,10 @@ If `.openspec` exists, use:
 If `.openspec` does not exist, use fallback:
 
 ```text
-.agentic/changes/<change-id>/proposal.md
-.agentic/changes/<change-id>/design.md
-.agentic/changes/<change-id>/tasks.md
-.agentic/changes/<change-id>/specs/<capability>/spec.md
+.proofrails/changes/<change-id>/proposal.md
+.proofrails/changes/<change-id>/design.md
+.proofrails/changes/<change-id>/tasks.md
+.proofrails/changes/<change-id>/specs/<capability>/spec.md
 ```
 
 Use this fallback by default for low-risk `proofrails-bootstrap` validation runs. Only create a full `.openspec` tree after explicit user approval.
@@ -561,7 +561,7 @@ If gstack `/review`, code-review, or Codex review is useful, invoke it or ask au
 Output:
 
 ```text
-.agentic/runs/<change-id>/review-report.md
+.proofrails/runs/<change-id>/review-report.md
 ```
 
 If review finds spec drift:
@@ -648,9 +648,9 @@ If the user asks to set up ProofRails in a repository, this skill should create 
 
 ```text
 CLAUDE.md / AGENTS.md project rules
-.openspec or .agentic/changes structure
+.openspec or .proofrails/changes structure
 planwithfile/ structure
-.agentic/runs/ structure
+.proofrails/runs/ structure
 .evidence/ structure
 proofrails-check script
 proofrails-lint script
@@ -702,7 +702,7 @@ This skill is intentionally a coordinator. It may invoke or instruct these tools
 - `review`, `code-review`, `codex` for review gates.
 - `qa`, `qa-only` for runtime verification.
 - `setup-gbrain`, `sync-gbrain` for durable memory/code search.
-- OpenSpec CLI or local `.agentic/changes` fallback for specs.
+- OpenSpec CLI or local `.proofrails/changes` fallback for specs.
 - GitNexus CLI for code graph.
 
 The user invokes only this skill. This skill decides which subordinate capability to use.

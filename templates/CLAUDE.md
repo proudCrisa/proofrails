@@ -63,7 +63,7 @@ Add your team's conventions here. Examples:
 If you have these tools installed, ProofRails will use them:
 
 - **gstack** — planning, challenge, review, and QA skills.
-- **OpenSpec** — spec lifecycle management (otherwise `.agentic/changes/` fallback).
+- **OpenSpec** — spec lifecycle management (otherwise `.proofrails/changes/` fallback).
 - **Superpowers** — TDD and execution discipline (otherwise emulated in ProofRails).
 - **GitNexus** — code graph and impact analysis (otherwise grep/find).
 - **gbrain** — persistent memory and code search (optional).

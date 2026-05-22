@@ -102,7 +102,7 @@
 3. 从 package.json、Makefile 等发现现有构建/测试/lint 命令。
 4. 创建或更新包含项目特定指令的 CLAUDE.md。
 5. 创建多 agent 规则的 AGENTS.md。
-6. 创建 .agentic/ 和 planwithfile/ 目录。
+6. 创建 .proofrails/ 和 planwithfile/ 目录。
 7. 运行 proofrails-check 和 proofrails-lint 验证。
 8. 记录证据。
 
@@ -118,7 +118,7 @@
 | 缺失工具 | 降级行为 |
 |---|---|
 | gstack | 跳过 gstack 特定质疑技能。使用内置四视角质疑。 |
-| OpenSpec CLI | 将规范写入 `.agentic/changes/` 而非 `.openspec/`。格式相同。 |
+| OpenSpec CLI | 将规范写入 `.proofrails/changes/` 而非 `.openspec/`。格式相同。 |
 | Superpowers | 手动模拟 TDD、系统调试、小任务。 |
 | GitNexus | 使用 `grep -r` 和 `find` 进行代码搜索。 |
 | gbrain | 跳过记忆同步。磁盘上的制品就是记忆。 |
