@@ -185,9 +185,6 @@ else
     "scripts/proofrails-bootstrap"
     "scripts/proofrails-check"
     "scripts/proofrails-lint"
-    "scripts/harness-check"
-    "scripts/harness-lint"
-    "scripts/bootstrap-harness"
   )
   for s in "${script_files[@]}"; do
     if [ -x "$REPO_ROOT/$s" ]; then

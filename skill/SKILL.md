@@ -42,13 +42,6 @@ Canonical command:
 /proofrails <target project> <goal> <constraints> <success criteria> <docs or links>
 ```
 
-Compatibility aliases:
-
-```text
-/agentic-dev-harness <same arguments>
-/agentic-dv-harness <same arguments>
-```
-
 Complete examples:
 
 ```text

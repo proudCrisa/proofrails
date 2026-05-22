@@ -98,7 +98,6 @@ This file defines how multiple AI agents should collaborate on this project usin
 
 ### Lead agent
 - Invokes `/proofrails` for all structured work.
-- Legacy aliases `/agentic-dev-harness` and `/agentic-dv-harness` are accepted for compatibility.
 - Runs discovery, writes specs, presents approval gates.
 - Coordinates other agents via task assignment.
 - Never delegates understanding — reads findings and makes decisions.

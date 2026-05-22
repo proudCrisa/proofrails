@@ -86,7 +86,7 @@ cp proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
 ./scripts/proofrails-lint
 ```
 
-Legacy scripts `bootstrap-harness`, `harness-check`, and `harness-lint` remain compatibility wrappers.
+Use the ProofRails scripts as the canonical interface: `proofrails-bootstrap`, `proofrails-check`, and `proofrails-lint`.
 
 ### Use the skill
 
@@ -96,7 +96,7 @@ Start with brownfield discovery. Wait for approval before editing code.
 Success criteria: regression test passes, module tests green.
 ```
 
-Legacy invocations `/agentic-dev-harness` and `/agentic-dv-harness` remain compatibility aliases.
+Use `/proofrails` as the canonical skill invocation.
 
 ## Modes
 

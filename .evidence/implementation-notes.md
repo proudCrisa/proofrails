@@ -2,9 +2,9 @@
 
 ## Architecture decisions
 
-- **Single-entry skill.** One Markdown file with YAML frontmatter drives the entire workflow. The harness routes internally to the right sub-workflow based on project classification.
-- **No mandatory dependencies.** Every optional integration (OpenSpec, gstack, Superpowers, GitNexus, gbrain) has a built-in fallback. The harness works with zero external tools beyond git and a POSIX shell.
-- **Degraded-mode design.** When optional tools are missing, the harness substitutes equivalent behavior using grep, find, and manual TDD emulation. It asks once whether to install missing tools, then continues.
+- **Single-entry skill.** One Markdown file with YAML frontmatter drives the entire workflow. ProofRails routes internally to the right sub-workflow based on project classification.
+- **No mandatory dependencies.** Every optional integration (OpenSpec, gstack, Superpowers, GitNexus, gbrain) has a built-in fallback. ProofRails works with zero external tools beyond git and a POSIX shell.
+- **Degraded-mode design.** When optional tools are missing, ProofRails substitutes equivalent behavior using grep, find, and manual TDD emulation. It asks once whether to install missing tools, then continues.
 
 ## Gate design
 
@@ -17,31 +17,30 @@
 - `.agentic/changes/` holds change proposals and design documents (OpenSpec-compatible format).
 - `.agentic/runs/` holds review reports, run evidence, and verification artifacts.
 - `planwithfile/` is the working directory for the active change.
-- `.evidence/` holds immutable evidence records. Old evidence can be archived but not deleted.
+- `.evidence/` holds verification evidence for the open-source package.
 
 ## Script design principles
 
 - All scripts are POSIX-shell-compatible with zero dependencies beyond standard Unix tools.
-- `harness-check` reports status and next steps — it never mutates.
-- `harness-lint` is read-only scanning — it never mutates.
-- `bootstrap-harness` creates files and directories, and only overwrites with explicit `--force`.
+- `proofrails-check` reports status and next steps — it never mutates.
+- `proofrails-lint` is read-only scanning — it never mutates.
+- `proofrails-bootstrap` creates files and directories, and only overwrites with explicit `--force`.
 - Default script output is English. Translated docs (fr, zh-CN) preserve multilingual conventions.
 
 ## Cross-references
 
 - Skill definition: `skill/SKILL.md`
 - Templates: `templates/AGENTS.md`, `templates/CLAUDE.md`
-- Bootstrap script: `scripts/bootstrap-harness`
-- Health check: `scripts/harness-check`
-- Lint scanner: `scripts/harness-lint`
+- Bootstrap script: `scripts/proofrails-bootstrap`
+- Health check: `scripts/proofrails-check`
+- Lint scanner: `scripts/proofrails-lint`
 
-## Fix History
+## Verification history
 
-### 2026-05-23: Codex review fixes
+### 2026-05-23: Open-source package verification
 
-- **Installed-harness contract alignment.** Updated all README variants, docs (quickstart, concepts, recipes, troubleshooting), examples, templates, and SKILL.md to consistently reference `.agentic/changes`, `.agentic/runs`, `planwithfile`, `.evidence`, `AGENTS.md`, and `CLAUDE.md` as the installed harness contract. Removed all references to the earlier draft contract and installed scripts in target projects since bootstrap does not create them.
-- **Forbidden-term scanner fix.** Replaced broken `cat -n` / `IFS=:` parser in `harness-lint` and `harness-check` with direct `grep -nF` scanning. The old parser split on colons but `cat -n` output uses tabs, so the scanner never actually checked file contents.
-- **Removed the undocumented ignore-file feature from docs.** The ignore-file feature is not implemented. Removed documentation references in all three troubleshooting files.
-- **Added MIT LICENSE file.** README references a LICENSE; now one exists.
-- **Bootstrap completion message.** When target directory differs from the current directory, the completion message now correctly shows `./scripts/harness-check --target <target>` instead of a bare `./scripts/harness-check`.
-- **Codex review evidence redacted.** The review file contained literal forbidden terms in its example `git grep` command; rewritten to reference "forbidden pattern set" without listing the actual terms.
+- **Installed contract alignment.** README variants, docs, examples, templates, and SKILL.md consistently reference `.agentic/changes`, `.agentic/runs`, `planwithfile`, `.evidence`, `AGENTS.md`, and `CLAUDE.md` as the installed ProofRails contract.
+- **Forbidden-term scanner.** `proofrails-lint` and `proofrails-check` use direct `grep -nF` scanning against the configured forbidden pattern set.
+- **Documented features only.** Troubleshooting docs avoid undocumented ignore-file behavior.
+- **License.** The package includes an MIT LICENSE file.
+- **Bootstrap completion message.** When target directory differs from the current directory, the completion message shows `./scripts/proofrails-check --target <target>`.

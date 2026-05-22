@@ -51,9 +51,6 @@ REQUIRED_FILES=(
   "scripts/proofrails-bootstrap"
   "scripts/proofrails-check"
   "scripts/proofrails-lint"
-  "scripts/bootstrap-harness"
-  "scripts/harness-check"
-  "scripts/harness-lint"
   ".evidence/implementation-notes.md"
 )
 

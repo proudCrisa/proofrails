@@ -86,7 +86,7 @@ cp proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
 ./scripts/proofrails-lint
 ```
 
-旧脚本 `bootstrap-harness`、`harness-check` 和 `harness-lint` 仍作为兼容包装保留。
+ProofRails 脚本是唯一推荐入口：`proofrails-bootstrap`、`proofrails-check` 和 `proofrails-lint`。
 
 ### 使用技能
 
@@ -96,7 +96,7 @@ cp proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
 成功标准：回归测试通过，模块测试绿色。
 ```
 
-旧调用名 `/agentic-dev-harness` 和 `/agentic-dv-harness` 仍作为兼容别名保留。
+请使用 `/proofrails` 作为标准 skill 调用入口。
 
 ## 模式
 

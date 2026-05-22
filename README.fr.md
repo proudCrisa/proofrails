@@ -86,7 +86,7 @@ cp proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
 ./scripts/proofrails-lint
 ```
 
-Les anciens scripts `bootstrap-harness`, `harness-check` et `harness-lint` restent des wrappers de compatibilité.
+Les scripts ProofRails sont l’interface canonique : `proofrails-bootstrap`, `proofrails-check` et `proofrails-lint`.
 
 ### Utiliser la compétence
 
@@ -96,7 +96,7 @@ Commencer par la découverte du code existant. Attendre l'approbation avant d'é
 Critères de succès : test de régression passe, tests du module verts.
 ```
 
-Les anciennes invocations `/agentic-dev-harness` et `/agentic-dv-harness` restent des alias de compatibilité.
+Utilisez `/proofrails` comme invocation canonique de la skill.
 
 ## Modes
 
