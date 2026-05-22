@@ -1,6 +1,6 @@
-# Minimal Harness Setup
+# Minimal ProofRails Setup
 
-This example shows the smallest possible harness setup on an empty repository.
+This example shows the smallest possible ProofRails setup on an empty repository.
 
 ## Starting point
 
@@ -10,23 +10,23 @@ mkdir my-project && cd my-project && git init
 
 ## Steps
 
-### 1. Copy the harness files
+### 1. Copy ProofRails files
 
 ```bash
-cp -r /path/to/harness/{skill,scripts,templates} ./
+cp -r /path/to/proofrails/{skill,scripts,templates} ./
 ```
 
 ### 2. Bootstrap
 
 ```bash
-./scripts/bootstrap-harness
+./scripts/proofrails-bootstrap
 ```
 
 ### 3. Verify
 
 ```bash
-./scripts/harness-check
-./scripts/harness-lint
+./scripts/proofrails-check
+./scripts/proofrails-lint
 ```
 
 ### 4. Customize

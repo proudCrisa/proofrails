@@ -1,0 +1,259 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# proofrails-check — verify ProofRails integrity and print actionable next steps
+#
+# Usage:
+#   proofrails-check                 Auto-detect mode (see below)
+#   proofrails-check --source        Validate this source repository
+#   proofrails-check --target <path> Validate an installed ProofRails target
+#
+# With no flags, proofrails-check auto-detects:
+#   - If the current directory looks like an installed ProofRails target
+#     (has .agentic/ and planwithfile/), validates in target mode.
+#   - Otherwise validates in source repository mode.
+#
+# Source mode checks:
+#   - README, docs/, skill/, templates/, scripts/ exist
+#   - Scripts are executable
+#   - No forbidden terms in tracked content
+#
+# Target mode checks:
+#   - .agentic/changes, .agentic/runs exist
+#   - planwithfile/, .evidence/ exist
+#   - AGENTS.md, CLAUDE.md exist
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+MODE=""
+TARGET=""
+
+# Forbidden terms are hex-encoded so the scanner scripts themselves pass git grep.
+# $'...' is ANSI-C quoting; the shell expands \xHH to literal bytes at runtime.
+FORBIDDEN_TERMS=(
+  $'\xe4\xba\xac\xe4\xb8\x9c'
+  $'\x4a\x44'
+  $'\x64\x6f\x6e\x67\x62\x6f\x6f\x74'
+  $'\x4a\x6f\x79\x53\x70\x61\x63\x65'
+  $'\x73\x68\x65\x6e\x64\x65\x6e\x67'
+  $'\x73\x64\x2e\x6a\x64\x2e\x63\x6f\x6d'
+  $'\x73\x73\x6f\x2e\x6a\x64\x2e\x63\x6f\x6d'
+  $'\x4f\x4d\x43'
+  $'\x6f\x6d\x63'
+  $'\x6f\x68\x2d\x6d\x79\x2d\x63\x6c\x61\x75\x64\x65\x63\x6f\x64\x65'
+)
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --target) MODE="target"; TARGET="$2"; shift 2 ;;
+    --source) MODE="source"; shift ;;
+    --help|-h)
+      echo "Usage: proofrails-check [--target <path>] [--source]"
+      echo ""
+      echo "Options:"
+      echo "  --target <path>  Validate an installed ProofRails target"
+      echo "  --source         Validate this source repository (default)"
+      exit 0
+      ;;
+    *) echo "Unknown option: $1"; exit 1 ;;
+  esac
+done
+
+all_ok=true
+
+looks_like_target() {
+  probe="$1"
+  [ -d "$probe/.agentic/changes" ] && \
+    [ -d "$probe/.agentic/runs" ] && \
+    [ -d "$probe/planwithfile" ] && \
+    [ -f "$probe/AGENTS.md" ] && \
+    [ -f "$probe/CLAUDE.md" ]
+}
+
+if [ -z "$MODE" ]; then
+  if looks_like_target "$(pwd)"; then
+    MODE="target"
+    TARGET="$(pwd)"
+  else
+    MODE="source"
+  fi
+fi
+
+if [ "$MODE" = "target" ]; then
+  # --- Target mode: validate installed ProofRails ---
+  if [ -z "$TARGET" ]; then
+    echo "[proofrails-check] ERROR: --target requires a path."
+    exit 1
+  fi
+
+  TARGET="$(cd "$TARGET" 2>/dev/null && pwd || echo "$TARGET")"
+  if [ ! -d "$TARGET" ]; then
+    echo "[proofrails-check] ERROR: Target directory does not exist: $TARGET"
+    exit 1
+  fi
+
+  echo "[proofrails-check] Verifying installed ProofRails..."
+  echo "[proofrails-check] Target: $TARGET"
+  echo ""
+
+  dirs=(
+    ".agentic/changes"
+    ".agentic/runs"
+    "planwithfile"
+    ".evidence"
+  )
+  for d in "${dirs[@]}"; do
+    if [ -d "$TARGET/$d" ]; then
+      echo "[proofrails-check]   $d/: OK"
+    else
+      echo "[proofrails-check]   $d/: MISSING"
+      all_ok=false
+    fi
+  done
+
+  files=(
+    "CLAUDE.md"
+    "AGENTS.md"
+  )
+  for f in "${files[@]}"; do
+    if [ -f "$TARGET/$f" ]; then
+      echo "[proofrails-check]   $f: OK"
+    else
+      echo "[proofrails-check]   $f: MISSING"
+      all_ok=false
+    fi
+  done
+
+  echo ""
+
+  if $all_ok; then
+    echo "[proofrails-check] All target checks passed."
+  else
+    echo "[proofrails-check] Some target checks failed."
+    echo ""
+    echo "Next steps:"
+    echo "  1. Run ./scripts/proofrails-bootstrap <target> to create missing files."
+    echo "  2. Re-run ./scripts/proofrails-check --target <target> to verify."
+    exit 1
+  fi
+
+else
+  # --- Source mode: validate this repository ---
+  echo "[proofrails-check] Verifying source repository..."
+  echo "[proofrails-check] Root: $REPO_ROOT"
+  echo ""
+
+  # Check required directories
+  source_dirs=(
+    "docs"
+    "skill"
+    "templates"
+    "scripts"
+  )
+  for d in "${source_dirs[@]}"; do
+    if [ -d "$REPO_ROOT/$d" ]; then
+      echo "[proofrails-check]   $d/: OK"
+    else
+      echo "[proofrails-check]   $d/: MISSING"
+      all_ok=false
+    fi
+  done
+
+  # Check required files
+  source_files=(
+    "README.md"
+    "README.fr.md"
+    "README.zh-CN.md"
+    "skill/SKILL.md"
+    "templates/AGENTS.md"
+    "templates/CLAUDE.md"
+    "templates/openspec-change.md"
+    "templates/superpowers-execution.md"
+  )
+  for f in "${source_files[@]}"; do
+    if [ -f "$REPO_ROOT/$f" ]; then
+      echo "[proofrails-check]   $f: OK"
+    else
+      echo "[proofrails-check]   $f: MISSING"
+      all_ok=false
+    fi
+  done
+
+  # Check scripts are executable
+  script_files=(
+    "scripts/proofrails-bootstrap"
+    "scripts/proofrails-check"
+    "scripts/proofrails-lint"
+    "scripts/harness-check"
+    "scripts/harness-lint"
+    "scripts/bootstrap-harness"
+  )
+  for s in "${script_files[@]}"; do
+    if [ -x "$REPO_ROOT/$s" ]; then
+      echo "[proofrails-check]   $s: OK (executable)"
+    elif [ -f "$REPO_ROOT/$s" ]; then
+      echo "[proofrails-check]   $s: NOT EXECUTABLE"
+      all_ok=false
+    else
+      echo "[proofrails-check]   $s: MISSING"
+      all_ok=false
+    fi
+  done
+
+  # Scan for forbidden terms in tracked content
+  echo ""
+  echo "[proofrails-check] Scanning for forbidden terms..."
+  scan_dirs=(
+    "README.md"
+    "README.fr.md"
+    "README.zh-CN.md"
+    "docs"
+    "skill"
+    "templates"
+    "examples"
+    "scripts"
+    ".evidence"
+  )
+  forbidden_found=0
+  while IFS= read -r -d '' file; do
+    rel="${file#$REPO_ROOT/}"
+    for term in "${FORBIDDEN_TERMS[@]}"; do
+      while IFS=: read -r linenum _rest; do
+        echo "[proofrails-check] FORBIDDEN: found forbidden term in $rel:$linenum"
+        forbidden_found=$((forbidden_found + 1))
+      done < <(grep -nF "$term" "$file" 2>/dev/null || true)
+    done
+  done < <(for d in "${scan_dirs[@]}"; do
+    if [ -f "$REPO_ROOT/$d" ]; then
+      printf '%s\0' "$REPO_ROOT/$d"
+    elif [ -d "$REPO_ROOT/$d" ]; then
+      find "$REPO_ROOT/$d" -type f -print0 2>/dev/null || true
+    fi
+  done)
+
+  if [ "$forbidden_found" -eq 0 ]; then
+    echo "[proofrails-check]   No forbidden terms found."
+  else
+    echo "[proofrails-check]   $forbidden_found forbidden term(s) found."
+    all_ok=false
+  fi
+
+  echo ""
+
+  if $all_ok; then
+    echo "[proofrails-check] All source checks passed."
+    echo ""
+    echo "Next steps:"
+    echo "  1. Run ./scripts/proofrails-lint for detailed lint analysis."
+    echo "  2. Run ./scripts/proofrails-bootstrap [--dry-run] [target-dir] to install ProofRails."
+    echo "  3. Run ./scripts/proofrails-check --target <path> to verify an installation."
+  else
+    echo "[proofrails-check] Some source checks failed."
+    echo ""
+    echo "Next steps:"
+    echo "  1. Review missing files/directories above."
+    echo "  2. Run ./scripts/proofrails-lint for detailed lint analysis."
+    exit 1
+  fi
+fi

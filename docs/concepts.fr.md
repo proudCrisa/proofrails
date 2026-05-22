@@ -1,11 +1,11 @@
 # Concepts
 
-Comment le harness est structuré et pourquoi chaque partie existe.
+Comment ProofRails est structuré et pourquoi chaque partie existe.
 
 ## Architecture
 
 ```text
-harness/
+proofrails/
 ├── skill/             # Le SKILL.md principal qui orchestre tout
 ├── scripts/           # Scripts shell POSIX pour la configuration et la validation
 ├── templates/         # Modèles de référence personnalisables
@@ -20,7 +20,7 @@ harness/
 your-project/
 ├── CLAUDE.md          # Instructions pour l'agent IA (source de vérité)
 ├── AGENTS.md          # Règles de collaboration multi-agents
-├── .agentic/          # Répertoire de travail du harness
+├── .agentic/          # Répertoire de travail de ProofRails
 │   ├── changes/       # Propositions de changement : proposal, design, tasks, specs
 │   └── runs/          # Rapports de revue et preuves de vérification
 ├── planwithfile/      # Répertoire de travail pour les changements actifs
@@ -30,7 +30,7 @@ your-project/
 
 ## La machine d'état
 
-Le harness modélise le développement assisté par IA comme une machine d'état à 12 étapes :
+ProofRails modélise le développement assisté par IA comme une machine d'état à 12 étapes :
 
 ```
 Réception -> Détection -> Mode -> Découverte -> Spéc -> Challenge
@@ -59,7 +59,7 @@ Chaque étape produit des artefacts sur le disque. Aucune étape n'est sautée. 
 
 ### Greenfield
 
-Nouveau projet, nouveau dépôt, nouveau module, nouvelle capacité. Le harness impose :
+Nouveau projet, nouveau dépôt, nouveau module, nouvelle capacité. ProofRails impose :
 
 - Documents produit/conception/techniques ou entretien structuré avant la spéc.
 - Décisions d'architecture documentées dans design.md.
@@ -67,7 +67,7 @@ Nouveau projet, nouveau dépôt, nouveau module, nouvelle capacité. Le harness 
 
 ### Brownfield
 
-Correction de bug, refactoring, performance, migration, modernisation. Le harness impose :
+Correction de bug, refactoring, performance, migration, modernisation. ProofRails impose :
 
 - Découverte en lecture seule avant toute édition.
 - Tests de caractérisation ou preuves dorées avant les changements.
@@ -82,9 +82,9 @@ Nouveau sous-système dans un projet existant. Combine :
 - Découverte Brownfield pour les points d'intégration existants.
 - Contrats d'interface explicites entre l'ancien et le nouveau.
 
-### Bootstrap du harness
+### Bootstrap de ProofRails
 
-Mise en place du harness lui-même. Crée :
+Mise en place de ProofRails lui-même. Crée :
 
 - Fichiers d'instructions du projet (CLAUDE.md, AGENTS.md).
 - Structure de répertoires (.agentic, planwithfile, .evidence).
@@ -92,14 +92,14 @@ Mise en place du harness lui-même. Crée :
 
 ## Outils et solutions de secours
 
-Le harness détecte les outils disponibles et s'adapte :
+ProofRails détecte les outils disponibles et s'adapte :
 
 | Outil détecté | Rôle | Solution de secours si absent |
 |---|---|---|
 | git | Contrôle de version, diff, log | Requis — pas de secours |
 | gstack | Compétences de planification/review/QA | Portes de workflow intégrées |
 | OpenSpec CLI | Gestion du cycle de vie des specs | Répertoire `.agentic/changes/` |
-| Superpowers | Discipline TDD et exécution | Règles émulées dans le harness |
+| Superpowers | Discipline TDD et exécution | Règles émulées dans ProofRails |
 | GitNexus | Requêtes sur le graphe de code | `grep -r` / `find` |
 | gbrain | Mémoire persistante | Fonctionne très bien sans |
 
@@ -133,7 +133,7 @@ Les limites de risque définissent les contrats qui nécessitent une approbation
 
 ## Preuves
 
-Les preuves sont la réponse du harness au principe « faire confiance mais vérifier ». Chaque porte de vérification produit ou référence des preuves :
+Les preuves sont la réponse de ProofRails au principe « faire confiance mais vérifier ». Chaque porte de vérification produit ou référence des preuves :
 
 - **Sortie de build** — stdout/stderr des commandes de build.
 - **Résultats de tests** — comptes de succès/échec, rapports de couverture.

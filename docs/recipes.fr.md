@@ -1,18 +1,18 @@
 # Recettes
 
-Flux de travail courants et comment les exécuter avec le harness.
+Flux de travail courants et comment les exécuter avec ProofRails.
 
 ## Corriger un bug (Brownfield)
 
-### 1. Invoquer le harness
+### 1. Invoquer ProofRails
 
 ```
-/agentic-dev-harness dans ./mon-projet corriger les commandes avec quantité zéro qui font planter la synchro d'inventaire.
+/proofrails dans ./mon-projet corriger les commandes avec quantité zéro qui font planter la synchro d'inventaire.
 Commencer par la découverte brownfield. Ne pas toucher la config de déploiement.
 Critères de succès : test de régression passe, tests du module order verts.
 ```
 
-### 2. Ce que fait le harness
+### 2. Ce que fait ProofRails
 
 1. Détecte l'environnement (git, outils disponibles).
 2. Classifie comme brownfield.
@@ -33,22 +33,22 @@ Critères de succès : test de régression passe, tests du module order verts.
 
 ### 3. Ce que vous faites
 
-- Répondre aux questions de découverte que le harness ne peut pas résoudre seul.
+- Répondre aux questions de découverte que ProofRails ne peut pas résoudre seul.
 - Approuver ou réviser la spec à la porte d'approbation.
 - Fournir tout contexte spécifique à l'environnement (BD de staging, credentials de test).
 
 ## Démarrer un nouveau service (Greenfield)
 
-### 1. Invoquer le harness
+### 1. Invoquer ProofRails
 
 ```
-/agentic-dev-harness dans /chemin/vers/nouveau-service démarrer un service de notification utilisateur.
+/proofrails dans /chemin/vers/nouveau-service démarrer un service de notification utilisateur.
 Pas de code existant. Préférence stack technique : TypeScript, PostgreSQL, Redis.
 Critères de succès : proposal, design, tasks, plan de première tranche verticale.
 Ne pas encore écrire l'implémentation.
 ```
 
-### 2. Ce que fait le harness
+### 2. Ce que fait ProofRails
 
 1. Détecte l'environnement.
 2. Classifie comme greenfield.
@@ -69,15 +69,15 @@ Ne pas encore écrire l'implémentation.
 
 ## Refactorer un module (Brownfield)
 
-### 1. Invoquer le harness
+### 1. Invoquer ProofRails
 
 ```
-/agentic-dev-harness dans ./mon-projet refactorer le module de paiement pour utiliser la nouvelle API de passerelle.
+/proofrails dans ./mon-projet refactorer le module de paiement pour utiliser la nouvelle API de passerelle.
 Garder l'interface publique existante. Tous les tests existants doivent passer.
 Critères de succès : même taux de réussite des tests, aucun changement de contrat d'API, performance à moins de 5%.
 ```
 
-### 2. Comportements clés du harness
+### 2. Comportements clés de ProofRails
 
 - La découverte identifie tous les appelants du module de paiement.
 - Les tests de caractérisation capturent le comportement actuel avant le refactoring.
@@ -85,35 +85,35 @@ Critères de succès : même taux de réussite des tests, aucun changement de co
 - L'implémentation utilise le branch-by-abstraction.
 - La vérification exécute la suite complète de tests et compare les performances.
 
-## Bootstrapper un harness sur un projet existant
+## Bootstrapper ProofRails sur un projet existant
 
-### 1. Invoquer le harness
+### 1. Invoquer ProofRails
 
 ```
-/agentic-dev-harness dans ./mon-projet mettre en place le harness de développement IA.
-Ne pas modifier le code métier. Créer uniquement les fichiers du harness.
-Critères de succès : harness-check passe, harness-lint propre.
+/proofrails dans ./mon-projet mettre en place ProofRails.
+Ne pas modifier le code métier. Créer uniquement les fichiers de workflow ProofRails.
+Critères de succès : proofrails-check passe, proofrails-lint propre.
 ```
 
-### 2. Ce que fait le harness
+### 2. Ce que fait ProofRails
 
 1. Analyse le projet : langage, système de build, commandes de test, CLAUDE.md existant.
-2. Classifie comme harness-bootstrap.
+2. Classifie comme proofrails-bootstrap.
 3. Découvre les commandes build/test/lint existantes depuis package.json, Makefile, etc.
 4. Crée ou met à jour CLAUDE.md avec des instructions spécifiques au projet.
 5. Crée AGENTS.md pour les règles multi-agents.
 6. Crée les répertoires .agentic/ et planwithfile/.
-7. Exécute harness-check et harness-lint pour valider.
+7. Exécute proofrails-check et proofrails-lint pour valider.
 8. Enregistre les preuves.
 
 ### 3. Ce que vous faites
 
-- Confirmer la compréhension par le harness de vos commandes build/test.
+- Confirmer la compréhension par ProofRails de vos commandes build/test.
 - Réviser et personnaliser CLAUDE.md selon les conventions de votre équipe.
 
-## Exécuter le harness en mode dégradé
+## Exécuter ProofRails en mode dégradé
 
-Quand les outils optionnels (gstack, OpenSpec CLI, Superpowers, GitNexus, gbrain) ne sont pas installés, le harness utilise des solutions de secours intégrées :
+Quand les outils optionnels (gstack, OpenSpec CLI, Superpowers, GitNexus, gbrain) ne sont pas installés, ProofRails utilise des solutions de secours intégrées :
 
 | Outil manquant | Comportement dégradé |
 |---|---|
@@ -123,7 +123,7 @@ Quand les outils optionnels (gstack, OpenSpec CLI, Superpowers, GitNexus, gbrain
 | GitNexus | Utiliser `grep -r` et `find` pour la recherche de code. |
 | gbrain | Ignorer la synchro mémoire. Les artefacts sur disque sont la mémoire. |
 
-Le harness fonctionne toujours en mode dégradé. Il demande une fois si vous voulez installer les outils manquants, puis continue avec ce qui est disponible.
+ProofRails fonctionne toujours en mode dégradé. Il demande une fois si vous voulez installer les outils manquants, puis continue avec ce qui est disponible.
 
 ## Personnaliser les modèles
 
@@ -153,7 +153,7 @@ Définissez comment plusieurs agents IA doivent collaborer :
 
 ```markdown
 # Rôles des agents
-- lead : coordonne, exécute le harness, demande l'approbation
+- lead : coordonne, exécute ProofRails, demande l'approbation
 - reviewer : revue de diff indépendante, pas d'implémentation
 - tester : écrit et exécute les tests, ne modifie jamais le code source
 ```

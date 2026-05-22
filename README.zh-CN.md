@@ -1,4 +1,4 @@
-# Agentic Dev Harness
+# ProofRails
 
 **10 分钟构建 AI 开发护栏。**
 
@@ -12,7 +12,7 @@
 
 AI 编程助手功能强大但不可预测。它们跳过发现阶段、未经批准就编辑、未通过测试就合并、不留下任何证据。团队最终花费大量时间编写临时规则、复制 CLAUDE.md 模板、手动执行门禁——这些工作与实际产品毫无关系。
 
-这个 harness 通过一条命令为你提供这套基础设施。它不是一个框架，不是 SaaS，也不是专有平台。它是一个**技能**——一个在你现有 AI 编程工具中运行的结构化工作流——加上一组脚本和模板，让你的项目保持在已知的良好状态。
+ProofRails 通过一条命令为你提供这套基础设施。它不是一个框架，不是 SaaS，也不是专有平台。它是一个**技能**——一个在你现有 AI 编程工具中运行的结构化工作流——加上一组脚本和模板，让你的项目保持在已知的良好状态。
 
 ## 10 分钟内你会得到什么
 
@@ -35,7 +35,7 @@ your-project/
 
 1. **接收** — 收集目标、约束、成功标准。只问缺失的内容。
 2. **探测** — 检测可用工具（git、OpenSpec、gstack 等）。映射降级模式回退方案。
-3. **模式** — 分类工作类型：新建、存量、混合或 harness 引导。
+3. **模式** — 分类工作类型：新建、存量、混合或 ProofRails 引导。
 4. **发现** — 只读探索。找到入口点、合约、风险。暂不编辑。
 5. **规范** — 编写提案、设计、任务和验收场景（兼容 OpenSpec）。
 6. **质疑** — 从业务、风险、实施和历史角度对规范进行压力测试。
@@ -57,15 +57,15 @@ your-project/
 
 ```bash
 # 克隆到你的项目或技能目录
-git clone https://github.com/agentic-dev-harness/harness.git
+git clone https://github.com/proofrails/proofrails.git
 
 # Claude Code
-mkdir -p ~/.claude/skills/agentic-dev-harness
-cp harness/skill/SKILL.md ~/.claude/skills/agentic-dev-harness/SKILL.md
+mkdir -p ~/.claude/skills/proofrails
+cp proofrails/skill/SKILL.md ~/.claude/skills/proofrails/SKILL.md
 
 # OpenClaw / Hermes 风格 Markdown 技能
-mkdir -p ~/.openclaw/workspace/skills/agentic-dev-harness
-cp harness/skill/SKILL.md ~/.openclaw/workspace/skills/agentic-dev-harness/SKILL.md
+mkdir -p ~/.openclaw/workspace/skills/proofrails
+cp proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
 
 # 其他 Markdown 技能型代理：将 skill/SKILL.md 复制到该工具的技能目录。
 ```
@@ -74,25 +74,29 @@ cp harness/skill/SKILL.md ~/.openclaw/workspace/skills/agentic-dev-harness/SKILL
 
 ```bash
 # 在项目根目录：
-./scripts/bootstrap-harness
+./scripts/proofrails-bootstrap
 
 # 或者先试运行查看将要创建的内容：
-./scripts/bootstrap-harness --dry-run
+./scripts/proofrails-bootstrap --dry-run
 
-# 检查 harness 健康状态：
-./scripts/harness-check
+# 检查 ProofRails 健康状态：
+./scripts/proofrails-check
 
 # Lint 检查问题：
-./scripts/harness-lint
+./scripts/proofrails-lint
 ```
+
+旧脚本 `bootstrap-harness`、`harness-check` 和 `harness-lint` 仍作为兼容包装保留。
 
 ### 使用技能
 
 ```
-/agentic-dev-harness 在 ./my-project 中修复支付超时 bug。
+/proofrails 在 ./my-project 中修复支付超时 bug。
 从存量发现开始。编辑代码前等待批准。
 成功标准：回归测试通过，模块测试绿色。
 ```
+
+旧调用名 `/agentic-dev-harness` 和 `/agentic-dv-harness` 仍作为兼容别名保留。
 
 ## 模式
 
@@ -101,21 +105,21 @@ cp harness/skill/SKILL.md ~/.openclaw/workspace/skills/agentic-dev-harness/SKILL
 | **新建** (Greenfield) | 新项目、新仓库、新模块 | 需要产品/设计/技术文档或访谈 |
 | **存量** (Brownfield) | Bug 修复、重构、迁移、性能优化 | 编辑前先发现，特征测试 |
 | **混合** (Hybrid) | 现有项目中的新子系统 | 结合新建规范 + 存量发现 |
-| **Harness 引导** | 设置 harness 本身 | 不触碰业务代码 |
+| **ProofRails 引导** | 设置 ProofRails | 不触碰业务代码 |
 
 ## 兼容性
 
-此 harness 适用于任何能读取 Markdown 技能文件的 AI 编程工具。可选集成：
+ProofRails 适用于任何能读取 Markdown 技能文件的 AI 编程工具。可选集成：
 
 | 集成 | 用途 | 没有它 |
 |---|---|---|
 | [OpenSpec](https://github.com/anthropics/openspec) | 规范生命周期 CLI | 回退到 `.agentic/changes/` |
 | [gstack](https://github.com/gstack) | 规划/评审/QA 技能 | 内置工作流门禁可独立运行 |
-| Superpowers | TDD 和执行纪律 | 核心规则在 harness 中模拟 |
+| Superpowers | TDD 和执行纪律 | 核心规则在 ProofRails 中模拟 |
 | GitNexus | 代码图谱和影响分析 | grep/find 回退 |
 | gbrain | 持久记忆和代码搜索 | 无需它也能工作 |
 
-**此 harness 零硬依赖。** 安装有用的部分，跳过不需要的部分。
+**ProofRails 零硬依赖。** 安装有用的部分，跳过不需要的部分。
 
 ## 安全原则
 
@@ -123,13 +127,13 @@ cp harness/skill/SKILL.md ~/.openclaw/workspace/skills/agentic-dev-harness/SKILL
 2. **证据优于声明。** 每个验证门禁需要构建输出、测试结果或明确用户接受的例外。
 3. **高风险合约需要确认。** 公共 API、数据模式、消息队列、认证、部署和生产配置在修改前需要用户批准。
 4. **归档是终态。** 变更归档后，不要原地修补。开始新的变更。
-5. **单入口。** 用户调用一个技能。harness 在内部路由到子技能。用户永远不需要手动选择规划、评审、QA 或发布技能。
+5. **单入口。** 用户调用一个技能。ProofRails 在内部路由到子技能。用户永远不需要手动选择规划、评审、QA 或发布技能。
 
 ## 示例
 
-- [最小化 harness 设置](./examples/minimal/README.md) — 在空仓库上引导
+- [最小化 ProofRails 设置](./examples/minimal/README.md) — 在空仓库上引导
 - [存量 Bug 修复](./examples/brownfield/README.md) — 在现有项目上的发现、规范、修复、验证
-- [新建服务](./examples/greenfield/README.md) — 从零开始的完整 harness 新服务
+- [新建服务](./examples/greenfield/README.md) — 从零开始的完整 ProofRails 新服务
 
 ## 文档
 
@@ -144,8 +148,8 @@ cp harness/skill/SKILL.md ~/.openclaw/workspace/skills/agentic-dev-harness/SKILL
 
 欢迎贡献。提交 PR 前：
 
-1. 运行 `./scripts/harness-lint` 并修复所有问题。
-2. 运行 `./scripts/harness-check` 并验证所有检查通过。
+1. 运行 `./scripts/proofrails-lint` 并修复所有问题。
+2. 运行 `./scripts/proofrails-check` 并验证所有检查通过。
 3. 为任何新行为在 `.evidence/` 中添加证据。
 4. 如果更改工作流，更新文档。
 

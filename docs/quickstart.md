@@ -1,6 +1,6 @@
 # Quickstart
 
-Get the harness running on your project in under 10 minutes.
+Get ProofRails running on your project in under 10 minutes.
 
 ## Step 1: Verify prerequisites
 
@@ -9,25 +9,25 @@ git --version          # >= 2.0
 echo $SHELL            # bash, zsh, or dash
 ```
 
-## Step 2: Install the harness
+## Step 2: Install ProofRails
 
 **Option A: Clone the repo**
 
 ```bash
-git clone https://github.com/agentic-dev-harness/harness.git /tmp/harness
-cp -r /tmp/harness/{skill,scripts,templates,docs,examples} ./
+git clone https://github.com/proofrails/proofrails.git /tmp/proofrails
+cp -r /tmp/proofrails/{skill,scripts,templates,docs,examples} ./
 ```
 
 **Option B: Copy just the skill**
 
 ```bash
 # Claude Code
-mkdir -p ~/.claude/skills/agentic-dev-harness
-cp harness/skill/SKILL.md ~/.claude/skills/agentic-dev-harness/SKILL.md
+mkdir -p ~/.claude/skills/proofrails
+cp proofrails/skill/SKILL.md ~/.claude/skills/proofrails/SKILL.md
 
 # OpenClaw / Hermes-style Markdown skills
-mkdir -p ~/.openclaw/workspace/skills/agentic-dev-harness
-cp harness/skill/SKILL.md ~/.openclaw/workspace/skills/agentic-dev-harness/SKILL.md
+mkdir -p ~/.openclaw/workspace/skills/proofrails
+cp proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
 ```
 
 For other Markdown-skill agents, copy `skill/SKILL.md` to that tool's skill directory.
@@ -37,52 +37,52 @@ For other Markdown-skill agents, copy `skill/SKILL.md` to that tool's skill dire
 If you have already cloned this repo, run the bootstrap script directly:
 
 ```bash
-./scripts/bootstrap-harness
+./scripts/proofrails-bootstrap
 ```
 
 ## Step 3: Bootstrap your project
 
 ```bash
 # Dry-run first — see what will be created without touching files
-./scripts/bootstrap-harness --dry-run
+./scripts/proofrails-bootstrap --dry-run
 
 # Apply
-./scripts/bootstrap-harness
+./scripts/proofrails-bootstrap
 ```
 
 Expected output:
 
 ```
-[harness] Target: /path/to/your-project
-[harness] Created .agentic/changes/
-[harness] Created .agentic/runs/
-[harness] Created planwithfile/
-[harness] Created .evidence/
-[harness] Wrote AGENTS.md (from template)
-[harness] Wrote CLAUDE.md (from template)
-[harness] Done. Run ./scripts/harness-check to verify.
+[proofrails] Target: /path/to/your-project
+[proofrails] Created .agentic/changes/
+[proofrails] Created .agentic/runs/
+[proofrails] Created planwithfile/
+[proofrails] Created .evidence/
+[proofrails] Wrote AGENTS.md (from template)
+[proofrails] Wrote CLAUDE.md (from template)
+[proofrails] Done. Run ./scripts/proofrails-check to verify.
 ```
 
 ## Step 4: Validate
 
 ```bash
-./scripts/harness-check
+./scripts/proofrails-check
 ```
 
 Expected output:
 
 ```
-[harness-check] Verifying installed harness...
-[harness-check] Target: /path/to/your-project
+[proofrails-check] Verifying installed ProofRails...
+[proofrails-check] Target: /path/to/your-project
 
-[harness-check]   .agentic/changes/: OK
-[harness-check]   .agentic/runs/: OK
-[harness-check]   planwithfile/: OK
-[harness-check]   .evidence/: OK
-[harness-check]   CLAUDE.md: OK
-[harness-check]   AGENTS.md: OK
+[proofrails-check]   .agentic/changes/: OK
+[proofrails-check]   .agentic/runs/: OK
+[proofrails-check]   planwithfile/: OK
+[proofrails-check]   .evidence/: OK
+[proofrails-check]   CLAUDE.md: OK
+[proofrails-check]   AGENTS.md: OK
 
-[harness-check] All target checks passed.
+[proofrails-check] All target checks passed.
 ```
 
 ## Step 5: Use the skill
@@ -90,13 +90,13 @@ Expected output:
 Invoke the skill in your AI coding tool:
 
 ```
-/agentic-dev-harness in ./ fix the login timeout bug. Start with brownfield discovery. Wait for approval before editing code. Success criteria: regression test passes.
+/proofrails in ./ fix the login timeout bug. Start with brownfield discovery. Wait for approval before editing code. Success criteria: regression test passes.
 ```
 
 ## Step 6: Lint regularly
 
 ```bash
-./scripts/harness-lint
+./scripts/proofrails-lint
 ```
 
 This scans for common issues: missing required files and forbidden terms.

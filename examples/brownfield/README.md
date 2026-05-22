@@ -1,22 +1,22 @@
 # Brownfield Bug Fix Example
 
-This example walks through fixing a bug in an existing project using the harness.
+This example walks through fixing a bug in an existing project using ProofRails.
 
 ## Scenario
 
 The `payment-service` has a bug: orders with discount codes that have expired are still being processed, causing incorrect charges. The fix needs to validate discount code expiration before applying the discount.
 
-## Step 1: Invoke the harness
+## Step 1: Invoke ProofRails
 
 ```
-/agentic-dev-harness in ./payment-service fix orders applying expired discount codes.
+/proofrails in ./payment-service fix orders applying expired discount codes.
 Start with brownfield discovery. Do not touch deployment config.
 Success criteria: regression test passes, discount validation works, existing tests green.
 ```
 
 ## Step 2: Discovery (read-only)
 
-The harness reads:
+ProofRails reads:
 
 - `src/discount/validator.ts` — current discount validation logic
 - `src/order/processor.ts` — order processing entry point
@@ -31,7 +31,7 @@ Findings:
 
 ## Step 3: Spec draft
 
-The harness creates `.agentic/changes/fix-expired-discount/`:
+ProofRails creates `.agentic/changes/fix-expired-discount/`:
 
 **proposal.md:**
 ```markdown
@@ -65,7 +65,7 @@ Orders with expired discount codes are being processed, causing incorrect charge
 
 ## Step 4: Challenge gate
 
-The harness challenges:
+ProofRails challenges:
 1. **Business:** What about promotions that intentionally overlap expiration? -> Confirmed: no such promotions.
 2. **Risk:** What if server clock is skewed? -> Use UTC comparison.
 3. **Implementation:** Should this be in validator or processor? -> Validator, so all callers benefit.
@@ -73,7 +73,7 @@ The harness challenges:
 
 ## Step 5: Approval gate
 
-The harness presents:
+ProofRails presents:
 
 - Mode: brownfield
 - Scope: 2 files changed, 1 test added
@@ -133,5 +133,5 @@ Change archived to `.agentic/changes/fix-expired-discount/`. Evidence preserved.
 
 1. Discovery found the single validation point — a small change with broad impact.
 2. Characterization test was written before the fix.
-3. The harness caught a clock-skew risk at the challenge gate that the initial spec missed.
+3. ProofRails caught a clock-skew risk at the challenge gate that the initial spec missed.
 4. Total time: ~15 minutes from invocation to archive.

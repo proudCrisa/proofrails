@@ -1,18 +1,18 @@
 # Recipes
 
-Common workflows and how to execute them with the harness.
+Common workflows and how to execute them with ProofRails.
 
 ## Fix a bug (Brownfield)
 
-### 1. Invoke the harness
+### 1. Invoke ProofRails
 
 ```
-/agentic-dev-harness in ./my-project fix orders with zero quantity crashing the inventory sync.
+/proofrails in ./my-project fix orders with zero quantity crashing the inventory sync.
 Start with brownfield discovery. Do not touch deployment config.
 Success criteria: regression test passes, order module tests green.
 ```
 
-### 2. What the harness does
+### 2. What ProofRails does
 
 1. Probes environment (git, available tools).
 2. Classifies as brownfield.
@@ -33,22 +33,22 @@ Success criteria: regression test passes, order module tests green.
 
 ### 3. What you do
 
-- Answer discovery questions the harness cannot answer from code alone.
+- Answer discovery questions ProofRails cannot answer from code alone.
 - Approve or revise the spec at the approval gate.
 - Provide any environment-specific context (staging DB, test credentials).
 
 ## Start a new service (Greenfield)
 
-### 1. Invoke the harness
+### 1. Invoke ProofRails
 
 ```
-/agentic-dev-harness in /path/to/new-service start a user notification service.
+/proofrails in /path/to/new-service start a user notification service.
 No existing code. Tech stack preference: TypeScript, PostgreSQL, Redis.
 Success criteria: proposal, design, tasks, first vertical slice plan.
 Do not write implementation yet.
 ```
 
-### 2. What the harness does
+### 2. What ProofRails does
 
 1. Probes environment.
 2. Classifies as greenfield.
@@ -69,15 +69,15 @@ Do not write implementation yet.
 
 ## Refactor a module (Brownfield)
 
-### 1. Invoke the harness
+### 1. Invoke ProofRails
 
 ```
-/agentic-dev-harness in ./my-project refactor the payment module to use the new gateway API.
+/proofrails in ./my-project refactor the payment module to use the new gateway API.
 Keep the existing public interface. All existing tests must pass.
 Success criteria: same test pass rate, no API contract changes, performance within 5%.
 ```
 
-### 2. Key harness behaviors
+### 2. Key ProofRails behaviors
 
 - Discovery identifies all callers of the payment module.
 - Characterization tests capture current behavior before refactoring.
@@ -85,35 +85,35 @@ Success criteria: same test pass rate, no API contract changes, performance with
 - Implementation uses branch-by-abstraction.
 - Verify runs the full test suite and compares performance.
 
-## Bootstrap a harness on an existing project
+## Bootstrap ProofRails on an existing project
 
-### 1. Invoke the harness
+### 1. Invoke ProofRails
 
 ```
-/agentic-dev-harness in ./my-project set up the AI development harness.
-Do not modify business code. Only create harness files.
-Success criteria: harness-check passes, harness-lint clean.
+/proofrails in ./my-project set up ProofRails.
+Do not modify business code. Only create ProofRails workflow files.
+Success criteria: proofrails-check passes, proofrails-lint clean.
 ```
 
-### 2. What the harness does
+### 2. What ProofRails does
 
 1. Probes the project: language, build system, test commands, existing CLAUDE.md.
-2. Classifies as harness-bootstrap.
+2. Classifies as proofrails-bootstrap.
 3. Discovers existing build/test/lint commands from package.json, Makefile, etc.
 4. Creates or updates CLAUDE.md with project-specific instructions.
 5. Creates AGENTS.md for multi-agent rules.
 6. Creates .agentic/ and planwithfile/ directories.
-7. Runs harness-check and harness-lint to validate.
+7. Runs proofrails-check and proofrails-lint to validate.
 8. Records evidence.
 
 ### 3. What you do
 
-- Confirm the harness's understanding of your build/test commands.
+- Confirm ProofRails's understanding of your build/test commands.
 - Review and customize CLAUDE.md for your team's conventions.
 
-## Run the harness in degraded mode
+## Run ProofRails in degraded mode
 
-When optional tools (gstack, OpenSpec CLI, Superpowers, GitNexus, gbrain) are not installed, the harness uses built-in fallbacks:
+When optional tools (gstack, OpenSpec CLI, Superpowers, GitNexus, gbrain) are not installed, ProofRails uses built-in fallbacks:
 
 | Missing tool | Degraded behavior |
 |---|---|
@@ -123,7 +123,7 @@ When optional tools (gstack, OpenSpec CLI, Superpowers, GitNexus, gbrain) are no
 | GitNexus | Use `grep -r` and `find` for code search. |
 | gbrain | Skip memory sync. Artifacts on disk are the memory. |
 
-The harness always works in degraded mode. It asks once whether you want to install missing tools, then proceeds with whatever is available.
+ProofRails always works in degraded mode. It asks once whether you want to install missing tools, then proceeds with whatever is available.
 
 ## Customize templates
 
@@ -153,7 +153,7 @@ Define how multiple AI agents should collaborate:
 
 ```markdown
 # Agent roles
-- lead: coordinates, runs harness, seeks approval
+- lead: coordinates, runs ProofRails, seeks approval
 - reviewer: independent diff review, no implementation
 - tester: writes and runs tests, never edits source
 ```

@@ -1,18 +1,18 @@
 # 最佳实践
 
-常见工作流及如何使用 harness 执行。
+常见工作流及如何使用 ProofRails 执行。
 
 ## 修复 Bug（存量模式）
 
-### 1. 调用 harness
+### 1. 调用 ProofRails
 
 ```
-/agentic-dev-harness 在 ./my-project 中修复零数量订单导致库存同步崩溃的问题。
+/proofrails 在 ./my-project 中修复零数量订单导致库存同步崩溃的问题。
 从存量发现开始。不要触碰部署配置。
 成功标准：回归测试通过，订单模块测试绿色。
 ```
 
-### 2. Harness 执行的操作
+### 2. ProofRails 执行的操作
 
 1. 探测环境（git、可用工具）。
 2. 分类为存量模式。
@@ -33,22 +33,22 @@
 
 ### 3. 你需要做什么
 
-- 回答 harness 无法仅从代码中得出的发现问题。
+- 回答 ProofRails 无法仅从代码中得出的发现问题。
 - 在批准门禁处批准或修改规范。
 - 提供任何环境特定的上下文（如测试数据库凭证）。
 
 ## 启动新服务（新建模式）
 
-### 1. 调用 harness
+### 1. 调用 ProofRails
 
 ```
-/agentic-dev-harness 在 /path/to/new-service 中启动用户通知服务。
+/proofrails 在 /path/to/new-service 中启动用户通知服务。
 无现有代码。技术栈偏好：TypeScript、PostgreSQL、Redis。
 成功标准：提案、设计、任务、首个垂直切片计划。
 暂不编写实现。
 ```
 
-### 2. Harness 执行的操作
+### 2. ProofRails 执行的操作
 
 1. 探测环境。
 2. 分类为新建模式。
@@ -69,15 +69,15 @@
 
 ## 重构模块（存量模式）
 
-### 1. 调用 harness
+### 1. 调用 ProofRails
 
 ```
-/agentic-dev-harness 在 ./my-project 中重构支付模块使用新网关 API。
+/proofrails 在 ./my-project 中重构支付模块使用新网关 API。
 保持现有公共接口。所有现有测试必须通过。
 成功标准：相同测试通过率，无 API 合约变更，性能在 5% 以内。
 ```
 
-### 2. 关键 harness 行为
+### 2. 关键 ProofRails 行为
 
 - 发现识别支付模块的所有调用方。
 - 特征测试在重构前捕获当前行为。
@@ -85,35 +85,35 @@
 - 实施使用抽象分支。
 - 验证运行完整测试套件并比较性能。
 
-## 在现有项目上引导 harness
+## 在现有项目上引导 ProofRails
 
-### 1. 调用 harness
+### 1. 调用 ProofRails
 
 ```
-/agentic-dev-harness 在 ./my-project 中设置 AI 开发 harness。
-不要修改业务代码。只创建 harness 文件。
-成功标准：harness-check 通过，harness-lint 干净。
+/proofrails 在 ./my-project 中设置 ProofRails。
+不要修改业务代码。只创建 ProofRails 工作流文件。
+成功标准：proofrails-check 通过，proofrails-lint 干净。
 ```
 
-### 2. Harness 执行的操作
+### 2. ProofRails 执行的操作
 
 1. 探测项目：语言、构建系统、测试命令、现有 CLAUDE.md。
-2. 分类为 harness 引导。
+2. 分类为 ProofRails 引导。
 3. 从 package.json、Makefile 等发现现有构建/测试/lint 命令。
 4. 创建或更新包含项目特定指令的 CLAUDE.md。
 5. 创建多 agent 规则的 AGENTS.md。
 6. 创建 .agentic/ 和 planwithfile/ 目录。
-7. 运行 harness-check 和 harness-lint 验证。
+7. 运行 proofrails-check 和 proofrails-lint 验证。
 8. 记录证据。
 
 ### 3. 你需要做什么
 
-- 确认 harness 对你构建/测试命令的理解。
+- 确认 ProofRails 对你构建/测试命令的理解。
 - 根据团队约定审查和自定义 CLAUDE.md。
 
-## 在降级模式下运行 harness
+## 在降级模式下运行 ProofRails
 
-当可选工具（gstack、OpenSpec CLI、Superpowers、GitNexus、gbrain）未安装时，harness 使用内置回退方案：
+当可选工具（gstack、OpenSpec CLI、Superpowers、GitNexus、gbrain）未安装时，ProofRails 使用内置回退方案：
 
 | 缺失工具 | 降级行为 |
 |---|---|
@@ -123,7 +123,7 @@
 | GitNexus | 使用 `grep -r` 和 `find` 进行代码搜索。 |
 | gbrain | 跳过记忆同步。磁盘上的制品就是记忆。 |
 
-Harness 在降级模式下始终可用。它会询问一次是否要安装缺失工具，然后使用可用的任何工具继续。
+ProofRails 在降级模式下始终可用。它会询问一次是否要安装缺失工具，然后使用可用的任何工具继续。
 
 ## 自定义模板
 
@@ -153,7 +153,7 @@ Harness 在降级模式下始终可用。它会询问一次是否要安装缺失
 
 ```markdown
 # Agent 角色
-- lead：协调、运行 harness、寻求批准
+- lead：协调、运行 ProofRails、寻求批准
 - reviewer：独立 diff 评审，不实施
 - tester：编写和运行测试，绝不编辑源代码
 ```

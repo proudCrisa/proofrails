@@ -1,6 +1,6 @@
 # Démarrage rapide
 
-Mettez en place le harness sur votre projet en moins de 10 minutes.
+Mettez en place ProofRails sur votre projet en moins de 10 minutes.
 
 ## Étape 1 : Vérifier les prérequis
 
@@ -9,25 +9,25 @@ git --version          # >= 2.0
 echo $SHELL            # bash, zsh ou dash
 ```
 
-## Étape 2 : Installer le harness
+## Étape 2 : Installer ProofRails
 
 **Option A : Cloner le dépôt**
 
 ```bash
-git clone https://github.com/agentic-dev-harness/harness.git /tmp/harness
-cp -r /tmp/harness/{skill,scripts,templates,docs,examples} ./
+git clone https://github.com/proofrails/proofrails.git /tmp/proofrails
+cp -r /tmp/proofrails/{skill,scripts,templates,docs,examples} ./
 ```
 
 **Option B : Copier uniquement la compétence**
 
 ```bash
 # Claude Code
-mkdir -p ~/.claude/skills/agentic-dev-harness
-cp harness/skill/SKILL.md ~/.claude/skills/agentic-dev-harness/SKILL.md
+mkdir -p ~/.claude/skills/proofrails
+cp proofrails/skill/SKILL.md ~/.claude/skills/proofrails/SKILL.md
 
 # Compétences Markdown de style OpenClaw / Hermes
-mkdir -p ~/.openclaw/workspace/skills/agentic-dev-harness
-cp harness/skill/SKILL.md ~/.openclaw/workspace/skills/agentic-dev-harness/SKILL.md
+mkdir -p ~/.openclaw/workspace/skills/proofrails
+cp proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
 ```
 
 Pour les autres agents à compétences Markdown, copiez `skill/SKILL.md` dans le dossier de compétences de l'outil.
@@ -37,52 +37,52 @@ Pour les autres agents à compétences Markdown, copiez `skill/SKILL.md` dans le
 Si vous avez déjà cloné ce dépôt, exécutez directement le script bootstrap :
 
 ```bash
-./scripts/bootstrap-harness
+./scripts/proofrails-bootstrap
 ```
 
 ## Étape 3 : Bootstrapper votre projet
 
 ```bash
 # Essai à blanc d'abord — voir ce qui sera créé sans toucher aux fichiers
-./scripts/bootstrap-harness --dry-run
+./scripts/proofrails-bootstrap --dry-run
 
 # Appliquer
-./scripts/bootstrap-harness
+./scripts/proofrails-bootstrap
 ```
 
 Sortie attendue :
 
 ```
-[harness] Target: /chemin/vers/votre-projet
-[harness] Créé .agentic/changes/
-[harness] Créé .agentic/runs/
-[harness] Créé planwithfile/
-[harness] Créé .evidence/
-[harness] Écrit AGENTS.md (depuis le modèle)
-[harness] Écrit CLAUDE.md (depuis le modèle)
-[harness] Terminé. Exécutez ./scripts/harness-check pour vérifier.
+[proofrails] Target: /chemin/vers/votre-projet
+[proofrails] Créé .agentic/changes/
+[proofrails] Créé .agentic/runs/
+[proofrails] Créé planwithfile/
+[proofrails] Créé .evidence/
+[proofrails] Écrit AGENTS.md (depuis le modèle)
+[proofrails] Écrit CLAUDE.md (depuis le modèle)
+[proofrails] Terminé. Exécutez ./scripts/proofrails-check pour vérifier.
 ```
 
 ## Étape 4 : Valider
 
 ```bash
-./scripts/harness-check
+./scripts/proofrails-check
 ```
 
 Sortie attendue :
 
 ```
-[harness-check] Vérification du harness installé...
-[harness-check] Cible: /chemin/vers/votre-projet
+[proofrails-check] Vérification de ProofRails installé...
+[proofrails-check] Cible: /chemin/vers/votre-projet
 
-[harness-check]   .agentic/changes/: OK
-[harness-check]   .agentic/runs/: OK
-[harness-check]   planwithfile/: OK
-[harness-check]   .evidence/: OK
-[harness-check]   CLAUDE.md: OK
-[harness-check]   AGENTS.md: OK
+[proofrails-check]   .agentic/changes/: OK
+[proofrails-check]   .agentic/runs/: OK
+[proofrails-check]   planwithfile/: OK
+[proofrails-check]   .evidence/: OK
+[proofrails-check]   CLAUDE.md: OK
+[proofrails-check]   AGENTS.md: OK
 
-[harness-check] Toutes les vérifications cibles sont passées.
+[proofrails-check] Toutes les vérifications cibles sont passées.
 ```
 
 ## Étape 5 : Utiliser la compétence
@@ -90,13 +90,13 @@ Sortie attendue :
 Invoquez la compétence dans votre outil de codage IA :
 
 ```
-/agentic-dev-harness dans ./ corriger le bug de timeout de connexion. Commencer par la découverte brownfield. Attendre l'approbation avant d'éditer le code. Critères de succès : test de régression passe.
+/proofrails dans ./ corriger le bug de timeout de connexion. Commencer par la découverte brownfield. Attendre l'approbation avant d'éditer le code. Critères de succès : test de régression passe.
 ```
 
 ## Étape 6 : Lint régulièrement
 
 ```bash
-./scripts/harness-lint
+./scripts/proofrails-lint
 ```
 
 Analyse les problèmes courants : fichiers requis manquants et termes interdits.

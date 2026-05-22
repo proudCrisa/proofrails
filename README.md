@@ -1,4 +1,4 @@
-# Agentic Dev Harness
+# ProofRails
 
 **Build AI development guardrails in 10 minutes.**
 
@@ -12,7 +12,7 @@ A single-entry skill that turns AI-assisted coding into a reproducible engineeri
 
 AI coding agents are powerful but unpredictable. They skip discovery, edit without approval, merge without tests, and leave no evidence behind. Teams end up writing ad-hoc rules, copying CLAUDE.md templates, and manually enforcing gates — work that has nothing to do with their actual product.
 
-This harness gives you that infrastructure in one command. It is not a framework, not a SaaS, not a proprietary platform. It is a **skill** — a structured workflow that runs inside your existing AI coding tool — plus a set of scripts and templates that keep your project in a known-good state.
+ProofRails gives you that infrastructure in one command. It is not a framework, not a SaaS, not a proprietary platform. It is a **skill** — a structured workflow that runs inside your existing AI coding tool — plus a set of scripts and templates that keep your project in a known-good state.
 
 ## What you get in 10 minutes
 
@@ -35,7 +35,7 @@ Intake -> Probe -> Mode -> Discovery -> Spec -> Challenge -> Approve -> Apply ->
 
 1. **Intake** — Collect goal, constraints, success criteria. Ask only what is missing.
 2. **Probe** — Detect available tools (git, OpenSpec, gstack, etc.). Map degraded-mode fallbacks.
-3. **Mode** — Classify the work: greenfield, brownfield, hybrid, or harness-bootstrap.
+3. **Mode** — Classify the work: greenfield, brownfield, hybrid, or proofrails-bootstrap.
 4. **Discovery** — Read-only exploration. Find entry points, contracts, risks. No edits yet.
 5. **Spec** — Write proposal, design, tasks, and acceptance scenarios (OpenSpec-compatible).
 6. **Challenge** — Stress-test the spec from business, risk, implementation, and history angles.
@@ -57,15 +57,15 @@ Intake -> Probe -> Mode -> Discovery -> Spec -> Challenge -> Approve -> Apply ->
 
 ```bash
 # Clone into your project or skills directory
-git clone https://github.com/agentic-dev-harness/harness.git
+git clone https://github.com/proofrails/proofrails.git
 
 # Claude Code
-mkdir -p ~/.claude/skills/agentic-dev-harness
-cp harness/skill/SKILL.md ~/.claude/skills/agentic-dev-harness/SKILL.md
+mkdir -p ~/.claude/skills/proofrails
+cp proofrails/skill/SKILL.md ~/.claude/skills/proofrails/SKILL.md
 
 # OpenClaw / Hermes-style Markdown skills
-mkdir -p ~/.openclaw/workspace/skills/agentic-dev-harness
-cp harness/skill/SKILL.md ~/.openclaw/workspace/skills/agentic-dev-harness/SKILL.md
+mkdir -p ~/.openclaw/workspace/skills/proofrails
+cp proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
 
 # Other Markdown-skill agents: copy skill/SKILL.md to that tool's skill directory.
 ```
@@ -74,25 +74,29 @@ cp harness/skill/SKILL.md ~/.openclaw/workspace/skills/agentic-dev-harness/SKILL
 
 ```bash
 # In your project root:
-./scripts/bootstrap-harness
+./scripts/proofrails-bootstrap
 
 # Or dry-run first to see what will be created:
-./scripts/bootstrap-harness --dry-run
+./scripts/proofrails-bootstrap --dry-run
 
-# Check harness health:
-./scripts/harness-check
+# Check ProofRails health:
+./scripts/proofrails-check
 
 # Lint for issues:
-./scripts/harness-lint
+./scripts/proofrails-lint
 ```
+
+Legacy scripts `bootstrap-harness`, `harness-check`, and `harness-lint` remain compatibility wrappers.
 
 ### Use the skill
 
 ```
-/agentic-dev-harness in ./my-project fix the payment timeout bug.
+/proofrails in ./my-project fix the payment timeout bug.
 Start with brownfield discovery. Wait for approval before editing code.
 Success criteria: regression test passes, module tests green.
 ```
+
+Legacy invocations `/agentic-dev-harness` and `/agentic-dv-harness` remain compatibility aliases.
 
 ## Modes
 
@@ -101,21 +105,21 @@ Success criteria: regression test passes, module tests green.
 | **Greenfield** | New project, new repo, new module | Require product/design/tech docs or interview |
 | **Brownfield** | Bug fix, refactor, migration, perf | Discovery before edits, characterization tests |
 | **Hybrid** | New subsystem inside existing project | Combine greenfield spec + brownfield discovery |
-| **Harness-bootstrap** | Set up the harness itself | No business code touched |
+| **ProofRails-bootstrap** | Set up ProofRails itself | No business code touched |
 
 ## Compatibility
 
-This harness works with any AI coding tool that can read Markdown skill files. It has optional integrations with:
+ProofRails works with any AI coding tool that can read Markdown skill files. It has optional integrations with:
 
 | Integration | Purpose | Without it |
 |---|---|---|
 | [OpenSpec](https://github.com/anthropics/openspec) | Spec lifecycle CLI | Falls back to `.agentic/changes/` |
 | [gstack](https://github.com/gstack) | Planning/review/QA skills | Built-in workflow gates work standalone |
-| Superpowers | TDD and execution discipline | Core rules are emulated in the harness |
+| Superpowers | TDD and execution discipline | Core rules are emulated in ProofRails |
 | GitNexus | Code graph and impact analysis | grep/find fallback |
 | gbrain | Persistent memory and code search | Works without it |
 
-**This harness has zero hard dependencies.** Install what helps; skip what does not.
+**ProofRails has zero hard dependencies.** Install what helps; skip what does not.
 
 ## Safety principles
 
@@ -123,13 +127,13 @@ This harness works with any AI coding tool that can read Markdown skill files. I
 2. **Evidence over claims.** Every verification gate requires build output, test results, or explicit user-accepted exceptions.
 3. **High-risk contracts require confirmation.** Public APIs, data schemas, message queues, authentication, deployment, and production configuration require user approval before modification.
 4. **Archive is terminal.** After a change is archived, do not patch it in place. Start a new change.
-5. **Single entry.** The user invokes one skill. The harness routes to sub-skills internally. The user never needs to manually choose between planning, review, QA, or ship skills.
+5. **Single entry.** The user invokes one skill. ProofRails routes to sub-skills internally. The user never needs to manually choose between planning, review, QA, or ship skills.
 
 ## Examples
 
-- [Minimal harness setup](./examples/minimal/README.md) — Bootstrap on an empty repo
+- [Minimal ProofRails setup](./examples/minimal/README.md) — Bootstrap on an empty repo
 - [Brownfield bug fix](./examples/brownfield/README.md) — Discovery, spec, fix, verify on an existing project
-- [Greenfield service](./examples/greenfield/README.md) — New service from scratch with full harness
+- [Greenfield service](./examples/greenfield/README.md) — New service from scratch with full ProofRails
 
 ## Documentation
 
@@ -144,8 +148,8 @@ This harness works with any AI coding tool that can read Markdown skill files. I
 
 Contributions are welcome. Before submitting a PR:
 
-1. Run `./scripts/harness-lint` and fix all issues.
-2. Run `./scripts/harness-check` and verify all checks pass.
+1. Run `./scripts/proofrails-lint` and fix all issues.
+2. Run `./scripts/proofrails-check` and verify all checks pass.
 3. Add evidence to `.evidence/` for any new behavior.
 4. Update docs if you change the workflow.
 

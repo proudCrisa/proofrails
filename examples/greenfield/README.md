@@ -1,15 +1,15 @@
 # Greenfield Service Example
 
-This example walks through starting a new service from scratch using the harness.
+This example walks through starting a new service from scratch using ProofRails.
 
 ## Scenario
 
 Build a `user-notification-service` that sends email and push notifications when specific events occur. The service will be a REST API consumed by other internal services.
 
-## Step 1: Invoke the harness
+## Step 1: Invoke ProofRails
 
 ```
-/agentic-dev-harness in /path/to/user-notification-service start a user notification service.
+/proofrails in /path/to/user-notification-service start a user notification service.
 No existing code. Tech stack preference: Go, PostgreSQL, Redis.
 Success criteria: proposal, design, tasks, first vertical slice plan.
 Do not write implementation yet.
@@ -17,7 +17,7 @@ Do not write implementation yet.
 
 ## Step 2: Structured interview
 
-The harness drives the intake interview:
+ProofRails drives the intake interview:
 
 **Product:**
 - Users: other internal services (order-service, payment-service, auth-service)
@@ -46,7 +46,7 @@ The harness drives the intake interview:
 
 ## Step 3: Spec draft
 
-The harness creates `.agentic/changes/new-notification-service/`:
+ProofRails creates `.agentic/changes/new-notification-service/`:
 
 **proposal.md:**
 ```markdown
@@ -87,7 +87,7 @@ This leads to duplicated code, inconsistent delivery, and no unified tracking.
 
 ## Step 4: Challenge gate
 
-The harness challenges:
+ProofRails challenges:
 1. **Business:** Is 30-second delivery too generous? -> Confirmed: 30s is max, typical < 5s.
 2. **Risk:** What if both SendGrid and Firebase are down? -> Queue and retry; circuit breaker prevents cascade.
 3. **Implementation:** Why Go over TypeScript? -> Team expertise, lower operational overhead.
@@ -95,7 +95,7 @@ The harness challenges:
 
 ## Step 5: First vertical slice
 
-The harness identifies the smallest complete slice:
+ProofRails identifies the smallest complete slice:
 
 **"Send an email notification and query its status."**
 

@@ -1,4 +1,4 @@
-# Agentic Dev Harness
+# ProofRails
 
 **Mettez en place des garde-fous pour le développement IA en 10 minutes.**
 
@@ -12,7 +12,7 @@ Une compétence à point d'entrée unique qui transforme le codage assisté par 
 
 Les agents de codage IA sont puissants mais imprévisibles. Ils sautent la découverte, éditent sans approbation, fusionnent sans tests et ne laissent aucune trace. Les équipes finissent par écrire des règles ad-hoc, copier des modèles CLAUDE.md et appliquer manuellement des contrôles — un travail qui n'a rien à voir avec leur produit réel.
 
-Ce harness vous donne cette infrastructure en une seule commande. Ce n'est pas un framework, ni un SaaS, ni une plateforme propriétaire. C'est une **compétence** — un flux de travail structuré qui s'exécute dans votre outil de codage IA existant — plus un ensemble de scripts et de modèles qui maintiennent votre projet dans un état connu et sain.
+ProofRails vous donne cette infrastructure en une seule commande. Ce n'est pas un framework, ni un SaaS, ni une plateforme propriétaire. C'est une **compétence** — un flux de travail structuré qui s'exécute dans votre outil de codage IA existant — plus un ensemble de scripts et de modèles qui maintiennent votre projet dans un état connu et sain.
 
 ## Ce que vous obtenez en 10 minutes
 
@@ -35,7 +35,7 @@ Réception -> Détection -> Mode -> Découverte -> Spéc -> Challenge -> Approba
 
 1. **Réception** — Collecter l'objectif, les contraintes, les critères de succès. Ne demander que ce qui manque.
 2. **Détection** — Détecter les outils disponibles (git, OpenSpec, gstack, etc.). Cartographier les solutions de secours en mode dégradé.
-3. **Mode** — Classer le travail : nouveau projet, existant, hybride ou bootstrap du harness.
+3. **Mode** — Classer le travail : nouveau projet, existant, hybride ou bootstrap de ProofRails.
 4. **Découverte** — Exploration en lecture seule. Trouver les points d'entrée, les contrats, les risques. Pas d'édition.
 5. **Spéc** — Rédiger la proposition, la conception, les tâches et les scénarios d'acceptation (compatible OpenSpec).
 6. **Challenge** — Tester la spécification sous les angles métier, risque, implémentation et historique.
@@ -57,15 +57,15 @@ Réception -> Détection -> Mode -> Découverte -> Spéc -> Challenge -> Approba
 
 ```bash
 # Cloner dans votre projet ou répertoire de compétences
-git clone https://github.com/agentic-dev-harness/harness.git
+git clone https://github.com/proofrails/proofrails.git
 
 # Claude Code
-mkdir -p ~/.claude/skills/agentic-dev-harness
-cp harness/skill/SKILL.md ~/.claude/skills/agentic-dev-harness/SKILL.md
+mkdir -p ~/.claude/skills/proofrails
+cp proofrails/skill/SKILL.md ~/.claude/skills/proofrails/SKILL.md
 
 # Compétences Markdown de style OpenClaw / Hermes
-mkdir -p ~/.openclaw/workspace/skills/agentic-dev-harness
-cp harness/skill/SKILL.md ~/.openclaw/workspace/skills/agentic-dev-harness/SKILL.md
+mkdir -p ~/.openclaw/workspace/skills/proofrails
+cp proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
 
 # Autres agents à compétences Markdown : copiez skill/SKILL.md dans le dossier de compétences de l'outil.
 ```
@@ -74,25 +74,29 @@ cp harness/skill/SKILL.md ~/.openclaw/workspace/skills/agentic-dev-harness/SKILL
 
 ```bash
 # À la racine de votre projet :
-./scripts/bootstrap-harness
+./scripts/proofrails-bootstrap
 
 # Ou essai à blanc pour voir ce qui sera créé :
-./scripts/bootstrap-harness --dry-run
+./scripts/proofrails-bootstrap --dry-run
 
-# Vérifier la santé du harness :
-./scripts/harness-check
+# Vérifier la santé de ProofRails :
+./scripts/proofrails-check
 
 # Lint pour détecter les problèmes :
-./scripts/harness-lint
+./scripts/proofrails-lint
 ```
+
+Les anciens scripts `bootstrap-harness`, `harness-check` et `harness-lint` restent des wrappers de compatibilité.
 
 ### Utiliser la compétence
 
 ```
-/agentic-dev-harness dans ./mon-projet corriger le bug de timeout de paiement.
+/proofrails dans ./mon-projet corriger le bug de timeout de paiement.
 Commencer par la découverte du code existant. Attendre l'approbation avant d'éditer.
 Critères de succès : test de régression passe, tests du module verts.
 ```
+
+Les anciennes invocations `/agentic-dev-harness` et `/agentic-dv-harness` restent des alias de compatibilité.
 
 ## Modes
 
@@ -101,21 +105,21 @@ Critères de succès : test de régression passe, tests du module verts.
 | **Greenfield** | Nouveau projet, nouveau dépôt, nouveau module | Exiger des documents produit/conception/tech ou un entretien |
 | **Brownfield** | Correction de bug, refactoring, migration, perf | Découverte avant édition, tests de caractérisation |
 | **Hybride** | Nouveau sous-système dans un projet existant | Combiner spéc greenfield + découverte brownfield |
-| **Bootstrap** | Mettre en place le harness lui-même | Aucun code métier touché |
+| **Bootstrap** | Mettre en place ProofRails lui-même | Aucun code métier touché |
 
 ## Compatibilité
 
-Ce harness fonctionne avec tout outil de codage IA capable de lire des fichiers de compétence Markdown. Intégrations optionnelles :
+ProofRails fonctionne avec tout outil de codage IA capable de lire des fichiers de compétence Markdown. Intégrations optionnelles :
 
 | Intégration | Rôle | Sans elle |
 |---|---|---|
 | [OpenSpec](https://github.com/anthropics/openspec) | CLI de cycle de vie des specs | Repli sur `.agentic/changes/` |
 | [gstack](https://github.com/gstack) | Compétences de planification/review/QA | Les portes intégrées fonctionnent seules |
-| Superpowers | Discipline TDD et exécution | Les règles de base sont émulées dans le harness |
+| Superpowers | Discipline TDD et exécution | Les règles de base sont émulées dans ProofRails |
 | GitNexus | Graphe de code et analyse d'impact | Repli sur grep/find |
 | gbrain | Mémoire persistante et recherche de code | Fonctionne sans |
 
-**Ce harness n'a aucune dépendance obligatoire.** Installez ce qui aide ; ignorez le reste.
+**ProofRails n'a aucune dépendance obligatoire.** Installez ce qui aide ; ignorez le reste.
 
 ## Principes de sécurité
 
@@ -123,13 +127,13 @@ Ce harness fonctionne avec tout outil de codage IA capable de lire des fichiers 
 2. **Des preuves, pas des affirmations.** Chaque porte de vérification nécessite une sortie de build, des résultats de tests ou des exceptions explicitement acceptées par l'utilisateur.
 3. **Les contrats à haut risque nécessitent une confirmation.** Les APIs publiques, les schémas de données, les files de messages, l'authentification, le déploiement et la configuration de production nécessitent une approbation avant modification.
 4. **L'archive est terminale.** Après l'archivage d'un changement, ne le modifiez pas sur place. Commencez un nouveau changement.
-5. **Point d'entrée unique.** L'utilisateur invoque une seule compétence. Le harness route vers les sous-compétences en interne.
+5. **Point d'entrée unique.** L'utilisateur invoque une seule compétence. ProofRails route vers les sous-compétences en interne.
 
 ## Exemples
 
-- [Configuration minimale du harness](./examples/minimal/README.md) — Bootstrap sur un dépôt vide
+- [Configuration minimale de ProofRails](./examples/minimal/README.md) — Bootstrap sur un dépôt vide
 - [Correction de bug Brownfield](./examples/brownfield/README.md) — Découverte, spec, correction, vérification sur un projet existant
-- [Service Greenfield](./examples/greenfield/README.md) — Nouveau service from scratch avec harness complet
+- [Service Greenfield](./examples/greenfield/README.md) — Nouveau service from scratch avec ProofRails complet
 
 ## Documentation
 
@@ -144,8 +148,8 @@ Ce harness fonctionne avec tout outil de codage IA capable de lire des fichiers 
 
 Les contributions sont les bienvenues. Avant de soumettre une PR :
 
-1. Exécutez `./scripts/harness-lint` et corrigez tous les problèmes.
-2. Exécutez `./scripts/harness-check` et vérifiez que tout passe.
+1. Exécutez `./scripts/proofrails-lint` et corrigez tous les problèmes.
+2. Exécutez `./scripts/proofrails-check` et vérifiez que tout passe.
 3. Ajoutez des preuves dans `.evidence/` pour tout nouveau comportement.
 4. Mettez à jour la documentation si vous modifiez le flux de travail.
 

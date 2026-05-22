@@ -4,7 +4,7 @@ Project instructions for AI coding agents working on this repository.
 
 ## Workflow
 
-All non-trivial changes go through the Agentic Dev Harness workflow:
+All non-trivial changes go through the ProofRails workflow:
 
 ```text
 Intake -> Probe -> Mode -> Discovery -> Spec -> Challenge -> Approve -> Apply -> Review -> Verify -> Archive
@@ -60,12 +60,12 @@ Add your team's conventions here. Examples:
 
 ## Optional integrations
 
-If you have these tools installed, the harness will use them:
+If you have these tools installed, ProofRails will use them:
 
 - **gstack** — planning, challenge, review, and QA skills.
 - **OpenSpec** — spec lifecycle management (otherwise `.agentic/changes/` fallback).
-- **Superpowers** — TDD and execution discipline (otherwise emulated in harness).
+- **Superpowers** — TDD and execution discipline (otherwise emulated in ProofRails).
 - **GitNexus** — code graph and impact analysis (otherwise grep/find).
 - **gbrain** — persistent memory and code search (optional).
 
-Configure any or none — the harness works without all of them.
+Configure any or none — ProofRails works without all of them.

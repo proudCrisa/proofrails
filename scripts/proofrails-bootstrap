@@ -1,0 +1,247 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# proofrails-bootstrap — set up ProofRails directories and files in a target project
+#
+# Usage: proofrails-bootstrap [--dry-run] [--force] [target-dir]
+#
+# Options:
+#   --dry-run   Show what would happen without making changes
+#   --force     Overwrite existing CLAUDE.md and AGENTS.md
+#
+# Creates:
+#   .agentic/changes/   Change proposals and design docs
+#   .agentic/runs/      Review reports and run evidence
+#   planwithfile/       Active change working directory
+#   .evidence/          Immutable evidence records
+#   AGENTS.md           Multi-agent collaboration rules (from template)
+#   CLAUDE.md           AI agent instructions (from template)
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+DRY_RUN=false
+FORCE=false
+TARGET=""
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --dry-run) DRY_RUN=true; shift ;;
+    --force)   FORCE=true; shift ;;
+    --help|-h)
+      echo "Usage: proofrails-bootstrap [--dry-run] [--force] [target-dir]"
+      echo ""
+      echo "Options:"
+      echo "  --dry-run  Show what would happen without making changes"
+      echo "  --force    Overwrite existing CLAUDE.md and AGENTS.md"
+      echo "  target-dir Target directory (default: current directory)"
+      exit 0
+      ;;
+    *) TARGET="$1"; shift ;;
+  esac
+done
+
+TARGET="${TARGET:-.}"
+TARGET="$(cd "$TARGET" 2>/dev/null && pwd || echo "$TARGET")"
+
+log()  { echo "[proofrails] $*"; }
+skip() { echo "[proofrails] $* (skipped, already exists)"; }
+dry()  { echo "[proofrails] [dry-run] $*"; }
+
+create_dir() {
+  local dir="$1"
+  if [ -d "$dir" ]; then
+    if $DRY_RUN; then
+      dry "Directory $dir already exists."
+    fi
+  else
+    if $DRY_RUN; then
+      dry "Would create $dir/"
+    else
+      mkdir -p "$dir"
+      log "Created $dir/"
+    fi
+  fi
+}
+
+copy_template() {
+  local name="$1"
+  local src="$REPO_ROOT/templates/$name"
+  local dst="$TARGET/$name"
+
+  if [ -f "$dst" ] && ! $FORCE; then
+    if $DRY_RUN; then
+      dry "Would write $name (skipped, already exists)"
+    else
+      skip "Writing $name"
+    fi
+    return
+  fi
+
+  if $DRY_RUN; then
+    dry "Would write $name"
+    return
+  fi
+
+  if [ -f "$src" ]; then
+    cp "$src" "$dst"
+    log "Wrote $name (from template)"
+  else
+    # Standalone fallback: create minimal content when templates are not available
+    if [ "$name" = "AGENTS.md" ]; then
+      cat > "$dst" <<'AGENTSEOF'
+# AGENTS.md
+
+This file defines how multiple AI agents should collaborate on this project using the ProofRails workflow.
+
+## Agent roles
+
+### Lead agent
+- Invokes `/proofrails` for all structured work.
+- Legacy aliases `/agentic-dev-harness` and `/agentic-dv-harness` are accepted for compatibility.
+- Runs discovery, writes specs, presents approval gates.
+- Coordinates other agents via task assignment.
+- Never delegates understanding — reads findings and makes decisions.
+- Commits code only after verification evidence is recorded.
+
+### Reviewer agent
+- Independent diff review against the spec.
+- Flags spec drift, unrelated changes, missing tests.
+- Does not implement or edit source code.
+
+### Tester agent
+- Writes characterization tests before brownfield changes.
+- Writes unit/integration tests for greenfield slices.
+- Runs test suites and records results.
+- Does not edit source code (only test files).
+
+## Collaboration rules
+
+1. **Single entry.** The lead agent invokes ProofRails. Other agents are invoked by the lead, not by the user.
+2. **Read-only by default.** Reviewer and tester agents work in read-only mode against the codebase.
+3. **Evidence required.** Every agent task produces evidence. No evidence = not done.
+4. **Approval gate.** The lead agent must present the approval gate before any source edit.
+5. **Task ownership.** Exactly one agent owns a task at a time.
+
+## Task lifecycle
+
+```text
+Unassigned -> Assigned -> In Progress -> Review -> Done
+                                    \-> Blocked (needs input)
+```
+
+## Communication
+
+- Agents communicate through the task list and artifact files on disk.
+- The lead agent reads review reports and test results from `.agentic/runs/`.
+- The lead agent is the only agent that communicates with the user.
+AGENTSEOF
+      log "Wrote $name (fallback)"
+    elif [ "$name" = "CLAUDE.md" ]; then
+      cat > "$dst" <<'CLAUdeEOF'
+# CLAUDE.md
+
+Project instructions for AI coding agents working on this repository.
+
+## Workflow
+
+All non-trivial changes go through the ProofRails workflow:
+
+```text
+Intake -> Probe -> Mode -> Discovery -> Spec -> Challenge -> Approve -> Apply -> Review -> Verify -> Archive
+```
+
+## Hard rules
+
+1. **No source edits before approval.** Planning and spec documents are always allowed. Source code, dependency, and CI/CD changes require explicit user approval.
+2. **Evidence over claims.** Every verification gate requires build output, test results, or explicit user-accepted exceptions.
+3. **Discovery before editing.** For existing code, run read-only discovery to understand entry points, call chains, contracts, and blast radius before making changes.
+4. **Spec before implementation.** Every non-trivial change gets a written proposal, design, tasks, and acceptance scenarios.
+5. **Archive is terminal.** After a change is archived, start a new change rather than patching the archived one.
+
+## Risk boundaries
+
+Before modifying any of the following, present the change at the approval gate with explicit risk assessment:
+
+- Public API signatures
+- Database schemas and migrations
+- Message queue topics and message formats
+- Authentication and authorization logic
+- CI/CD pipeline configuration
+- Deployment configuration and infrastructure as code
+- Production environment variables
+
+## Build and test
+
+Document your project's build and test commands here so agents can verify their work:
+
+```bash
+# Build
+<your-build-command>
+
+# Test
+<your-test-command>
+
+# Lint
+<your-lint-command>
+
+# Type check (if applicable)
+<your-typecheck-command>
+```
+
+## Project-specific conventions
+
+Add your team's conventions here. Examples:
+
+- Code style and formatting rules
+- Preferred patterns and libraries
+- Naming conventions
+- Error handling patterns
+- Commit message format
+
+## Optional integrations
+
+If you have these tools installed, ProofRails will use them:
+
+- **gstack** — planning, challenge, review, and QA skills.
+- **OpenSpec** — spec lifecycle management.
+- **Superpowers** — TDD and execution discipline.
+- **GitNexus** — code graph and impact analysis.
+- **gbrain** — persistent memory and code search.
+
+Configure any or none — ProofRails works without all of them.
+CLAUdeEOF
+      log "Wrote $name (fallback)"
+    fi
+  fi
+}
+
+log "Target: $TARGET"
+$DRY_RUN && log "Mode: dry-run (no changes will be made)"
+$FORCE && log "Mode: force (existing files will be overwritten)"
+
+create_dir "$TARGET/.agentic/changes"
+create_dir "$TARGET/.agentic/runs"
+create_dir "$TARGET/planwithfile"
+create_dir "$TARGET/.evidence"
+
+# Touch .gitkeep files for empty dirs in non-dry-run mode
+if ! $DRY_RUN; then
+  for d in ".agentic/changes" ".agentic/runs"; do
+    touch "$TARGET/$d/.gitkeep" 2>/dev/null || true
+  done
+fi
+
+copy_template "AGENTS.md"
+copy_template "CLAUDE.md"
+
+if $DRY_RUN; then
+  log "Dry-run complete. No changes were made."
+  log "Run without --dry-run to apply."
+else
+  if [ "$TARGET" = "$(pwd)" ] || [ "$TARGET" = "." ]; then
+    log "Done. Run ./scripts/proofrails-check to verify."
+  else
+    log "Done. Run ./scripts/proofrails-check --target \"$TARGET\" to verify."
+  fi
+fi

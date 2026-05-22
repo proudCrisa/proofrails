@@ -1,13 +1,13 @@
 ---
-name: agentic-dev-harness
-description: "Single-entry AI engineering harness for greenfield and brownfield projects. Detects missing tool prerequisites, gathers required product/design/technical inputs, creates durable specs/plans, gates implementation, verifies evidence, and archives learning."
+name: proofrails
+description: "Single-entry AI engineering guardrails for greenfield and brownfield projects. Detects missing tool prerequisites, gathers required product/design/technical inputs, creates durable specs/plans, gates implementation, verifies evidence, and archives learning."
 version: "1.0.0"
-author: "Agentic Dev Harness Contributors"
+author: "ProofRails Contributors"
 license: "MIT"
 metadata:
   hermes:
     tags:
-      - harness
+      - proofrails
       - bootstrap
       - greenfield
       - brownfield
@@ -24,11 +24,11 @@ metadata:
     - qa
 ---
 
-# Agentic Dev Harness
+# ProofRails
 
-Use this skill as the single entry point when a user wants to bootstrap a project harness, or run build/refactor/optimize/migrate/debug work through that harness.
+Use this skill as the single entry point when a user wants to bootstrap ProofRails in a project, or run build/refactor/optimize/migrate/debug work through ProofRails.
 
-Primary goal: lower the barrier to setting up a reliable project harness. A user should be able to point at a project and get the missing rules, plans, specs, risk boundaries, verification commands, and evidence structure without manually choosing planning tools, spec formats, or review skills.
+Primary goal: lower the barrier to setting up reliable project guardrails. A user should be able to point at a project and get the missing rules, plans, specs, risk boundaries, verification commands, and evidence structure without manually choosing planning tools, spec formats, or review skills.
 
 The user should not need to manually choose gstack, OpenSpec, Superpowers, planning files, or review skills. This skill orchestrates only what is needed.
 
@@ -39,31 +39,32 @@ Invoke this skill with one complete task sentence. Include the target project pa
 Canonical command:
 
 ```text
-/agentic-dev-harness <target project> <goal> <constraints> <success criteria> <docs or links>
+/proofrails <target project> <goal> <constraints> <success criteria> <docs or links>
 ```
 
-Compatibility alias:
+Compatibility aliases:
 
 ```text
+/agentic-dev-harness <same arguments>
 /agentic-dv-harness <same arguments>
 ```
 
 Complete examples:
 
 ```text
-/agentic-dev-harness in /home/user/projects/payment-service upgrade the auth framework. Docs: https://wiki.example.com/auth-migration. Start with read-only discovery, risk boundaries, upgrade plan, and verification approach. Do not modify business code yet. High-risk boundaries include dependency manifests, auth configuration, startup scripts, and deployment config. Success criteria: produce a planwithfile/ plan listing files to change, test commands, and rollback steps.
+/proofrails in /home/user/projects/payment-service upgrade the auth framework. Docs: https://wiki.example.com/auth-migration. Start with read-only discovery, risk boundaries, upgrade plan, and verification approach. Do not modify business code yet. High-risk boundaries include dependency manifests, auth configuration, startup scripts, and deployment config. Success criteria: produce a planwithfile/ plan listing files to change, test commands, and rollback steps.
 ```
 
 ```text
-/agentic-dev-harness in /home/user/projects/web-app fix login audit log write failures. Do not touch deployment scripts or production config. Start with brownfield discovery: find entry points, call chain, existing tests, and minimal change surface. Wait for approval before editing code. Success criteria: new or reused regression tests, module tests pass, and evidence recorded.
+/proofrails in /home/user/projects/web-app fix login audit log write failures. Do not touch deployment scripts or production config. Start with brownfield discovery: find entry points, call chain, existing tests, and minimal change surface. Wait for approval before editing code. Success criteria: new or reused regression tests, module tests pass, and evidence recorded.
 ```
 
 ```text
-/agentic-dev-harness in the current project generate a harness environment. Create AI development workflow files only, no business code changes. Produce CLAUDE/AGENTS rules, planwithfile structure, .agentic changes fallback, harness environment files. Confirm target directory before writing.
+/proofrails in the current project generate a ProofRails environment. Create AI development workflow files only, no business code changes. Produce CLAUDE/AGENTS rules, planwithfile structure, .agentic changes fallback, and ProofRails scripts. Confirm target directory before writing.
 ```
 
 ```text
-/agentic-dev-harness in /path/to/new-service start a new service project. Interview for product/design/engineering/operations inputs first. Generate proposal, design, tasks, and first vertical slice plan. Do not write business implementation yet. Success criteria: clear tech stack, interface boundaries, test strategy, run commands, deploy and rollback plan.
+/proofrails in /path/to/new-service start a new service project. Interview for product/design/engineering/operations inputs first. Generate proposal, design, tasks, and first vertical slice plan. Do not write business implementation yet. Success criteria: clear tech stack, interface boundaries, test strategy, run commands, deploy and rollback plan.
 ```
 
 ## Core Mission
@@ -79,7 +80,7 @@ The skill supports:
 - **Greenfield**: new project, new repository, new module, new capability.
 - **Brownfield**: bug fix, refactor, performance optimization, migration, legacy modernization.
 - **Hybrid**: new subsystem inside an existing project.
-- **Harness-bootstrap**: set up or validate a repository harness without implementing product/business code.
+- **ProofRails-bootstrap**: set up or validate ProofRails in a repository without implementing product/business code.
 
 ## Non-Negotiable Rules
 
@@ -204,7 +205,7 @@ Choose:
 greenfield
 brownfield
 hybrid
-harness-bootstrap
+proofrails-bootstrap
 ```
 
 Rules:
@@ -212,7 +213,7 @@ Rules:
 - Empty/new repo or new product: greenfield.
 - Existing production system change: brownfield.
 - New capability inside existing system: hybrid.
-- Request is to create, validate, or repair the AI development workflow itself: harness-bootstrap.
+- Request is to create, validate, or repair the AI development workflow itself: proofrails-bootstrap.
 
 Write:
 
@@ -328,9 +329,9 @@ If `.openspec` does not exist, use fallback:
 .agentic/changes/<change-id>/specs/<capability>/spec.md
 ```
 
-Use this fallback by default for low-risk `harness-bootstrap` validation runs. Only create a full `.openspec` tree after explicit user approval.
+Use this fallback by default for low-risk `proofrails-bootstrap` validation runs. Only create a full `.openspec` tree after explicit user approval.
 
-If the user's goal is to bootstrap a full harness environment, propose creating `.openspec` as part of the setup.
+If the user's goal is to bootstrap a full ProofRails environment, propose creating `.openspec` as part of the setup.
 
 ### Proposal template
 
@@ -474,7 +475,7 @@ Core tests
 Edge cases
 Observability
 Docs/instructions
-Harness scripts
+ProofRails scripts
 ```
 
 Brownfield slices:
@@ -648,9 +649,9 @@ Lessons learned
 Next recommended work
 ```
 
-## Harness Bootstrap Mode
+## ProofRails Bootstrap Mode
 
-If the user asks to set up a repository harness, this skill should create or propose:
+If the user asks to set up ProofRails in a repository, this skill should create or propose:
 
 ```text
 CLAUDE.md / AGENTS.md project rules
@@ -658,15 +659,15 @@ CLAUDE.md / AGENTS.md project rules
 planwithfile/ structure
 .agentic/runs/ structure
 .evidence/ structure
-harness-check script
-harness-lint script
+proofrails-check script
+proofrails-lint script
 basic test/build command registry
 skill routing notes
 ```
 
 For a new project, require product/design/technical inputs first. If absent, interview the user or invoke planning skills to produce them.
 
-For an existing project, run read-only discovery first and infer current build/test commands before writing harness scripts.
+For an existing project, run read-only discovery first and infer current build/test commands before writing ProofRails scripts.
 
 ## User Question Policy
 
@@ -692,7 +693,7 @@ Do not ask when:
 End with one of:
 
 ```text
-DONE — harness stage completed with evidence.
+DONE — ProofRails stage completed with evidence.
 DONE_WITH_CONCERNS — completed but with listed gaps.
 BLOCKED — cannot continue; exact blocker and attempted actions listed.
 NEEDS_CONTEXT — user input or document required.

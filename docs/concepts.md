@@ -1,11 +1,11 @@
 # Concepts
 
-How the harness is structured and why each part exists.
+How ProofRails is structured and why each part exists.
 
 ## Architecture
 
 ```text
-harness/
+proofrails/
 ├── skill/             # The main SKILL.md that orchestrates everything
 ├── scripts/           # POSIX shell scripts for setup and validation
 ├── templates/         # Reference templates users can customize
@@ -20,7 +20,7 @@ harness/
 your-project/
 ├── CLAUDE.md          # AI agent project instructions (source of truth)
 ├── AGENTS.md          # Multi-agent collaboration rules
-├── .agentic/          # Harness workspace directory
+├── .agentic/          # ProofRails workspace directory
 │   ├── changes/       # Change proposals: proposal, design, tasks, specs
 │   └── runs/          # Review reports and verification evidence
 ├── planwithfile/      # Working directory for active changes
@@ -30,7 +30,7 @@ your-project/
 
 ## The state machine
 
-The harness models AI-assisted development as a 12-stage state machine:
+ProofRails models AI-assisted development as a 12-stage state machine:
 
 ```
 Intake -> Probe -> Mode -> Discovery -> Spec -> Challenge
@@ -59,7 +59,7 @@ Each stage produces artifacts on disk. No stage is skipped. Stages can loop back
 
 ### Greenfield
 
-New project, new repository, new module, new capability. The harness enforces:
+New project, new repository, new module, new capability. ProofRails enforces:
 
 - Product/design/technical docs or structured interview before spec.
 - Architecture decisions documented in design.md.
@@ -67,7 +67,7 @@ New project, new repository, new module, new capability. The harness enforces:
 
 ### Brownfield
 
-Bug fix, refactor, performance, migration, legacy modernization. The harness enforces:
+Bug fix, refactor, performance, migration, legacy modernization. ProofRails enforces:
 
 - Read-only discovery before any edit.
 - Characterization tests or golden evidence before changes.
@@ -82,9 +82,9 @@ New subsystem inside an existing project. Combines:
 - Brownfield discovery for the existing integration points.
 - Explicit interface contracts between old and new.
 
-### Harness-bootstrap
+### ProofRails-bootstrap
 
-Setting up the harness itself. Creates:
+Setting up ProofRails itself. Creates:
 
 - Project instruction files (CLAUDE.md, AGENTS.md).
 - Directory structure (.agentic, planwithfile, .evidence).
@@ -92,14 +92,14 @@ Setting up the harness itself. Creates:
 
 ## Tools and fallbacks
 
-The harness detects available tools and adapts:
+ProofRails detects available tools and adapts:
 
 | Tool detected | Used for | Fallback if missing |
 |---|---|---|
 | git | Version control, diff, log | Required — no fallback |
 | gstack | Planning/review/QA/challenge skills | Built-in workflow gates |
 | OpenSpec CLI | Spec lifecycle management | `.agentic/changes/` directory |
-| Superpowers | TDD and execution discipline | Emulated rules in harness |
+| Superpowers | TDD and execution discipline | Emulated rules in ProofRails |
 | GitNexus | Code graph queries | `grep -r` / `find` |
 | gbrain | Persistent memory | Works fine without it |
 
@@ -133,7 +133,7 @@ Risk boundaries define contracts that require explicit user approval before modi
 
 ## Evidence
 
-Evidence is the harness's answer to "trust but verify." Every verification gate produces or references evidence:
+Evidence is ProofRails's answer to "trust but verify." Every verification gate produces or references evidence:
 
 - **Build output** — stdout/stderr from build commands.
 - **Test results** — pass/fail counts, coverage reports.
