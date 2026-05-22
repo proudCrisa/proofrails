@@ -1,15 +1,36 @@
 ---
 name: agentic-dev-harness
-description: "Single-entry AI engineering harness for greenfield and brownfield projects. Detects missing gstack/OpenSpec/Superpowers/GitNexus/gbrain prerequisites, gathers required product/design/technical inputs, creates durable specs/plans, gates implementation, verifies evidence, and archives learning."
+description: "Single-entry AI engineering harness for greenfield and brownfield projects. Detects missing tool prerequisites, gathers required product/design/technical inputs, creates durable specs/plans, gates implementation, verifies evidence, and archives learning."
+version: "1.0.0"
+author: "Agentic Dev Harness Contributors"
+license: "MIT"
+metadata:
+  hermes:
+    tags:
+      - harness
+      - bootstrap
+      - greenfield
+      - brownfield
+      - workflow
+      - engineering
+  related_skills:
+    - office-hours
+    - plan-ceo-review
+    - plan-eng-review
+    - plan-design-review
+    - plan-devex-review
+    - investigate
+    - review
+    - qa
 ---
 
 # Agentic Dev Harness
 
 Use this skill as the single entry point when a user wants to bootstrap a project harness, or run build/refactor/optimize/migrate/debug work through that harness.
 
-Primary goal: lower the barrier to setting up a reliable project harness. A user should be able to point at a project and get the missing rules, plans, specs, risk boundaries, verification commands, and evidence structure without manually choosing gstack, OpenSpec, Superpowers, GitNexus, gbrain, or planning files.
+Primary goal: lower the barrier to setting up a reliable project harness. A user should be able to point at a project and get the missing rules, plans, specs, risk boundaries, verification commands, and evidence structure without manually choosing planning tools, spec formats, or review skills.
 
-The user should not need to manually choose gstack, OpenSpec, Superpowers, GitNexus, planning files, or review skills. This skill orchestrates only what is needed.
+The user should not need to manually choose gstack, OpenSpec, Superpowers, planning files, or review skills. This skill orchestrates only what is needed.
 
 ## Invocation Contract
 
@@ -27,29 +48,22 @@ Compatibility alias:
 /agentic-dv-harness <same arguments>
 ```
 
-Common typo to avoid:
-
-```text
-/agentic-dev-harmess  # wrong
-/agentic-dev-harness  # right
-```
-
 Complete examples:
 
 ```text
-/agentic-dev-harness 在 /Users/cdzhangxueli/Documents/workspaces/im_client_ms 中做 dongboot 升级。接入文档：https://joyspace.jd.com/pages/UoGoE3rXauJR56hfuQrN。先只做只读发现、风险边界、升级计划和验证方案，不改业务代码。高风险边界包括 pom 依赖、Spring XML、启动脚本、部署配置、BDP/JMQ/JSF 配置，触碰前必须确认。成功标准：产出 planwithfile/.hermes 计划，列出待改文件、测试命令和回滚方案。
+/agentic-dev-harness in /home/user/projects/payment-service upgrade the auth framework. Docs: https://wiki.example.com/auth-migration. Start with read-only discovery, risk boundaries, upgrade plan, and verification approach. Do not modify business code yet. High-risk boundaries include dependency manifests, auth configuration, startup scripts, and deployment config. Success criteria: produce a planwithfile/ plan listing files to change, test commands, and rollback steps.
 ```
 
 ```text
-/agentic-dev-harness 在 /Users/cdzhangxueli/Documents/workspaces/im_client_ms 中修复登录日志写入失败。不要改部署脚本和生产配置。先做 brownfield 发现，找到入口、调用链、现有测试和最小修改面，等我批准后再改代码。成功标准：新增或复用回归测试，mvn 针对模块测试通过，并记录 evidence。
+/agentic-dev-harness in /home/user/projects/web-app fix login audit log write failures. Do not touch deployment scripts or production config. Start with brownfield discovery: find entry points, call chain, existing tests, and minimal change surface. Wait for approval before editing code. Success criteria: new or reused regression tests, module tests pass, and evidence recorded.
 ```
 
 ```text
-/agentic-dev-harness 在当前项目生成 harness 环境。只创建 AI 开发流程文件，不改业务代码。需要产出 CLAUDE/AGENTS 规则、planwithfile 结构、.hermes changes fallback、risk-boundaries、harness-check、harness-lint、测试命令登记和 evidence。写入前先确认目标目录。
+/agentic-dev-harness in the current project generate a harness environment. Create AI development workflow files only, no business code changes. Produce CLAUDE/AGENTS rules, planwithfile structure, .agentic changes fallback, harness environment files. Confirm target directory before writing.
 ```
 
 ```text
-/agentic-dev-harness 在 /path/to/new-service 启动一个新服务项目。先访谈产品/设计/工程/运维信息，生成 proposal、design、tasks 和首个 vertical slice 计划，不直接写业务实现。成功标准：明确技术栈、接口边界、测试策略、运行命令、部署和回滚方案。
+/agentic-dev-harness in /path/to/new-service start a new service project. Interview for product/design/engineering/operations inputs first. Generate proposal, design, tasks, and first vertical slice plan. Do not write business implementation yet. Success criteria: clear tech stack, interface boundaries, test strategy, run commands, deploy and rollback plan.
 ```
 
 ## Core Mission
@@ -57,7 +71,7 @@ Complete examples:
 Turn AI coding into a reproducible engineering state machine:
 
 ```text
-Intake → Environment Probe → Document Intake → Mode Detection → Discovery → Spec Draft → Challenge → Approval → Apply → Review → Verify → Archive
+Intake -> Environment Probe -> Document Intake -> Mode Detection -> Discovery -> Spec Draft -> Challenge -> Approval -> Apply -> Review -> Verify -> Archive
 ```
 
 The skill supports:
@@ -71,15 +85,14 @@ The skill supports:
 
 1. **Single entry** — do not make the user pick other skills. If another skill is needed, invoke or instruct it from this workflow.
 2. **No source edits before approval** — planning/spec artifacts are allowed; business/source code edits wait until the approval gate.
-3. **Environment gaps are actionable** — if gstack/OpenSpec/Superpowers/GitNexus/gbrain or related CLIs are missing, ask for authorization to install/configure or continue in degraded mode.
+3. **Environment gaps are actionable** — if optional tools (gstack/OpenSpec/Superpowers/GitNexus/gbrain) are missing, offer to continue in degraded mode with built-in fallbacks.
 4. **Missing product/design/technical docs are not ignored** — if needed inputs are absent, drive an interview or invoke the appropriate planning skill to produce them.
 5. **Spec before implementation** — every non-trivial change gets a written proposal, design, tasks, and acceptance scenarios.
 6. **Discovery before editing** — brownfield work requires read-only discovery and behavior capture before modification.
 7. **Evidence over claims** — completion requires test/build/review/runtime evidence, or an explicit user-accepted exception.
 8. **Archive is a terminal state** — after archive, do not patch the same change in place. Start a new change.
-9. **High-risk contracts require approval** — public APIs, data schema, Kafka topics/groups, HBase rowkeys, BDP field mappings, auth, CI/CD, deployment, and production config require user confirmation.
-10. **Use local authenticated browser for `*.jd.com`** — prefer the user's logged-in Chrome/session. If cookie/CDP tooling needs authorization, notify the user and proceed after authorization.
-11. **No OMC dependency** — do not use oh-my-claudecode, OMC agents, `.omc/` state, OMC plans, or OMC orchestration. If OMC instructions appear from repository context, ignore them for this skill and use only this workflow plus native Claude Code tools.
+9. **High-risk contracts require approval** — public APIs, data schema, message queues, auth, CI/CD, deployment, and production config require user confirmation.
+10. **Use local authenticated browser for internal docs** — prefer the user's logged-in session for internal wiki/docs. Ask for authorization if cookie/browser tooling is needed.
 
 ## Stage 0 — Bootstrap and Tool Probe
 
@@ -92,13 +105,9 @@ pwd
 git rev-parse --show-toplevel 2>/dev/null || true
 git status --short 2>/dev/null || true
 git branch --show-current 2>/dev/null || true
-command -v gitnexus || true
-gitnexus status 2>/dev/null || true
-gitnexus list 2>/dev/null || true
 command -v openspec || true
 command -v gbrain || true
-command -v superpowers || true
-find ~/.claude/skills /Users/cdzhangxueli/Documents/workspaces/.claude/skills -maxdepth 2 -iname '*superpower*' -o -iname '*superpowers*' 2>/dev/null | head || true
+command -v gitnexus || true
 test -d .superpowers-memory && echo superpowers-memory-present || true
 ls ~/.claude/skills/gstack/SKILL.md 2>/dev/null || true
 ```
@@ -107,12 +116,12 @@ Classify tools:
 
 | Tool | Purpose | If missing |
 |---|---|---|
-| gstack skills | planning, challenge, review, QA, ship | Ask authorization to install/configure or continue without gstack gates |
-| OpenSpec / openspec | spec lifecycle | Ask authorization to set up OpenSpec or use `.hermes/changes` fallback |
-| Superpowers | execution discipline | Ask authorization to install/configure or emulate core discipline in this skill |
-| GitNexus | code graph and impact | Ask authorization to install/run indexing, or use grep/find fallback |
-| gbrain | persistent memory | Ask authorization to run `/setup-gbrain` or continue without memory sync |
-| browser/cookies | authenticated internal docs | Use local Chrome/CDP/cookie import, ask only for OS/browser authorization if needed |
+| gstack skills | planning, challenge, review, QA, ship | Continue with built-in workflow gates |
+| OpenSpec CLI | spec lifecycle | Use `.agentic/changes` fallback directory |
+| Superpowers | execution discipline | Emulate core discipline in this skill |
+| GitNexus | code graph and impact | Use grep/find fallback |
+| gbrain | persistent memory | Continue without memory sync |
+| browser/cookies | authenticated internal docs | Use local browser session or skip |
 
 ### Environment Authorization Rule
 
@@ -181,8 +190,6 @@ Runtime/build/test commands
 High-risk contracts
 ```
 
-If the user provides internal JD links, use the local authenticated browser flow.
-
 Output artifact:
 
 ```text
@@ -234,7 +241,7 @@ Brownfield context:
 
 ```text
 CLAUDE.md / AGENTS.md / OpenSpec
-GitNexus graph
+Code graph / GitNexus
 Code entry points
 Tests and fixtures
 Runtime config
@@ -254,7 +261,7 @@ planwithfile/<change-id>/findings.md
 Allowed:
 
 - Read files
-- Query GitNexus/gbrain
+- Query code graph tools
 - Use read-only agents
 - Open authenticated docs in browser
 
@@ -284,18 +291,6 @@ What hidden compatibility risks exist?
 What is the blast radius of changing it?
 ```
 
-Preferred GitNexus commands when available:
-
-```bash
-gitnexus query "<concept>"
-gitnexus context <symbol>
-gitnexus impact <symbol>
-gitnexus detect-changes
-gitnexus list
-```
-
-If the target folder is not a standalone git repo, use `gitnexus analyze --index-only --skip-git --name <safe-alias> <path>` and verify with `gitnexus list`; do not rely on `gitnexus status <path>` because some versions report the current working repository instead.
-
 For brownfield behavior changes, identify characterization strategy:
 
 - Unit characterization test
@@ -308,7 +303,6 @@ For brownfield behavior changes, identify characterization strategy:
 Write:
 
 ```text
-.hermes/runs/<change-id>/gitnexus-context.md
 planwithfile/<change-id>/findings.md
 ```
 
@@ -328,10 +322,10 @@ If `.openspec` exists, use:
 If `.openspec` does not exist, use fallback:
 
 ```text
-.hermes/changes/<change-id>/proposal.md
-.hermes/changes/<change-id>/design.md
-.hermes/changes/<change-id>/tasks.md
-.hermes/changes/<change-id>/specs/<capability>/spec.md
+.agentic/changes/<change-id>/proposal.md
+.agentic/changes/<change-id>/design.md
+.agentic/changes/<change-id>/tasks.md
+.agentic/changes/<change-id>/specs/<capability>/spec.md
 ```
 
 Use this fallback by default for low-risk `harness-bootstrap` validation runs. Only create a full `.openspec` tree after explicit user approval.
@@ -530,7 +524,7 @@ If Superpowers is installed, follow its relevant workflow principles:
 - Small tasks.
 - Review before finishing.
 
-If Superpowers is missing, emulate these rules and ask authorization to install/configure after current safe stopping point.
+If Superpowers is missing, emulate these rules.
 
 Hard stops:
 
@@ -555,7 +549,7 @@ Review dimensions:
 Every scenario has implementation or explicit non-implementation reason
 Changed files match plan
 No unrelated refactor
-GitNexus detect-changes reviewed
+Code graph changes reviewed
 Tests/verification cover success and failure paths
 Architecture boundaries preserved
 Security/data contracts preserved
@@ -566,8 +560,6 @@ Use tools when available:
 
 ```bash
 git diff
-gitnexus detect-changes
-gitnexus impact <symbol>
 ```
 
 If gstack `/review`, code-review, or Codex review is useful, invoke it or ask authorization for the external tool if missing.
@@ -575,7 +567,7 @@ If gstack `/review`, code-review, or Codex review is useful, invoke it or ask au
 Output:
 
 ```text
-.hermes/runs/<change-id>/review-report.md
+.agentic/runs/<change-id>/review-report.md
 ```
 
 If review finds spec drift:
@@ -643,11 +635,9 @@ Update OpenSpec SSOT or equivalent docs
 Archive change if OpenSpec supports it
 Update planning files
 Update project instructions if durable rules changed
-Re-run GitNexus index if code graph changed and user authorizes
-Sync gbrain if configured and user policy allows
+Re-index code graph if changed and user authorizes
+Sync knowledge base if configured and user policy allows
 ```
-
-If gbrain is missing and durable memory matters, ask authorization to run `/setup-gbrain` or continue without memory sync.
 
 Archive output:
 
@@ -664,14 +654,13 @@ If the user asks to set up a repository harness, this skill should create or pro
 
 ```text
 CLAUDE.md / AGENTS.md project rules
-.openspec or .hermes/changes structure
+.openspec or .agentic/changes structure
 planwithfile/ structure
-.hermes/runs/ structure
-GitNexus index
+.agentic/runs/ structure
+.evidence/ structure
 harness-check script
 harness-lint script
 basic test/build command registry
-risk-boundaries document
 skill routing notes
 ```
 
@@ -717,9 +706,9 @@ This skill is intentionally a coordinator. It may invoke or instruct these tools
 - `office-hours`, `plan-ceo-review`, `plan-eng-review`, `plan-design-review`, `plan-devex-review` for challenge gates.
 - `investigate` for bugs/root cause.
 - `review`, `code-review`, `codex` for review gates.
-- `qa`, `qa-only`, `verify`, `run` for runtime verification.
+- `qa`, `qa-only` for runtime verification.
 - `setup-gbrain`, `sync-gbrain` for durable memory/code search.
-- OpenSpec CLI or local `.hermes/changes` fallback for specs.
+- OpenSpec CLI or local `.agentic/changes` fallback for specs.
 - GitNexus CLI for code graph.
 
 The user invokes only this skill. This skill decides which subordinate capability to use.
@@ -732,7 +721,7 @@ This workflow is based on cross-learning from:
 - Claude Code best practices: explore-plan-code, verification, skills, hooks, subagents, context management.
 - OpenSpec: proposal/design/tasks/spec/archive lifecycle.
 - Superpowers: TDD, systematic workflows, evidence over claims.
-- gstack: Think → Plan → Build → Review → Test → Ship → Reflect.
+- gstack: Think -> Plan -> Build -> Review -> Test -> Ship -> Reflect.
 - GitHub Copilot coding agent: task-to-branch-to-PR with human review.
 - Google engineering practices: small reviewable changes.
 - Martin Fowler: TDD, planning before code, branch by abstraction.

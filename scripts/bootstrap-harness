@@ -238,5 +238,9 @@ if $DRY_RUN; then
   log "Dry-run complete. No changes were made."
   log "Run without --dry-run to apply."
 else
-  log "Done. Run ./scripts/harness-check to verify."
+  if [ "$TARGET" = "$(pwd)" ] || [ "$TARGET" = "." ]; then
+    log "Done. Run ./scripts/harness-check to verify."
+  else
+    log "Done. Run ./scripts/harness-check --target \"$TARGET\" to verify."
+  fi
 fi
