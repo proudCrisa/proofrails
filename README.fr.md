@@ -155,7 +155,7 @@ Les contributions sont les bienvenues. Avant de soumettre une PR :
 
 ## Licence
 
-MIT — voir [LICENSE](./LICENSE) pour plus de détails.
+Apache License 2.0 — voir [LICENSE](./LICENSE) pour plus de détails.
 
 ---
 

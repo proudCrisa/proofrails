@@ -3,7 +3,7 @@ name: proofrails
 description: "Single-entry AI engineering guardrails for greenfield and brownfield projects. Detects missing tool prerequisites, gathers required product/design/technical inputs, creates durable specs/plans, gates implementation, verifies evidence, and archives learning."
 version: "1.0.0"
 author: "ProofRails Contributors"
-license: "MIT"
+license: "Apache-2.0"
 metadata:
   hermes:
     tags:
