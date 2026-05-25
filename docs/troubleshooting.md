@@ -31,7 +31,7 @@ Files that already exist will not be overwritten unless you pass `--force`.
 
 **Fix:**
 
-Remove the forbidden term from the flagged file. The proofrails-lint script checks against a built-in list of platform-internal references that must not appear in the open-source repository.
+Remove the forbidden term from the flagged file. The proofrails-lint script checks against a built-in list of restricted references that must not appear in the open-source repository.
 
 ## Bootstrap script overwrites my files
 

@@ -31,7 +31,7 @@ Les fichiers existants ne seront pas écrasés, sauf si vous passez `--force`.
 
 **Solution :**
 
-Supprimez le terme interdit du fichier signalé. Le script proofrails-lint vérifie une liste intégrée de références internes de plateforme qui ne doivent pas apparaître dans le dépôt open source.
+Supprimez le terme interdit du fichier signalé. Le script proofrails-lint vérifie une liste intégrée de références restreintes qui ne doivent pas apparaître dans le dépôt open source.
 
 ## Le script bootstrap écrase mes fichiers
 

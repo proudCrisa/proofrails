@@ -4,7 +4,7 @@ This example walks through starting a new service from scratch using ProofRails.
 
 ## Scenario
 
-Build a `user-notification-service` that sends email and push notifications when specific events occur. The service will be a REST API consumed by other internal services.
+Build a `user-notification-service` that sends email and push notifications when specific events occur. The service will be a REST API consumed by other backend services.
 
 ## Step 1: Invoke ProofRails
 
@@ -20,7 +20,7 @@ Do not write implementation yet.
 ProofRails drives the intake interview:
 
 **Product:**
-- Users: other internal services (order-service, payment-service, auth-service)
+- Users: other backend services (order-service, payment-service, auth-service)
 - Problem: no centralized notification delivery
 - Target workflow: service calls `POST /notifications` with user ID, channel, template, and variables; notification is delivered and status is tracked
 - Acceptance: notification delivered within 30 seconds, status queryable via `GET /notifications/{id}`

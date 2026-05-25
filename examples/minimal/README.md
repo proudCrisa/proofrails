@@ -33,7 +33,7 @@ cp -r /path/to/proofrails/{skill,scripts,templates} ./
 
 Edit `CLAUDE.md` to add your project's build and test commands:
 
-```markdown
+````markdown
 ## Build and test
 
 ```bash
@@ -46,7 +46,7 @@ make test
 # Lint
 make lint
 ```
-```
+````
 
 ## Result
 

@@ -56,7 +56,7 @@ Stop immediately and ask for guidance when:
 
 ## Evidence format
 
-```markdown
+````markdown
 # Evidence: <task description>
 
 ## What was done
@@ -80,4 +80,4 @@ Stop immediately and ask for guidance when:
 ## Gaps
 
 <What could not be verified automatically and why.>
-```
+````

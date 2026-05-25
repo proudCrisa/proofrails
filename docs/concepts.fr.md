@@ -30,10 +30,10 @@ your-project/
 
 ## La machine d'état
 
-ProofRails modélise le développement assisté par IA comme une machine d'état à 12 étapes :
+ProofRails modélise le développement assisté par IA comme une machine d'état à 11 étapes :
 
 ```
-Réception -> Détection -> Mode -> Découverte -> Spéc -> Challenge
+Réception des documents -> Sonde -> Détection du mode -> Découverte -> Spéc -> Challenge
   -> Approbation -> Application -> Revue -> Vérification -> Archive
 ```
 

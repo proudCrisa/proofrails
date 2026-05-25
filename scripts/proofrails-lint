@@ -4,7 +4,7 @@ set -euo pipefail
 # proofrails-lint — scan for forbidden terms and required files in the ProofRails repo
 #
 # Scans: README*.md docs/ skill/ templates/ examples/ scripts/ .evidence/
-# Forbidden terms: internal platform references that must not leak into the open-source repo.
+# Forbidden terms: restricted references that must not leak into the open-source repo.
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"

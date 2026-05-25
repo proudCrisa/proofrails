@@ -11,43 +11,36 @@ echo $SHELL            # bash、zsh 或 dash
 
 ## 第二步：安装 ProofRails
 
-**选项 A：克隆仓库**
+**选项 A：克隆仓库并直接使用其中的脚本（推荐）**
 
 ```bash
-git clone https://github.com/proofrails/proofrails.git /tmp/proofrails
-cp -r /tmp/proofrails/{skill,scripts,templates,docs,examples} ./
+git clone https://github.com/proudCrisa/proofrails.git /tmp/proofrails
 ```
+
+保留这个仓库作为 ProofRails 脚本来源。source lint 验证完整的 ProofRails 仓库；target check 验证已安装的项目。
 
 **选项 B：仅复制技能文件**
 
 ```bash
 # Claude Code
 mkdir -p ~/.claude/skills/proofrails
-cp proofrails/skill/SKILL.md ~/.claude/skills/proofrails/SKILL.md
+cp /tmp/proofrails/skill/SKILL.md ~/.claude/skills/proofrails/SKILL.md
 
 # OpenClaw / Hermes 风格 Markdown 技能
 mkdir -p ~/.openclaw/workspace/skills/proofrails
-cp proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
+cp /tmp/proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
 ```
 
-其他 Markdown 技能型代理：将 `skill/SKILL.md` 复制到该工具的技能目录。
-
-**选项 C：直接使用引导脚本**
-
-如果你已经克隆了此仓库，直接运行引导脚本：
-
-```bash
-./scripts/proofrails-bootstrap
-```
+其他 Markdown 技能型代理：将 `/tmp/proofrails/skill/SKILL.md` 复制到该工具的技能目录。仅复制 skill 不会安装项目脚本；使用 `/tmp/proofrails/scripts/...` 进行引导、检查和 source lint。
 
 ## 第三步：引导你的项目
 
 ```bash
-# 先试运行——查看将要创建的内容而不修改文件
-./scripts/proofrails-bootstrap --dry-run
+# 先试运行——查看将创建的工作流文件，不修改应用/源代码
+/tmp/proofrails/scripts/proofrails-bootstrap --dry-run /path/to/your-project
 
-# 正式执行
-./scripts/proofrails-bootstrap
+# 正式执行；bootstrap 只创建 ProofRails 工作流文件，不修改应用/源代码
+/tmp/proofrails/scripts/proofrails-bootstrap /path/to/your-project
 ```
 
 预期输出：
@@ -60,13 +53,13 @@ cp proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
 [proofrails] 已创建 .evidence/
 [proofrails] 已写入 AGENTS.md（来自模板）
 [proofrails] 已写入 CLAUDE.md（来自模板）
-[proofrails] 完成。运行 ./scripts/proofrails-check 验证。
+[proofrails] 完成。运行 /tmp/proofrails/scripts/proofrails-check --target /path/to/your-project 验证。
 ```
 
 ## 第四步：验证
 
 ```bash
-./scripts/proofrails-check
+/tmp/proofrails/scripts/proofrails-check --target /path/to/your-project
 ```
 
 预期输出：
@@ -93,13 +86,13 @@ cp proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
 /proofrails 在 ./ 中修复登录超时 bug。从存量发现开始。编辑代码前等待批准。成功标准：回归测试通过。
 ```
 
-## 第六步：定期 Lint
+## 第六步：Lint ProofRails 仓库
 
 ```bash
-./scripts/proofrails-lint
+/tmp/proofrails/scripts/proofrails-lint
 ```
 
-扫描常见问题：缺失必需文件和禁止术语。
+source lint 会扫描完整 ProofRails 仓库的必需文件和禁止术语。已安装项目请使用 `proofrails-check --target /path/to/your-project`。
 
 ## 下一步
 

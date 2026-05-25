@@ -30,11 +30,11 @@ your-project/
 
 ## The state machine
 
-ProofRails models AI-assisted development as a 12-stage state machine:
+ProofRails models AI-assisted development as an 11-stage state machine:
 
 ```
-Intake -> Probe -> Mode -> Discovery -> Spec -> Challenge
-  -> Approve -> Apply -> Review -> Verify -> Archive
+Document Intake -> Probe -> Mode Detection -> Discovery -> Spec -> Challenge
+  -> Approval -> Apply -> Review -> Verify -> Archive
 ```
 
 Each stage produces artifacts on disk. No stage is skipped. Stages can loop back (e.g., review finds spec drift -> return to Spec).

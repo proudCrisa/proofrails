@@ -30,16 +30,16 @@ your-project/
 ## How it works
 
 ```
-Intake -> Probe -> Mode -> Discovery -> Spec -> Challenge -> Approve -> Apply -> Review -> Verify -> Archive
+Document Intake -> Probe -> Mode Detection -> Discovery -> Spec -> Challenge -> Approval -> Apply -> Review -> Verify -> Archive
 ```
 
-1. **Intake** — Collect goal, constraints, success criteria. Ask only what is missing.
+1. **Document Intake** — Collect goal, constraints, success criteria. Ask only what is missing.
 2. **Probe** — Detect available tools (git, OpenSpec, gstack, etc.). Map degraded-mode fallbacks.
-3. **Mode** — Classify the work: greenfield, brownfield, hybrid, or proofrails-bootstrap.
+3. **Mode Detection** — Classify the work: greenfield, brownfield, hybrid, or proofrails-bootstrap.
 4. **Discovery** — Read-only exploration. Find entry points, contracts, risks. No edits yet.
 5. **Spec** — Write proposal, design, tasks, and acceptance scenarios (OpenSpec-compatible).
 6. **Challenge** — Stress-test the spec from business, risk, implementation, and history angles.
-7. **Approve** — Present scope, risks, and plan. Require explicit approval before any source edit.
+7. **Approval** — Present scope, risks, and plan. Require explicit approval before any source edit.
 8. **Apply** — Implement in small, reviewable slices with tests first.
 9. **Review** — Diff against spec. Flag drift. Require resolution.
 10. **Verify** — Build, test, lint, smoke. Evidence or it did not happen.
@@ -56,37 +56,39 @@ Intake -> Probe -> Mode -> Discovery -> Spec -> Challenge -> Approve -> Apply ->
 ### Install
 
 ```bash
-# Clone into your project or skills directory
-git clone https://github.com/proofrails/proofrails.git
+# Clone ProofRails outside your target project
+git clone https://github.com/proudCrisa/proofrails.git /tmp/proofrails
 
 # Claude Code
 mkdir -p ~/.claude/skills/proofrails
-cp proofrails/skill/SKILL.md ~/.claude/skills/proofrails/SKILL.md
+cp /tmp/proofrails/skill/SKILL.md ~/.claude/skills/proofrails/SKILL.md
 
 # OpenClaw / Hermes-style Markdown skills
 mkdir -p ~/.openclaw/workspace/skills/proofrails
-cp proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
+cp /tmp/proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
 
-# Other Markdown-skill agents: copy skill/SKILL.md to that tool's skill directory.
+# Other Markdown-skill agents: copy /tmp/proofrails/skill/SKILL.md to that tool's skill directory.
 ```
 
 ### Bootstrap a project
 
 ```bash
-# In your project root:
-./scripts/proofrails-bootstrap
+# From the cloned ProofRails checkout, target your project explicitly:
+/tmp/proofrails/scripts/proofrails-bootstrap /path/to/your-project
 
 # Or dry-run first to see what will be created:
-./scripts/proofrails-bootstrap --dry-run
+/tmp/proofrails/scripts/proofrails-bootstrap --dry-run /path/to/your-project
 
 # Check ProofRails health:
-./scripts/proofrails-check
+/tmp/proofrails/scripts/proofrails-check --target /path/to/your-project
 
-# Lint for issues:
-./scripts/proofrails-lint
+# Lint the ProofRails checkout itself:
+/tmp/proofrails/scripts/proofrails-lint
 ```
 
-Use the ProofRails scripts as the canonical interface: `proofrails-bootstrap`, `proofrails-check`, and `proofrails-lint`.
+Use the ProofRails scripts as the canonical interface: `proofrails-bootstrap`, `proofrails-check`, and `proofrails-lint`. Copying only the skill installs the AI workflow entry point, but it does not install project scripts; keep using the scripts from the cloned ProofRails checkout unless you intentionally copy them.
+
+Bootstrap creates ProofRails workflow files only; it does not edit application or source code.
 
 ### Use the skill
 
@@ -119,7 +121,7 @@ ProofRails works with any AI coding tool that can read Markdown skill files. It 
 | GitNexus | Code graph and impact analysis | grep/find fallback |
 | gbrain | Persistent memory and code search | Works without it |
 
-**ProofRails has zero hard dependencies.** Install what helps; skip what does not.
+**ProofRails has one required dependency: git.** Optional integrations include OpenSpec, gstack, Superpowers-style tools, GitNexus, and gbrain; install what helps and skip what does not.
 
 ## Safety principles
 
@@ -127,7 +129,7 @@ ProofRails works with any AI coding tool that can read Markdown skill files. It 
 2. **Evidence over claims.** Every verification gate requires build output, test results, or explicit user-accepted exceptions.
 3. **High-risk contracts require confirmation.** Public APIs, data schemas, message queues, authentication, deployment, and production configuration require user approval before modification.
 4. **Archive is terminal.** After a change is archived, do not patch it in place. Start a new change.
-5. **Single entry.** The user invokes one skill. ProofRails routes to sub-skills internally. The user never needs to manually choose between planning, review, QA, or ship skills.
+5. **Single entry.** The user invokes one skill. ProofRails routes to sub-skills as needed. The user never needs to manually choose between planning, review, QA, or ship skills.
 
 ## Examples
 

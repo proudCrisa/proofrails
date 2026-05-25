@@ -11,43 +11,36 @@ echo $SHELL            # bash, zsh, or dash
 
 ## Step 2: Install ProofRails
 
-**Option A: Clone the repo**
+**Option A: Clone the repo and run scripts from it (recommended)**
 
 ```bash
-git clone https://github.com/proofrails/proofrails.git /tmp/proofrails
-cp -r /tmp/proofrails/{skill,scripts,templates,docs,examples} ./
+git clone https://github.com/proudCrisa/proofrails.git /tmp/proofrails
 ```
+
+Keep this checkout as the source for ProofRails scripts. Source lint validates the ProofRails checkout; target checks validate your installed project.
 
 **Option B: Copy just the skill**
 
 ```bash
 # Claude Code
 mkdir -p ~/.claude/skills/proofrails
-cp proofrails/skill/SKILL.md ~/.claude/skills/proofrails/SKILL.md
+cp /tmp/proofrails/skill/SKILL.md ~/.claude/skills/proofrails/SKILL.md
 
 # OpenClaw / Hermes-style Markdown skills
 mkdir -p ~/.openclaw/workspace/skills/proofrails
-cp proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
+cp /tmp/proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
 ```
 
-For other Markdown-skill agents, copy `skill/SKILL.md` to that tool's skill directory.
-
-**Option C: Use the bootstrap script from this repo**
-
-If you have already cloned this repo, run the bootstrap script directly:
-
-```bash
-./scripts/proofrails-bootstrap
-```
+For other Markdown-skill agents, copy `/tmp/proofrails/skill/SKILL.md` to that tool's skill directory. Copying only the skill does not install project scripts; use `/tmp/proofrails/scripts/...` for bootstrap, checks, and source lint.
 
 ## Step 3: Bootstrap your project
 
 ```bash
-# Dry-run first — see what will be created without touching files
-./scripts/proofrails-bootstrap --dry-run
+# Dry-run first — see what workflow files will be created without touching application/source code
+/tmp/proofrails/scripts/proofrails-bootstrap --dry-run /path/to/your-project
 
-# Apply
-./scripts/proofrails-bootstrap
+# Apply; bootstrap creates ProofRails workflow files only, not application/source code changes
+/tmp/proofrails/scripts/proofrails-bootstrap /path/to/your-project
 ```
 
 Expected output:
@@ -60,13 +53,13 @@ Expected output:
 [proofrails] Created .evidence/
 [proofrails] Wrote AGENTS.md (from template)
 [proofrails] Wrote CLAUDE.md (from template)
-[proofrails] Done. Run ./scripts/proofrails-check to verify.
+[proofrails] Done. Run /tmp/proofrails/scripts/proofrails-check --target /path/to/your-project to verify.
 ```
 
 ## Step 4: Validate
 
 ```bash
-./scripts/proofrails-check
+/tmp/proofrails/scripts/proofrails-check --target /path/to/your-project
 ```
 
 Expected output:
@@ -93,13 +86,13 @@ Invoke the skill in your AI coding tool:
 /proofrails in ./ fix the login timeout bug. Start with brownfield discovery. Wait for approval before editing code. Success criteria: regression test passes.
 ```
 
-## Step 6: Lint regularly
+## Step 6: Lint the ProofRails checkout
 
 ```bash
-./scripts/proofrails-lint
+/tmp/proofrails/scripts/proofrails-lint
 ```
 
-This scans for common issues: missing required files and forbidden terms.
+This source lint scans the full ProofRails checkout for required files and forbidden terms. Use `proofrails-check --target /path/to/your-project` for installed projects.
 
 ## Next steps
 

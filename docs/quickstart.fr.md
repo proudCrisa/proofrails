@@ -11,43 +11,36 @@ echo $SHELL            # bash, zsh ou dash
 
 ## Étape 2 : Installer ProofRails
 
-**Option A : Cloner le dépôt**
+**Option A : Cloner le dépôt et utiliser ses scripts (recommandé)**
 
 ```bash
-git clone https://github.com/proofrails/proofrails.git /tmp/proofrails
-cp -r /tmp/proofrails/{skill,scripts,templates,docs,examples} ./
+git clone https://github.com/proudCrisa/proofrails.git /tmp/proofrails
 ```
 
-**Option B : Copier uniquement la compétence**
+Conservez ce checkout comme source des scripts ProofRails. Le source lint valide le checkout ProofRails complet ; le target check valide votre projet installé.
+
+**Option B : Copier seulement la compétence**
 
 ```bash
 # Claude Code
 mkdir -p ~/.claude/skills/proofrails
-cp proofrails/skill/SKILL.md ~/.claude/skills/proofrails/SKILL.md
+cp /tmp/proofrails/skill/SKILL.md ~/.claude/skills/proofrails/SKILL.md
 
 # Compétences Markdown de style OpenClaw / Hermes
 mkdir -p ~/.openclaw/workspace/skills/proofrails
-cp proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
+cp /tmp/proofrails/skill/SKILL.md ~/.openclaw/workspace/skills/proofrails/SKILL.md
 ```
 
-Pour les autres agents à compétences Markdown, copiez `skill/SKILL.md` dans le dossier de compétences de l'outil.
-
-**Option C : Utiliser le script bootstrap de ce dépôt**
-
-Si vous avez déjà cloné ce dépôt, exécutez directement le script bootstrap :
-
-```bash
-./scripts/proofrails-bootstrap
-```
+Pour les autres agents à compétences Markdown, copiez `/tmp/proofrails/skill/SKILL.md` dans le dossier de compétences de l'outil. Copier seulement la compétence n'installe pas les scripts du projet ; utilisez `/tmp/proofrails/scripts/...` pour le bootstrap, les checks et le source lint.
 
 ## Étape 3 : Bootstrapper votre projet
 
 ```bash
-# Essai à blanc d'abord — voir ce qui sera créé sans toucher aux fichiers
-./scripts/proofrails-bootstrap --dry-run
+# Essai à blanc — voir les fichiers de workflow créés sans toucher au code applicatif/source
+/tmp/proofrails/scripts/proofrails-bootstrap --dry-run /path/to/your-project
 
-# Appliquer
-./scripts/proofrails-bootstrap
+# Appliquer ; bootstrap crée uniquement des fichiers de workflow ProofRails, pas de changements applicatifs/source
+/tmp/proofrails/scripts/proofrails-bootstrap /path/to/your-project
 ```
 
 Sortie attendue :
@@ -60,13 +53,13 @@ Sortie attendue :
 [proofrails] Créé .evidence/
 [proofrails] Écrit AGENTS.md (depuis le modèle)
 [proofrails] Écrit CLAUDE.md (depuis le modèle)
-[proofrails] Terminé. Exécutez ./scripts/proofrails-check pour vérifier.
+[proofrails] Terminé. Exécutez /tmp/proofrails/scripts/proofrails-check --target /path/to/your-project pour vérifier.
 ```
 
 ## Étape 4 : Valider
 
 ```bash
-./scripts/proofrails-check
+/tmp/proofrails/scripts/proofrails-check --target /path/to/your-project
 ```
 
 Sortie attendue :
@@ -93,13 +86,13 @@ Invoquez la compétence dans votre outil de codage IA :
 /proofrails dans ./ corriger le bug de timeout de connexion. Commencer par la découverte brownfield. Attendre l'approbation avant d'éditer le code. Critères de succès : test de régression passe.
 ```
 
-## Étape 6 : Lint régulièrement
+## Étape 6 : Linter le checkout ProofRails
 
 ```bash
-./scripts/proofrails-lint
+/tmp/proofrails/scripts/proofrails-lint
 ```
 
-Analyse les problèmes courants : fichiers requis manquants et termes interdits.
+Ce source lint analyse le checkout ProofRails complet pour les fichiers requis et les termes interdits. Utilisez `proofrails-check --target /path/to/your-project` pour les projets installés.
 
 ## Prochaines étapes
 

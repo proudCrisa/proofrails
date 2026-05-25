@@ -65,7 +65,7 @@ Complete examples:
 Turn AI coding into a reproducible engineering state machine:
 
 ```text
-Intake -> Environment Probe -> Document Intake -> Mode Detection -> Discovery -> Spec Draft -> Challenge -> Approval -> Apply -> Review -> Verify -> Archive
+Document Intake -> Probe -> Mode Detection -> Discovery -> Spec -> Challenge -> Approval -> Apply -> Review -> Verify -> Archive
 ```
 
 The skill supports:
@@ -86,7 +86,7 @@ The skill supports:
 7. **Evidence over claims** — completion requires test/build/review/runtime evidence, or an explicit user-accepted exception.
 8. **Archive is a terminal state** — after archive, do not patch the same change in place. Start a new change.
 9. **High-risk contracts require approval** — public APIs, data schema, message queues, auth, CI/CD, deployment, and production config require user confirmation.
-10. **Use local authenticated browser for internal docs** — prefer the user's logged-in session for internal wiki/docs. Ask for authorization if cookie/browser tooling is needed.
+10. **Use local authenticated browser for private project docs** — prefer the user's logged-in session for private project docs. Ask for authorization if cookie/browser tooling is needed.
 
 ## Stage 0 — Bootstrap and Tool Probe
 
@@ -115,7 +115,7 @@ Classify tools:
 | Superpowers | execution discipline | Emulate core discipline in this skill |
 | GitNexus | code graph and impact | Use grep/find fallback |
 | gbrain | persistent memory | Continue without memory sync |
-| browser/cookies | authenticated internal docs | Use local browser session or skip |
+| browser/cookies | authenticated project docs | Use local browser session or skip |
 
 ### Environment Authorization Rule
 
