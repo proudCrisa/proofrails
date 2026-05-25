@@ -22,6 +22,7 @@ metadata:
     - investigate
     - review
     - qa
+    - test-driven-development
 ---
 
 # ProofRails
@@ -87,6 +88,7 @@ The skill supports:
 8. **Archive is a terminal state** — after archive, do not patch the same change in place. Start a new change.
 9. **High-risk contracts require approval** — public APIs, data schema, message queues, auth, CI/CD, deployment, and production config require user confirmation.
 10. **Use local authenticated browser for private project docs** — prefer the user's logged-in session for private project docs. Ask for authorization if cookie/browser tooling is needed.
+11. **Test-driven implementation** — load the `test-driven-development` skill and follow RED-GREEN-REFACTOR. No production code without a failing test first. "When practical" is not an exception. If you cannot write a test, stop and ask the user.
 
 ## Stage 0 — Bootstrap and Tool Probe
 
@@ -498,21 +500,35 @@ planwithfile/<change-id>/task_plan.md
 
 ## Stage 9 — Implementation Loop
 
+**Mandatory: load the `test-driven-development` skill before entering this stage.** Follow its rules without exception. In particular, the full cycle for each task is:
+
+```text
+DESIGN → TEST CASES → IMPLEMENT (RED-GREEN-REFACTOR)
+```
+
+Do NOT merge the test-case-design step into implementation. Write a test case document first, then implement each case via RED-GREEN-REFACTOR.
+
 For each task:
 
 ```text
 Read task
 Confirm exact files
-Write/update tests first when practical
-Make minimal change
-Run targeted check
+Design test cases (write test case document covering the task)
+For each test case:
+  Write failing test (RED)
+  Run test — verify it fails for the expected reason
+  Write minimal code to pass (GREEN)
+  Run test — verify it passes
+  Refactor if needed (keep tests green)
 Record evidence
 Mark task complete only after evidence
 ```
 
+**Hard gate — no production code without a failing test first.** "When practical" is not a valid exception. If you cannot write a test, stop and ask the user.
+
 If Superpowers is installed, follow its relevant workflow principles:
 
-- TDD when practical.
+- TDD (enforced, not optional).
 - Systematic debugging for bugs.
 - Verification before completion.
 - Small tasks.
