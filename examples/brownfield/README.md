@@ -29,9 +29,35 @@ Findings:
 - The `Discount` model has an `expiresAt` field that is never checked in validation.
 - Existing tests cover happy path but not expired codes.
 
+## Step 2.5: Capability map (mandatory)
+
+Before drafting any spec, ProofRails identifies which capability the change touches:
+
+- Affected capability: `discount-validation`.
+- Lookup: `openspec/specs/discount-validation/spec.md` — **does not exist**.
+- ProofRails asks: *"No spec exists for `discount-validation`. Init a baseline from current code? [Y/N/Cancel]"*
+
+User answers **Y**. ProofRails reads `validator.ts:42` and `processor.ts:128`, writes a baseline `openspec/specs/discount-validation/spec.md` describing today's behavior (existence-only check, no expiration), then writes the change folder's delta against that baseline.
+
+Output `planwithfile/fix-expired-discount/capability-map.md`:
+
+```markdown
+# Capability Map: fix-expired-discount
+
+| Capability          | Spec exists?       | Delta    | Note                                      |
+|---|---|---|---|
+| discount-validation | just-initialized   | MODIFIED | add expiration check; baseline written this run |
+
+## Skipped capabilities
+(none)
+
+## Baselines initialized this run
+- discount-validation
+```
+
 ## Step 3: Spec draft
 
-ProofRails creates `.proofrails/changes/fix-expired-discount/`:
+ProofRails creates `openspec/changes/fix-expired-discount/`:
 
 **proposal.md:**
 ```markdown
@@ -78,6 +104,7 @@ ProofRails presents:
 - Mode: brownfield
 - Scope: 2 files changed, 1 test added
 - Non-goals: UI, batch cleanup
+- Affected capabilities: `discount-validation` — MODIFIED, baseline initialized this run (see `planwithfile/fix-expired-discount/capability-map.md`)
 - High-risk: discount validation logic (customer-facing)
 - Verification: `npm test -- --testPathPattern=discount`
 - Rollback: git revert
@@ -127,7 +154,7 @@ Evidence recorded in `.evidence/fix-expired-discount.md`.
 
 ## Step 9: Archive
 
-Change archived to `.proofrails/changes/fix-expired-discount/`. Evidence preserved.
+Change archived to `openspec/changes/archive/fix-expired-discount/`; baseline `openspec/specs/discount-validation/spec.md` updated. Evidence preserved.
 
 ## Key takeaways
 

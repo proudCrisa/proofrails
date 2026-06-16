@@ -111,17 +111,26 @@ Use `/proofrails` as the canonical skill invocation.
 
 ## Compatibility
 
-ProofRails works with any AI coding tool that can read Markdown skill files. It has optional integrations with:
+ProofRails works with any AI coding tool that can read Markdown skill files. It expects a required three-pack and a few optional integrations:
+
+### Required (any non-bootstrap run)
+
+| Integration | Purpose | Install |
+|---|---|---|
+| [OpenSpec](https://github.com/Fission-AI/OpenSpec) (Fission-AI) | Spec lifecycle CLI (`openspec/changes/`, `openspec/specs/`) | `npm install -g @fission-ai/openspec@latest` |
+| [gstack](https://github.com/gstack) | Planning, challenge, review, QA, ship skills | per repo |
+| Superpowers | TDD and execution discipline | install Superpowers skill pack into `~/.claude/skills/superpowers/` |
+
+If any required tool is missing, ProofRails stops with `NEEDS_CONTEXT` and prints the install line. The only exception is `proofrails-bootstrap` mode, which can run on a fresh repo before the three-pack is installed.
+
+### Optional
 
 | Integration | Purpose | Without it |
 |---|---|---|
-| [OpenSpec](https://github.com/anthropics/openspec) | Spec lifecycle CLI | Falls back to `.proofrails/changes/` |
-| [gstack](https://github.com/gstack) | Planning/review/QA skills | Built-in workflow gates work standalone |
-| Superpowers | TDD and execution discipline | Core rules are emulated in ProofRails |
-| GitNexus | Code graph and impact analysis | grep/find fallback |
+| CodeGraph | Code graph queries via `codegraph` CLI and `codegraph_*` MCP tools | grep/find fallback |
 | gbrain | Persistent memory and code search | Works without it |
 
-**ProofRails has one required dependency: git.** Optional integrations include OpenSpec, gstack, Superpowers-style tools, GitNexus, and gbrain; install what helps and skip what does not.
+**ProofRails core dependency: git + a POSIX shell.** The three-pack is required for code work; CodeGraph and gbrain stay optional.
 
 ## Safety principles
 

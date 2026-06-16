@@ -20,12 +20,19 @@ proofrails/
 your-project/
 ├── CLAUDE.md          # AI agent 项目指令（真相来源）
 ├── AGENTS.md          # 多 agent 协作规则
-├── .proofrails/          # ProofRails 工作空间目录
-│   ├── changes/       # 变更提案：proposal、design、tasks、specs
+├── .proofrails/          # ProofRails 工作空间目录（仅用于 bootstrap 模式回退）
+│   ├── changes/       # bootstrap 模式下的变更草稿（openspec/ 尚未初始化时使用）
 │   └── runs/          # 评审报告和验证证据
 ├── planwithfile/      # 活动变更的工作目录
+│   └── <id>/
+│       ├── brief.md
+│       ├── findings.md
+│       ├── capability-map.md   # 起草任何变更规范前必备
+│       └── …
 ├── .evidence/         # 不可变证据记录
-└── .openspec/         # 可选：OpenSpec 管理的规范生命周期
+└── openspec/          # 必装：Fission-AI/OpenSpec 布局
+    ├── changes/<id>/  # proposal、design、tasks、delta 规范
+    └── specs/<cap>/   # 能力基线规范（SSOT）
 ```
 
 ## 状态机
@@ -47,13 +54,14 @@ ProofRails 将 AI 辅助开发建模为 11 阶段状态机：
 | 探测 | （终端输出，工具分类表） | N/A |
 | 模式 | `planwithfile/<id>/mode.md` | 是，需确认 |
 | 发现 | `planwithfile/<id>/findings.md` | 是，建议追加 |
-| 规范 | `proposal.md`、`design.md`、`tasks.md`、`specs/` | 是，批准前 |
+| 能力地图 | `planwithfile/<id>/capability-map.md` | 是，规范起草前 |
+| 规范 | `openspec/changes/<id>/{proposal,design,tasks}.md`、delta `specs/<cap>/spec.md`，本次新建的 `openspec/specs/<cap>/spec.md` 基线 | 是，批准前 |
 | 质疑 | `planwithfile/<id>/decisions.md` | 是，需说明理由 |
 | 批准 | （用户确认，无文件） | 否 — 门禁已过 |
 | 实施 | `planwithfile/<id>/progress.md`、`evidence.md` | 是，通过 git revert |
 | 评审 | `.proofrails/runs/<id>/review-report.md` | 是，重新评审 |
 | 验证 | `evidence.md`（更新） | 否 — 证据不可变 |
-| 归档 | `.openspec/` 或 `.proofrails/changes/<id>/` | 否 — 终态 |
+| 归档 | `openspec/changes/archive/<dated-id>/`（Fission-AI）或 `.proofrails/changes/<id>/`（bootstrap 回退） | 否 — 终态 |
 
 ## 模式
 
@@ -92,16 +100,16 @@ Bug 修复、重构、性能优化、迁移、遗留系统现代化。ProofRails
 
 ## 工具和回退方案
 
-ProofRails 检测可用工具并适配：
+ProofRails 检测可用工具并适配。三件套必装；其余均为可选项。
 
-| 检测到的工具 | 用途 | 缺失时的回退方案 |
-|---|---|---|
-| git | 版本控制、diff、log | 必需 — 无回退 |
-| gstack | 规划/评审/QA/质疑技能 | 内置工作流门禁 |
-| OpenSpec CLI | 规范生命周期管理 | `.proofrails/changes/` 目录 |
-| Superpowers | TDD 和执行纪律 | ProofRails 中模拟的规则 |
-| GitNexus | 代码图谱查询 | `grep -r` / `find` |
-| gbrain | 持久记忆 | 无需也能正常工作 |
+| 工具 | 状态 | 用途 | 缺失时 |
+|---|---|---|---|
+| git | 必需 | 版本控制、diff、log | 退出 |
+| OpenSpec（Fission-AI） | **必装** | 规范生命周期（`openspec/changes/`、`openspec/specs/`） | BLOCKED — `npm install -g @fission-ai/openspec@latest` |
+| gstack | **必装** | 规划/评审/QA/质疑技能 | BLOCKED — 按 gstack 文档安装 |
+| Superpowers | **必装** | TDD 和执行纪律 | BLOCKED — 安装 Superpowers 技能包 |
+| CodeGraph | 可选 | 代码图谱（`codegraph` CLI 与 `codegraph_*` MCP 工具） | `grep -r` / `find` |
+| gbrain | 可选 | 持久记忆 | 无需也能正常工作 |
 
 ## 风险边界
 

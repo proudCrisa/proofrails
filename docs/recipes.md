@@ -113,17 +113,14 @@ Success criteria: proofrails-check passes, proofrails-lint clean.
 
 ## Run ProofRails in degraded mode
 
-When optional tools (gstack, OpenSpec CLI, Superpowers, GitNexus, gbrain) are not installed, ProofRails uses built-in fallbacks:
+The three-pack (gstack, OpenSpec, Superpowers) is required — if any is missing, ProofRails stops with `NEEDS_CONTEXT` and prints the install line. The optional integrations below have built-in fallbacks:
 
 | Missing tool | Degraded behavior |
 |---|---|
-| gstack | Skip gstack-specific challenge skills. Use built-in four-perspective challenge. |
-| OpenSpec CLI | Write specs to `.proofrails/changes/` instead of `.openspec/`. Same format. |
-| Superpowers | Emulate TDD, systematic debug, small tasks manually. |
-| GitNexus | Use `grep -r` and `find` for code search. |
+| CodeGraph | Use `grep -r` and `find` for code search instead of `codegraph_*` MCP tools. |
 | gbrain | Skip memory sync. Artifacts on disk are the memory. |
 
-ProofRails always works in degraded mode. It asks once whether you want to install missing tools, then proceeds with whatever is available.
+ProofRails will not silently degrade for the three-pack. To bypass the gate temporarily, run in `proofrails-bootstrap` mode (no source edits allowed) and finish installing the required tools before any code work.
 
 ## Customize templates
 

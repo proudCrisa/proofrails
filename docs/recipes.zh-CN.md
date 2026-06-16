@@ -113,17 +113,14 @@
 
 ## 在降级模式下运行 ProofRails
 
-当可选工具（gstack、OpenSpec CLI、Superpowers、GitNexus、gbrain）未安装时，ProofRails 使用内置回退方案：
+三件套（gstack、OpenSpec、Superpowers）必装——任一缺失，ProofRails 会以 `NEEDS_CONTEXT` 停止并打印安装命令。下列可选集成有内置回退：
 
 | 缺失工具 | 降级行为 |
 |---|---|
-| gstack | 跳过 gstack 特定质疑技能。使用内置四视角质疑。 |
-| OpenSpec CLI | 将规范写入 `.proofrails/changes/` 而非 `.openspec/`。格式相同。 |
-| Superpowers | 手动模拟 TDD、系统调试、小任务。 |
-| GitNexus | 使用 `grep -r` 和 `find` 进行代码搜索。 |
+| CodeGraph | 使用 `grep -r` 和 `find` 进行代码搜索，而不是 `codegraph_*` MCP 工具。 |
 | gbrain | 跳过记忆同步。磁盘上的制品就是记忆。 |
 
-ProofRails 在降级模式下始终可用。它会询问一次是否要安装缺失工具，然后使用可用的任何工具继续。
+三件套不会被静默降级。若需临时绕过门禁，可使用 `proofrails-bootstrap` 模式（不允许修改源码），并在动手写代码之前补齐必装工具。
 
 ## 自定义模板
 

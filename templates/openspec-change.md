@@ -1,17 +1,44 @@
 # OpenSpec Change Template
 
-Use this template for `.openspec/changes/<change-id>/` or `.proofrails/changes/<change-id>/`.
+Use this template under the Fission-AI/OpenSpec layout: `openspec/changes/<change-id>/` plus capability baselines at `openspec/specs/<capability>/spec.md`. The `.proofrails/changes/<change-id>/` path is reserved for `proofrails-bootstrap` mode only.
 
 ## Directory structure
 
 ```text
-<change-id>/
-├── proposal.md
-├── design.md
-├── tasks.md
-└── specs/
-    └── <capability>/
-        └── spec.md
+openspec/
+├── specs/
+│   └── <capability>/
+│       └── spec.md             # baseline (SSOT for current behavior)
+└── changes/
+    └── <change-id>/
+        ├── proposal.md
+        ├── design.md
+        ├── tasks.md
+        └── specs/
+            └── <capability>/
+                └── spec.md     # delta (ADDED / MODIFIED / REMOVED / RENAMED)
+
+planwithfile/
+└── <change-id>/
+    └── capability-map.md       # mandatory before drafting any change spec
+```
+
+## capability-map.md
+
+```markdown
+# Capability Map: <change-id>
+
+| Capability | Spec exists? | Delta | Note |
+|---|---|---|---|
+| <name>     | yes/no/just-initialized | ADDED/MODIFIED/REMOVED/RENAMED | <one line> |
+
+## Skipped capabilities
+
+<List capabilities the user chose to leave un-specified, with reason. Empty if none.>
+
+## Baselines initialized this run
+
+<List capabilities whose `openspec/specs/<cap>/spec.md` was written from current code. Empty if none.>
 ```
 
 ## proposal.md

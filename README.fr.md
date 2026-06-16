@@ -111,17 +111,26 @@ Utilisez `/proofrails` comme invocation canonique de la skill.
 
 ## Compatibilité
 
-ProofRails fonctionne avec tout outil de codage IA capable de lire des fichiers de compétence Markdown. Intégrations optionnelles :
+ProofRails fonctionne avec tout outil de codage IA capable de lire des fichiers de compétence Markdown. Il exige un trio obligatoire et propose quelques intégrations optionnelles.
+
+### Obligatoire (toute exécution hors bootstrap)
+
+| Intégration | Rôle | Installation |
+|---|---|---|
+| [OpenSpec](https://github.com/Fission-AI/OpenSpec) (Fission-AI) | CLI de cycle de vie des specs (`openspec/changes/`, `openspec/specs/`) | `npm install -g @fission-ai/openspec@latest` |
+| [gstack](https://github.com/gstack) | Compétences de planification, challenge, review, QA et déploiement | selon le dépôt |
+| Superpowers | Discipline TDD et exécution | installer le pack de compétences Superpowers dans `~/.claude/skills/superpowers/` |
+
+Si une intégration obligatoire manque, ProofRails s'arrête en `NEEDS_CONTEXT` et affiche la commande d'installation. Seule exception : le mode `proofrails-bootstrap`, utilisable sur un dépôt neuf avant l'installation du trio.
+
+### Optionnelles
 
 | Intégration | Rôle | Sans elle |
 |---|---|---|
-| [OpenSpec](https://github.com/anthropics/openspec) | CLI de cycle de vie des specs | Repli sur `.proofrails/changes/` |
-| [gstack](https://github.com/gstack) | Compétences de planification/review/QA | Les portes intégrées fonctionnent seules |
-| Superpowers | Discipline TDD et exécution | Les règles de base sont émulées dans ProofRails |
-| GitNexus | Graphe de code et analyse d'impact | Repli sur grep/find |
-| gbrain | Mémoire persistante et recherche de code | Fonctionne sans |
+| CodeGraph | Graphe de code via la CLI `codegraph` et les outils MCP `codegraph_*` | repli sur grep/find |
+| gbrain | Mémoire persistante et recherche de code | fonctionne sans |
 
-**ProofRails a une dépendance obligatoire : git.** Les intégrations optionnelles incluent OpenSpec, gstack, les outils de style Superpowers, GitNexus et gbrain ; installez ce qui aide et ignorez le reste.
+**Dépendance obligatoire de ProofRails : git + un shell POSIX.** Le trio est requis pour le travail sur le code ; CodeGraph et gbrain restent optionnels.
 
 ## Principes de sécurité
 

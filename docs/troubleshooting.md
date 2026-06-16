@@ -56,15 +56,16 @@ ProofRails created `.proofrails/` but your team uses OpenSpec.
 
 **Fix:**
 
-ProofRails detects `.openspec/` and uses it if present. If you prefer OpenSpec:
+`.proofrails/` is the bootstrap-only fallback. ProofRails prefers Fission-AI/OpenSpec when it's installed and initialized. Install and initialize it:
 
 ```bash
+npm install -g @fission-ai/openspec@latest
 openspec init
 ```
 
-ProofRails can use `.openspec/changes/` for change proposals while keeping `.proofrails/runs/` for review reports and run evidence. Keep `.proofrails/runs/` in place so `proofrails-check` can validate the installed ProofRails.
+Make sure the `openspec` binary on your PATH is the Fission-AI one (`openspec --help` should mention "spec-driven" or "Fission"). Some users have a different unrelated tool also called `openspec` — rename or uninstall the other one before running `openspec init`.
 
-If your team standardizes on OpenSpec, configure your AI tool to write change drafts to `.openspec/changes/`, but do not delete the whole `.proofrails/` directory. It remains the local run/evidence home for ProofRails.
+After `openspec init`, ProofRails writes change drafts to `openspec/changes/<id>/` and capability baselines to `openspec/specs/<cap>/`. Keep `.proofrails/runs/` in place so `proofrails-check` can validate the installed ProofRails — it remains the local run/evidence home.
 
 ## Skill is not recognized by my AI tool
 

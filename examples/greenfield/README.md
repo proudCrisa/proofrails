@@ -44,9 +44,37 @@ ProofRails drives the intake interview:
 - Security: service-to-service auth via shared secret
 - Ownership: platform team
 
+## Step 2.5: Capability map (mandatory)
+
+ProofRails identifies the new capability before drafting any spec:
+
+- Affected capability: `notification-api`.
+- Lookup: `openspec/specs/notification-api/spec.md` — does not exist (greenfield).
+- ProofRails asks: *"No spec exists for `notification-api`. This is greenfield, so the change folder will hold the first definition. Confirm? [Y/N]"*
+
+User confirms **Y**. No baseline is written (the change folder's spec IS the first definition).
+
+Output `planwithfile/new-notification-service/capability-map.md`:
+
+```markdown
+# Capability Map: new-notification-service
+
+| Capability       | Spec exists? | Delta | Note |
+|---|---|---|---|
+| notification-api | no           | ADDED | greenfield — change folder defines it |
+
+## Skipped capabilities
+(none)
+
+## Baselines initialized this run
+(none — greenfield)
+```
+
+If `openspec/` is not yet initialized, ProofRails runs `openspec init` first (with the user's permission) so the capability path resolves correctly.
+
 ## Step 3: Spec draft
 
-ProofRails creates `.proofrails/changes/new-notification-service/`:
+ProofRails creates `openspec/changes/new-notification-service/`:
 
 **proposal.md:**
 ```markdown
@@ -112,7 +140,7 @@ Everything else (push notifications, templates, rate limiting, metrics) is defer
 
 ## Step 6: Approval
 
-User reviews and approves the plan. Implementation proceeds slice by slice.
+User reviews and approves the plan, including the capability map (`notification-api` — ADDED, greenfield-first definition). Implementation proceeds slice by slice.
 
 ## Step 7: Implementation (slice 1)
 

@@ -56,15 +56,16 @@ ProofRails a créé `.proofrails/` mais votre équipe utilise OpenSpec.
 
 **Solution :**
 
-ProofRails détecte `.openspec/` et l'utilise s'il est présent. Si vous préférez OpenSpec :
+`.proofrails/` est le repli réservé au mode bootstrap. ProofRails préfère Fission-AI/OpenSpec dès qu'il est installé et initialisé. Installez puis initialisez :
 
 ```bash
+npm install -g @fission-ai/openspec@latest
 openspec init
 ```
 
-ProofRails peut utiliser `.openspec/changes/` pour les propositions de changement tout en conservant `.proofrails/runs/` pour les rapports de revue et les preuves d'exécution. Gardez `.proofrails/runs/` en place afin que `proofrails-check` puisse valider ProofRails installé.
+Vérifiez que le binaire `openspec` dans le PATH est bien celui de Fission-AI (`openspec --help` doit mentionner "spec-driven" ou "Fission"). Certains postes ont un autre outil sans rapport, lui aussi nommé `openspec` — renommez-le ou désinstallez-le avant d'exécuter `openspec init`.
 
-Si votre équipe standardise OpenSpec, configurez votre outil IA pour écrire les brouillons de changement dans `.openspec/changes/`, mais ne supprimez pas tout le répertoire `.proofrails/`. Il reste l'espace local d'exécution et de preuves de ce ProofRails.
+Après `openspec init`, ProofRails écrit les brouillons de changement dans `openspec/changes/<id>/` et les baselines de capacité dans `openspec/specs/<cap>/`. Gardez `.proofrails/runs/` en place afin que `proofrails-check` puisse valider ProofRails installé — il reste l'espace local d'exécution et de preuves.
 
 ## La compétence n'est pas reconnue par mon outil IA
 

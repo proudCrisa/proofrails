@@ -3,7 +3,7 @@
 ## Architecture decisions
 
 - **Single-entry skill.** One Markdown file with YAML frontmatter drives the entire workflow. ProofRails routes internally to the right sub-workflow based on project classification.
-- **No mandatory dependencies.** Every optional integration (OpenSpec, gstack, Superpowers, GitNexus, gbrain) has a built-in fallback. ProofRails works with zero external tools beyond git and a POSIX shell.
+- **Required three-pack, optional rest.** Non-bootstrap runs require OpenSpec (Fission-AI), gstack, and Superpowers — missing any one stops the workflow. CodeGraph, gbrain, and similar tools remain optional with built-in fallbacks. ProofRails ships with zero optional tools beyond git and a POSIX shell.
 - **Degraded-mode design.** When optional tools are missing, ProofRails substitutes equivalent behavior using grep, find, and manual TDD emulation. It asks once whether to install missing tools, then continues.
 
 ## Gate design

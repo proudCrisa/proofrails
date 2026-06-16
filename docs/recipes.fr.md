@@ -113,17 +113,14 @@ Critères de succès : proofrails-check passe, proofrails-lint propre.
 
 ## Exécuter ProofRails en mode dégradé
 
-Quand les outils optionnels (gstack, OpenSpec CLI, Superpowers, GitNexus, gbrain) ne sont pas installés, ProofRails utilise des solutions de secours intégrées :
+Le trio (gstack, OpenSpec, Superpowers) est obligatoire — si l'un manque, ProofRails s'arrête en `NEEDS_CONTEXT` et affiche la commande d'installation. Les intégrations optionnelles ci-dessous disposent de solutions de secours intégrées :
 
 | Outil manquant | Comportement dégradé |
 |---|---|
-| gstack | Ignorer les compétences de challenge spécifiques à gstack. Utiliser le challenge intégré à quatre perspectives. |
-| OpenSpec CLI | Écrire les specs dans `.proofrails/changes/` au lieu de `.openspec/`. Même format. |
-| Superpowers | Émuler manuellement TDD, débogage systématique, petites tâches. |
-| GitNexus | Utiliser `grep -r` et `find` pour la recherche de code. |
+| CodeGraph | Utiliser `grep -r` et `find` pour la recherche de code au lieu des outils MCP `codegraph_*`. |
 | gbrain | Ignorer la synchro mémoire. Les artefacts sur disque sont la mémoire. |
 
-ProofRails fonctionne toujours en mode dégradé. Il demande une fois si vous voulez installer les outils manquants, puis continue avec ce qui est disponible.
+ProofRails ne dégrade pas silencieusement le trio. Pour franchir temporairement la porte, utilisez le mode `proofrails-bootstrap` (édition de code interdite) et finissez d'installer les outils obligatoires avant tout travail sur le code.
 
 ## Personnaliser les modèles
 

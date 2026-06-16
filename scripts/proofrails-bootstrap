@@ -198,17 +198,20 @@ Add your team's conventions here. Examples:
 - Error handling patterns
 - Commit message format
 
+## Required integrations
+
+ProofRails requires this three-pack for any non-bootstrap run:
+
+- **OpenSpec** (Fission-AI) — `npm install -g @fission-ai/openspec@latest`, then `openspec init` in this repo.
+- **gstack** — planning, challenge, review, QA, ship skills.
+- **Superpowers** — TDD and execution discipline.
+
 ## Optional integrations
 
-If you have these tools installed, ProofRails will use them:
-
-- **gstack** — planning, challenge, review, and QA skills.
-- **OpenSpec** — spec lifecycle management.
-- **Superpowers** — TDD and execution discipline.
-- **GitNexus** — code graph and impact analysis.
+- **CodeGraph** — code graph and impact analysis via the `codegraph` CLI and `codegraph_*` MCP tools.
 - **gbrain** — persistent memory and code search.
 
-Configure any or none — ProofRails works without all of them.
+ProofRails stops if any of the three required tools is missing. Optional tools degrade gracefully.
 CLAUdeEOF
       log "Wrote $name (fallback)"
     fi

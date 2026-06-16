@@ -58,14 +58,17 @@ Add your team's conventions here. Examples:
 - Error handling patterns
 - Commit message format
 
+## Required integrations
+
+ProofRails requires this three-pack for any non-bootstrap run. Missing any one stops the workflow until installed:
+
+- **OpenSpec** (Fission-AI) — spec lifecycle CLI. Install: `npm install -g @fission-ai/openspec@latest`. Initialize per-project with `openspec init`. ProofRails uses the `openspec/changes/<id>/` and `openspec/specs/<capability>/` layout.
+- **gstack** — planning, challenge, review, QA, and ship skills. Install per https://github.com/gstack.
+- **Superpowers** — TDD and execution discipline. Install the Superpowers skill pack into `~/.claude/skills/superpowers/`.
+
 ## Optional integrations
 
-If you have these tools installed, ProofRails will use them:
+These improve quality but ProofRails works without them:
 
-- **gstack** — planning, challenge, review, and QA skills.
-- **OpenSpec** — spec lifecycle management (otherwise `.proofrails/changes/` fallback).
-- **Superpowers** — TDD and execution discipline (otherwise emulated in ProofRails).
-- **GitNexus** — code graph and impact analysis (otherwise grep/find).
-- **gbrain** — persistent memory and code search (optional).
-
-Configure any or none — ProofRails works without all of them.
+- **CodeGraph** — code graph and impact analysis via `codegraph` CLI and `codegraph_*` MCP tools. Initialize with `codegraph init -i`. Without it, ProofRails uses `grep`/`find`.
+- **gbrain** — persistent memory and code search.

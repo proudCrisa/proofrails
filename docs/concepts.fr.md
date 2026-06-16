@@ -20,12 +20,19 @@ proofrails/
 your-project/
 ├── CLAUDE.md          # Instructions pour l'agent IA (source de vérité)
 ├── AGENTS.md          # Règles de collaboration multi-agents
-├── .proofrails/          # Répertoire de travail de ProofRails
-│   ├── changes/       # Propositions de changement : proposal, design, tasks, specs
+├── .proofrails/          # Répertoire de travail de ProofRails (repli bootstrap uniquement)
+│   ├── changes/       # Brouillons de changements en mode bootstrap (avant `openspec init`)
 │   └── runs/          # Rapports de revue et preuves de vérification
 ├── planwithfile/      # Répertoire de travail pour les changements actifs
+│   └── <id>/
+│       ├── brief.md
+│       ├── findings.md
+│       ├── capability-map.md   # obligatoire avant la rédaction de toute spec
+│       └── …
 ├── .evidence/         # Enregistrements de preuves immuables
-└── .openspec/         # Optionnel : cycle de vie des specs géré par OpenSpec
+└── openspec/          # Obligatoire : layout Fission-AI/OpenSpec
+    ├── changes/<id>/  # proposal, design, tasks, deltas
+    └── specs/<cap>/   # specs de capacité de référence (SSOT)
 ```
 
 ## La machine d'état
@@ -47,13 +54,14 @@ Chaque étape produit des artefacts sur le disque. Aucune étape n'est sautée. 
 | Détection | (sortie terminal, tableau des outils classés) | N/A |
 | Mode | `planwithfile/<id>/mode.md` | Oui, avec confirmation |
 | Découverte | `planwithfile/<id>/findings.md` | Oui, ajout seulement recommandé |
-| Spéc | `proposal.md`, `design.md`, `tasks.md`, `specs/` | Oui, avant approbation |
+| Carte des capacités | `planwithfile/<id>/capability-map.md` | Oui, avant la rédaction de toute spec |
+| Spéc | `openspec/changes/<id>/{proposal,design,tasks}.md`, delta `specs/<cap>/spec.md`, plus la baseline `openspec/specs/<cap>/spec.md` initialisée ce run | Oui, avant approbation |
 | Challenge | `planwithfile/<id>/decisions.md` | Oui, avec justification |
 | Approbation | (confirmation utilisateur, pas de fichier) | Non — porte franchie |
 | Application | `planwithfile/<id>/progress.md`, `evidence.md` | Oui, via git revert |
 | Revue | `.proofrails/runs/<id>/review-report.md` | Oui, re-revue |
 | Vérification | `evidence.md` (mis à jour) | Non — les preuves sont immuables |
-| Archive | `.openspec/` ou `.proofrails/changes/<id>/` | Non — état terminal |
+| Archive | `openspec/changes/archive/<dated-id>/` (Fission-AI) ou `.proofrails/changes/<id>/` (repli bootstrap) | Non — état terminal |
 
 ## Modes
 
@@ -92,16 +100,16 @@ Mise en place de ProofRails lui-même. Crée :
 
 ## Outils et solutions de secours
 
-ProofRails détecte les outils disponibles et s'adapte :
+ProofRails détecte les outils disponibles et s'adapte. Le trio est obligatoire ; le reste est optionnel.
 
-| Outil détecté | Rôle | Solution de secours si absent |
-|---|---|---|
-| git | Contrôle de version, diff, log | Requis — pas de secours |
-| gstack | Compétences de planification/review/QA | Portes de workflow intégrées |
-| OpenSpec CLI | Gestion du cycle de vie des specs | Répertoire `.proofrails/changes/` |
-| Superpowers | Discipline TDD et exécution | Règles émulées dans ProofRails |
-| GitNexus | Requêtes sur le graphe de code | `grep -r` / `find` |
-| gbrain | Mémoire persistante | Fonctionne très bien sans |
+| Outil | Statut | Rôle | Si absent |
+|---|---|---|---|
+| git | obligatoire | Contrôle de version, diff, log | quitter |
+| OpenSpec (Fission-AI) | **obligatoire** | Cycle de vie des specs (`openspec/changes/`, `openspec/specs/`) | BLOCKED — `npm install -g @fission-ai/openspec@latest` |
+| gstack | **obligatoire** | Compétences de planification/review/QA/challenge | BLOCKED — installer selon la doc gstack |
+| Superpowers | **obligatoire** | Discipline TDD et exécution | BLOCKED — installer le pack de compétences Superpowers |
+| CodeGraph | optionnel | Graphe de code via `codegraph` CLI et outils MCP `codegraph_*` | `grep -r` / `find` |
+| gbrain | optionnel | Mémoire persistante | Fonctionne très bien sans |
 
 ## Limites de risque
 

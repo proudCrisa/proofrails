@@ -80,7 +80,7 @@ The skill supports:
 
 1. **Single entry** — do not make the user pick other skills. If another skill is needed, invoke or instruct it from this workflow.
 2. **No source edits before approval** — planning/spec artifacts are allowed; business/source code edits wait until the approval gate.
-3. **Environment gaps are actionable** — if optional tools (gstack/OpenSpec/Superpowers/GitNexus/gbrain) are missing, offer to continue in degraded mode with built-in fallbacks.
+3. **Three-pack is required** — OpenSpec (Fission-AI flavor), Superpowers, and gstack must be installed before any non-bootstrap run. If any is missing, stop with `NEEDS_CONTEXT` and print the one-line install command. CodeGraph and gbrain remain optional with degraded fallbacks.
 4. **Missing product/design/technical docs are not ignored** — if needed inputs are absent, drive an interview or invoke the appropriate planning skill to produce them.
 5. **Spec before implementation** — every non-trivial change gets a written proposal, design, tasks, and acceptance scenarios.
 6. **Discovery before editing** — brownfield work requires read-only discovery and behavior capture before modification.
@@ -101,39 +101,69 @@ pwd
 git rev-parse --show-toplevel 2>/dev/null || true
 git status --short 2>/dev/null || true
 git branch --show-current 2>/dev/null || true
-command -v openspec || true
-command -v gbrain || true
-command -v gitnexus || true
-test -d .superpowers-memory && echo superpowers-memory-present || true
-ls ~/.claude/skills/gstack/SKILL.md 2>/dev/null || true
+
+# Required three-pack
+# OpenSpec must be the Fission-AI flavor (proposal/design/tasks/specs lifecycle).
+# Some users have a name-collision tool also called `openspec`; the help text
+# distinguishes them.
+if command -v openspec >/dev/null 2>&1; then
+  openspec --help 2>&1 | grep -qiE 'spec-driven|fission|opsx|proposal' \
+    && echo "openspec: fission-ai (ok)" \
+    || echo "openspec: NAME COLLISION — found a different 'openspec' binary"
+else
+  echo "openspec: missing"
+fi
+test -f ~/.claude/skills/gstack/SKILL.md && echo "gstack: ok" || echo "gstack: missing"
+test -d ~/.claude/skills/superpowers || test -d .superpowers-memory \
+  && echo "superpowers: ok" || echo "superpowers: missing"
+
+# Optional
+command -v codegraph >/dev/null 2>&1 && echo "codegraph: ok" || echo "codegraph: missing"
+test -d .codegraph && echo "codegraph index: ready" || echo "codegraph index: not initialized"
+command -v gbrain >/dev/null 2>&1 && echo "gbrain: ok" || echo "gbrain: missing"
 ```
 
 Classify tools:
 
-| Tool | Purpose | If missing |
-|---|---|---|
-| gstack skills | planning, challenge, review, QA, ship | Continue with built-in workflow gates |
-| OpenSpec CLI | spec lifecycle | Use `.proofrails/changes` fallback directory |
-| Superpowers | execution discipline | Emulate core discipline in this skill |
-| GitNexus | code graph and impact | Use grep/find fallback |
-| gbrain | persistent memory | Continue without memory sync |
-| browser/cookies | authenticated project docs | Use local browser session or skip |
+| Tool | Status | Purpose | If missing |
+|---|---|---|---|
+| git | required | repo state, diff, log | exit |
+| OpenSpec (Fission-AI) | **required** | spec lifecycle (`openspec/changes/<id>/`, `openspec/specs/<cap>/`) | BLOCKED — `npm install -g @fission-ai/openspec@latest` |
+| gstack | **required** | planning, challenge, review, QA, ship skills | BLOCKED — install per https://github.com/gstack |
+| Superpowers | **required** | TDD and execution discipline | BLOCKED — install Superpowers skill pack |
+| CodeGraph | optional (recommended) | code graph queries via `codegraph` CLI and `codegraph_*` MCP tools | ask once: run `codegraph init -i`? else degrade to `grep`/`find` |
+| gbrain | optional | persistent memory and code search | continue silently |
+| browser/cookies | situational | authenticated project docs | use local browser session or skip |
 
-### Environment Authorization Rule
+### Three-pack gate
 
-If a tool is absent and required for the requested outcome, ask:
+If any of OpenSpec / gstack / Superpowers is missing or wrong-flavor, stop the run with `NEEDS_CONTEXT` and print the install line. Do NOT proceed in a degraded mode for these three. The only exception is `proofrails-bootstrap` mode running on a brand-new repo where the user explicitly opts to set up ProofRails first and add the three-pack later — in which case use the `.proofrails/changes/` fallback and label every artifact `bootstrap-only`.
+
+If the OpenSpec probe reports a name collision, surface it verbatim:
 
 ```text
-I need <tool> for <reason>. May I install/configure it now?
+Found a binary named `openspec` but it is NOT @fission-ai/openspec.
+ProofRails expects the Fission-AI lifecycle CLI (proposal/design/tasks/specs).
+Action: rename or uninstall the other tool, then `npm install -g @fission-ai/openspec@latest`.
 ```
 
-Offer choices:
+### Environment authorization rule
+
+If a *required* tool is absent, ask:
+
+```text
+ProofRails requires <tool> for <reason>. Install now with:
+  <one-line install command>
+Run it? (y/N)
+```
+
+If a *required* tool is missing and the user declines, exit `NEEDS_CONTEXT`. Do not silently fall back.
+
+For *optional* tools (CodeGraph, gbrain, browser cookies) the legacy three-choice prompt applies:
 
 1. Install/configure now.
 2. Continue in degraded mode.
-3. Stop and let user set it up manually.
-
-Do not silently skip a missing tool if it changes workflow quality.
+3. Stop and let the user set it up manually.
 
 ## Stage 1 — Intake Gate
 
@@ -237,7 +267,7 @@ Brownfield context:
 
 ```text
 CLAUDE.md / AGENTS.md / OpenSpec
-Code graph / GitNexus
+Code graph / CodeGraph (`codegraph_context`, `codegraph_trace`, `codegraph_callers`, `codegraph_callees`, `codegraph_impact`)
 Code entry points
 Tests and fixtures
 Runtime config
@@ -280,12 +310,15 @@ Brownfield discovery answers:
 
 ```text
 Where is the current behavior implemented?
+Which capability or capabilities does this change touch? (name them)
 What calls it and what does it call?
 What config/data contracts does it depend on?
 What tests or fixtures exist?
 What hidden compatibility risks exist?
 What is the blast radius of changing it?
 ```
+
+The capability question is mandatory. Names should match `openspec/specs/<capability>/` if any exist; otherwise propose canonical names that future specs can adopt.
 
 For brownfield behavior changes, identify characterization strategy:
 
@@ -302,20 +335,77 @@ Write:
 planwithfile/<change-id>/findings.md
 ```
 
-## Stage 5 — Spec Draft
+## Stage 5a — Capability Map
 
-Create OpenSpec-style artifacts.
+This stage is mandatory for greenfield, brownfield, and hybrid modes. It is skipped only in `proofrails-bootstrap` mode. Without an approved capability map, Stage 5b (Spec Draft) MUST NOT begin and Stage 7 (Approval Gate) MUST refuse to pass.
 
-If `.openspec` exists, use:
+The capability map answers three questions before any spec is written:
+
+1. Which capabilities does this change touch?
+2. Does each capability already have a spec?
+3. What is the delta type for each (ADDED / MODIFIED / REMOVED / RENAMED)?
+
+### Procedure
+
+For each affected capability identified in Stage 4:
 
 ```text
-.openspec/changes/<change-id>/proposal.md
-.openspec/changes/<change-id>/design.md
-.openspec/changes/<change-id>/tasks.md
-.openspec/changes/<change-id>/specs/<capability>/spec.md
+Look up openspec/specs/<capability>/spec.md
+  ├─ EXISTS  → read it. Record current behavior summary. Mark delta type.
+  └─ MISSING → ASK USER. Do not guess.
+                 "No spec exists for <capability>. Options:
+                   [Y] init a baseline spec from current code (recommended for brownfield)
+                   [N] skip and record a reason (e.g. capability is not yet specified by team)
+                   [C] cancel — capability list is wrong, return to Stage 4"
 ```
 
-If `.openspec` does not exist, use fallback:
+When the user answers Y for a missing spec:
+
+- For brownfield: read current behavior from code, write a baseline `openspec/specs/<capability>/spec.md` capturing today's behavior. This is a *baseline*, not a delta. The actual change is then expressed as a delta in the change folder (Stage 5b).
+- For greenfield: proceed to Stage 5b without a baseline; the capability is brand-new and the change folder's spec IS the first definition.
+
+When the user answers N (skip), the reason is recorded in `capability-map.md` and surfaced again at the approval gate so the user re-confirms.
+
+### Output
+
+Write `planwithfile/<change-id>/capability-map.md`:
+
+```markdown
+# Capability Map: <change-id>
+
+| Capability | Spec exists? | Delta | Note |
+|---|---|---|---|
+| <name>     | yes/no/just-initialized | ADDED/MODIFIED/REMOVED/RENAMED | <one line> |
+
+## Skipped capabilities
+
+<List capabilities the user chose to leave un-specified, with reason. Empty if none.>
+
+## Baselines initialized this run
+
+<List capabilities whose `openspec/specs/<cap>/spec.md` was written from current code. Empty if none.>
+```
+
+### Gate
+
+Stage 5b cannot begin until `capability-map.md` exists and the user has confirmed it. Stage 7 must include the capability-map summary in the approval bundle.
+
+## Stage 5b — Spec Draft
+
+Create OpenSpec-style artifacts using the Fission-AI/OpenSpec layout.
+
+If `openspec/` exists (Fission-AI/OpenSpec is initialized), use:
+
+```text
+openspec/changes/<change-id>/proposal.md
+openspec/changes/<change-id>/design.md
+openspec/changes/<change-id>/tasks.md
+openspec/changes/<change-id>/specs/<capability>/spec.md
+```
+
+Capability spec.md files at `openspec/specs/<capability>/spec.md` are the SSOT (baselines). The change folder holds DELTAS only.
+
+If `openspec/` does not exist and the user has confirmed three-pack-gated `proofrails-bootstrap` mode, use fallback:
 
 ```text
 .proofrails/changes/<change-id>/proposal.md
@@ -324,9 +414,9 @@ If `.openspec` does not exist, use fallback:
 .proofrails/changes/<change-id>/specs/<capability>/spec.md
 ```
 
-Use this fallback by default for low-risk `proofrails-bootstrap` validation runs. Only create a full `.openspec` tree after explicit user approval.
+This fallback is reserved for bootstrap-only validation runs. For real code work the three-pack gate (Stage 0) requires Fission-AI/OpenSpec to be installed and `openspec init` to have been run.
 
-If the user's goal is to bootstrap a full ProofRails environment, propose creating `.openspec` as part of the setup.
+If the user's goal is to bootstrap a full ProofRails environment, propose creating `openspec/` (via `openspec init`) as part of the setup.
 
 ### Proposal template
 
@@ -435,6 +525,7 @@ Before source edits, present:
 Mode
 Scope
 Non-goals
+Affected capabilities + spec status (links capability-map.md)
 Artifacts written
 High-risk boundaries
 Implementation slices
@@ -442,6 +533,8 @@ Verification plan
 Rollback plan
 Open decisions
 ```
+
+Approval CANNOT pass without the capability-status item. If `capability-map.md` is missing, marked incomplete, or contains skipped capabilities the user has not re-confirmed, return to Stage 5a.
 
 Ask for approval to proceed.
 
@@ -719,7 +812,7 @@ This skill is intentionally a coordinator. It may invoke or instruct these tools
 - `qa`, `qa-only` for runtime verification.
 - `setup-gbrain`, `sync-gbrain` for durable memory/code search.
 - OpenSpec CLI or local `.proofrails/changes` fallback for specs.
-- GitNexus CLI for code graph.
+- CodeGraph CLI (`codegraph`) and `codegraph_*` MCP tools for code graph.
 
 The user invokes only this skill. This skill decides which subordinate capability to use.
 

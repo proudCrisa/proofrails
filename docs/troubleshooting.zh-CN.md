@@ -56,15 +56,16 @@ ProofRails 创建了 `.proofrails/`，但你的团队使用 OpenSpec。
 
 **修复：**
 
-ProofRails 会检测 `.openspec/` 并在存在时使用它。如果你偏好 OpenSpec：
+`.proofrails/` 是仅用于 bootstrap 的回退目录。ProofRails 在检测到 Fission-AI/OpenSpec 已安装并初始化时会优先使用它。请安装并初始化：
 
 ```bash
+npm install -g @fission-ai/openspec@latest
 openspec init
 ```
 
-ProofRails 可以使用 `.openspec/changes/` 存放变更草案，同时保留 `.proofrails/runs/` 用于评审报告和运行证据。请保留 `.proofrails/runs/`，这样 `proofrails-check` 才能验证已安装的 ProofRails。
+请确认 PATH 上的 `openspec` 是 Fission-AI 那一份（`openspec --help` 应该包含 "spec-driven" 或 "Fission"）。有些机器上存在另一个同名但无关的 `openspec` 工具——请先重命名或卸载它，再运行 `openspec init`。
 
-如果你的团队统一使用 OpenSpec，请把 AI 工具配置为将变更草案写入 `.openspec/changes/`，但不要删除整个 `.proofrails/` 目录。它仍然是ProofRails 的本地运行/证据目录。
+`openspec init` 之后，ProofRails 会把变更草案写入 `openspec/changes/<id>/`，把能力基线写入 `openspec/specs/<cap>/`。请保留 `.proofrails/runs/`，这样 `proofrails-check` 才能验证已安装的 ProofRails——它仍然是本地运行/证据目录。
 
 ## AI 工具无法识别技能
 
